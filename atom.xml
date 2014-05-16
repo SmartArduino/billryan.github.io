@@ -1,0 +1,1426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Bill Ryan's Cyberspace]]></title>
+  <subtitle><![CDATA[Make a backup of my Thought and Life]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog.billryan.me/"/>
+  <updated>2014-05-16T08:09:29.959Z</updated>
+  <id>http://blog.billryan.me/</id>
+  
+  <author>
+    <name><![CDATA[Bill Ryan]]></name>
+    
+  </author>
+  
+  <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Hexo多Repo部署——使用Github和GitCafe同时托管博客]]></title>
+    <link href="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html"/>
+    <id>http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html</id>
+    <published>2014-05-02T03:24:57.000Z</published>
+    <updated>2014-05-16T08:08:23.000Z</updated>
+    <content type="html"><![CDATA[<p>使用Github托管博客已有好几年的时间了，<a href="http://zespia.tw/hexo/docs/" target="_blank">Hexo</a> + <a href="https://github.com/" target="_blank">Github</a> + Markdown + <a href="www.dnspod.cn">DNSPod</a>的组合方案工作地非常好，这四套组合拳打下来使得博客站点的维护成本大大降低，在Geek之间也是流传甚广。</p>
+<p>最开始在Github上建站用的是Octopress，插件在当时虽然比较丰富，但是每次生成静态页面的速度实在是不敢恭维，Ruby么… 偶然在西电开源社区邮件列表上看到有人推荐<a href="http://hexo.io/" target="_blank">Hexo</a>，当时并没太在意，但是过后几天特意Google了下Hexo，发现其最大的特性就是blazing fast! 果断在自己的Arch上配好了Hexo，比起当初配Octopress还是要省心不少的。</p>
+<p>前两三个月一直忙着项目和论文，也没怎么打理博客，前些天看了下<a href="http://hexo.io/" target="_blank">Hexo</a>的进展，真是异常活跃咩～ issues里边间或还能瞅到<a href="https://gitcafe.com" target="_blank">GitCafe</a>的身影。随手就Google了下『hexo gitcafe』，看到好些从<a href="https://github.com/" target="_blank">Github</a>迁移到<a href="https://gitcafe.com" target="_blank">GitCafe</a>的，<a href="https://github.com/" target="_blank">Github</a>的CDN固然给力，但在天朝特殊的网络环境下还是有力不从心的时候，正在这『生死存亡』的关键时刻，<a href="https://gitcafe.com" target="_blank">GitCafe</a>横空出世了，2012年10月更是推出了备受好评的<a href="http://blog.gitcafe.com/116.html" target="_blank">Pages服务</a>——没有Pages服务哪来现在的这个博客 :-) 2013年4月<a href="https://gitcafe.com" target="_blank">GitCafe</a>再次发力推出了<a href="http://blog.gitcafe.com/142.html" target="_blank">自定义域名绑定</a>功能。至此，作为独立博客建站的两大条件——Pages+域名绑定<a href="https://gitcafe.com" target="_blank">GitCafe</a>均已具备。万事俱备，只欠东风～ 这东风当然非Hexo莫属。</p>
+<h2 id="hexo下多repository部署实战使用github和gitcafe">Hexo下多Repository部署实战——使用Github和GitCafe</h2>
+<p>同时在Github和GitCafe部署Hexo的主要优势如下：<br />1. 负载均衡，速度大增——由于两大Pages服务均可自定义域名，国内用户可选择走GitCafe，国外用户则走GitHub<br />2. 自定义路由——配合DNSPod的『线路类型』可完美支持1中方案<br />3. 国内用户访问不再需要CDN，因为GitCafe确实挺快！单个Repo的300MB空间对于技术博客是完全够用的<br />4. 多机备份——两大Pages服务同时挂掉的可能微乎其微<br />5. 你懂的… 不方便说太细</p>
+<a id="more"></a>
+<ul>
+<li><a href="https://github.com/tommy351/hexo/issues/611" target="_blank">Multiple Deployment not working? · Issue #611 · tommy351/hexo</a></li>
+<li><a href="http://hexo.io/docs/deployment.html" target="_blank">Deployment | Hexo</a></li>
+</ul>
+<h3 id="gitcafe上部署hexo">GitCafe上部署Hexo</h3>
+<ol style="list-style-type: decimal">
+<li>配置Pages和域名绑定——<a href="https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9" target="_blank">Wiki Pages 相关帮助-GitCafe</a><br /></li>
+<li>Hexo init根目录下<code>_config.yml</code>的<code>deploy</code>处内容如下(以我的repo为例，请自行更改repository)：</li>
+</ol>
+<p><figure class="highlight yaml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor"># Deployment</span>
+<span class="preprocessor">## Docs: http://hexo.io/docs/deployment.html</span>
+<span class="label">deploy:</span>
+  type: github
+  repository: git@gitcafe<span class="preprocessor">.com</span>:billryan/billryan<span class="preprocessor">.git</span>
+  branch: gitcafe-pages
+</pre></td></tr></table></figure></p>
+<p>在域名绑定处我填写了<code>blog.billryan.me</code>和<code>billryan.me</code>两个。 以上两步走完在GitCafe上就部署好Hexo了。</p>
+<h3 id="github上部署hexo">Github上部署Hexo</h3>
+<p>Github上部署Hexo的资料多如牛毛，这里就不废话了，值得注意的是原来使用<code>xxx.github.com</code>的需要新申请<code>xxx.github.io</code>，这个对博客的CDN支持要好一些。<br />Hexo init根目录下<code>_config.yml</code>的<code>deploy</code>处内容如下(以我的repo为例，请自行更改repository)：</p>
+<p><figure class="highlight yaml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor"># Deployment</span>
+<span class="preprocessor">## Docs: http://hexo.io/docs/deployment.html</span>
+<span class="label">deploy:</span>
+  type: github
+  repository: git@github<span class="preprocessor">.com</span>:billryan/billryan<span class="preprocessor">.github</span><span class="preprocessor">.io</span><span class="preprocessor">.git</span>
+  branch: master
+</pre></td></tr></table></figure></p>
+<p>Hexo init根目录下<code>source</code>目录下的<code>CNAME</code>文件中我写入了<code>blog.billryan.me</code>，也就是说<code>CNAME</code>应该在子目录<code>source</code>下，而不是在Hexo init根目录下，初次使用Hexo部署时可能会混淆。Github不支持多域名绑定，只能写入一个，如需多个其实是可以在域名解析处自己设定的(显式URL等)。</p>
+<h3 id="github和gitcafe上同时部署hexo">Github和GitCafe上同时部署Hexo</h3>
+<p>仔细瞅瞅大家不难发现，将Hexo部署在Github和GitCafe上的区别其实只在于<code>_config.yml</code>中<code>repository</code>和<code>branch</code>不同，那我们可不可以同时将Hexo同时部署在Github和GitCafe上呢？答案是显然的，至少你可以分两次<code>deploy</code>么… 对javascript比较熟的可以尝试自行hack Hexo源码，我试了下后放弃了。Hexo是如此之快～ 重新生成一遍毫无压力，如果hack Hexo源码来实现还不一定比较优雅。如下的方法还算灵活，将配置文件中的公共部分保存为<code>common_config.yml</code>，<code>github_config.yml</code>和<code>gitcafe_config.yml</code>只保存type及respository等信息。<br />在自己的可执行路径下加入如下Shell脚本，请根据需要自行更改。</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="shebang">#!/bin/bash
+</span>
+hexo_init_root=<span class="string">"/home/billryan/Seafile/personal-wiki/billryan.me"</span>
+<span class="built_in">cd</span> <span class="variable">$hexo_init_root</span>
+
+rm .deploy/ -rf
+
+cat common_config.yml &gt; _config.yml
+cat gitcafe_config.yml &gt;&gt; _config.yml
+hexo deploy --generate
+
+rm .deploy/ -rf
+
+cat common_config.yml &gt; _config.yml
+cat github_config.yml &gt;&gt; _config.yml
+hexo deploy --generate
+</pre></td></tr></table></figure></p>
+<p>将以上内容保存为<code>hexo-deploy.sh</code>, <code>chmod 754 hexo-deploy.sh</code> <strong>DONE</strong> 以后你就可以用<code>hexo-deploy.sh</code>来代替<code>hexo deploy</code>往Github和GitCafe上deploy了。</p>
+<h3 id="dnspod多线路解析">DNSPod多线路解析</h3>
+<p>首先请确保Github/GitCafe处的CNAME和域名绑定已经添加好，随后到DNSPod处添加如下blog主机记录：<br /><img src="/images/blog-dnspod.png" alt="blog主机记录" /><br />默认使用GitCafe提供的A记录，国外用户使用Github提供的CNAME方式。过上几分钟至几小时应该就好了，可以用<code>dig</code>在挂VPN前后进行测试。<br />由于我还在GitCafe中添加了<code>billryan.me</code>，DNSPod中再添加个直接解析主域名A记录指向GitCafe提供的IP即可。<br />享受秒开的快乐吧，Roll it! :)</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://blog.gitcafe.com/142.html" target="_blank">GitCafe Pages服务现支持自定义域名绑定 | Blog – GitCafe</a></li>
+<li><a href="https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9" target="_blank">Wiki Pages 相关帮助 · GitCafe/Help - GitCafe</a><br /></li>
+<li><a href="http://zipperary.com/2013/11/23/hexo-to-gitcafe/" target="_blank">托管博客到gitcafe | Zippera’s blog</a><br /></li>
+<li><a href="http://liberize.me/post/host-your-blog-on-both-github-and-gitcafe.html" target="_blank">同时使用 GitHub 和 GitCafe 托管博客</a><br /></li>
+<li><a href="http://ruby-china.org/topics/18084" target="_blank">Ruby China | 同时使用 GitHub 与 GitCafe 托管博客 » 社区</a></li>
+<li><a href="http://guojing.me/tec/2014/03/29/host-blog-in-both-github-and-gitcafe/" target="_blank">同时部署博客到GitHub/GitCafe|GuoJing’s Blog</a></li>
+</ul>
+<p>附<code>common_config.yml</code>部分配置：</p>
+<p><figure class="highlight yaml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+</pre></td><td class="code"><pre><span class="comment"># Hexo Configuration</span>
+<span class="comment">## Docs: http://hexo.io/docs/configuration.html</span>
+<span class="comment">## Source: https://github.com/tommy351/hexo/</span>
+
+<span class="comment"># Site</span>
+title: Bill Ryan<span class="string">'s Cyberspace
+subtitle: Make a backup of my Thought and Life
+description:
+author: Bill Ryan
+email: 
+language:
+
+# URL
+## If your site is put in a subdirectory, set url as '</span>http:<span class="comment">//yoursite.com/child' and root as '/child/'</span>
+url: http:<span class="comment">//billryan.me</span>
+root: /
+<span class="comment"># permalink: :year/:month/:day/:title/</span>
+permalink: posts/:year/:month/:title.html
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+
+<span class="comment"># Directory</span>
+source_dir: source
+public_dir: <span class="keyword">public</span>
+
+<span class="comment"># Writing</span>
+new_post_name: :title.md <span class="comment"># File name of new posts</span>
+default_layout: post
+auto_spacing: <span class="keyword">false</span> <span class="comment"># Add spaces between asian characters and western characters</span>
+titlecase: <span class="keyword">false</span> <span class="comment"># Transform title into titlecase</span>
+external_link: <span class="keyword">true</span> <span class="comment"># Open external links in new tab</span>
+max_open_file: <span class="number">100</span>
+multi_thread: <span class="keyword">true</span>
+filename_case: <span class="number">0</span>
+render_drafts: <span class="keyword">false</span>
+post_asset_folder: <span class="keyword">false</span>
+highlight:
+  enable: <span class="keyword">true</span>
+  line_number: <span class="keyword">true</span>
+  tab_replace:
+
+<span class="comment"># Category & Tag</span>
+default_category: uncategorized
+category_map:
+tag_map:
+
+<span class="comment"># Archives</span>
+<span class="comment">## 2: Enable pagination</span>
+<span class="comment">## 1: Disable pagination</span>
+<span class="comment">## 0: Fully Disable</span>
+archive: <span class="number">1</span>
+category: <span class="number">1</span>
+tag: <span class="number">1</span>
+
+<span class="comment"># Server</span>
+<span class="comment">## Hexo uses Connect as a server</span>
+<span class="comment">## You can customize the logger format as defined in</span>
+<span class="comment">## http://www.senchalabs.org/connect/logger.html</span>
+port: <span class="number">4000</span>
+server_ip: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>
+logger: <span class="keyword">false</span>
+logger_format:
+
+<span class="comment"># Date / Time format</span>
+<span class="comment">## Hexo uses Moment.js to parse and display date</span>
+<span class="comment">## You can customize the date format as defined in</span>
+<span class="comment">## http://momentjs.com/docs/#/displaying/format/</span>
+date_format: MMM D YYYY
+time_format: H:mm:ss
+
+<span class="comment"># Pagination</span>
+<span class="comment">## Set per_page to 0 to disable pagination</span>
+per_page: <span class="number">3</span>
+pagination_dir: page
+
+<span class="comment"># Disqus</span>
+disqus_shortname: 
+
+<span class="comment"># Extensions</span>
+<span class="comment">## Plugins: https://github.com/tommy351/hexo/wiki/Plugins</span>
+
+<span class="comment">## Themes: https://github.com/tommy351/hexo/wiki/Themes</span>
+theme: landscape
+exclude_generator:
+
+<span class="comment"># Markdown</span>
+<span class="comment">## https://github.com/chjj/marked</span>
+markdown:
+  gfm: <span class="keyword">true</span>
+  pedantic: <span class="keyword">false</span>
+  sanitize: <span class="keyword">false</span>
+  tables: <span class="keyword">true</span>
+  breaks: <span class="keyword">true</span>
+  smartLists: <span class="keyword">true</span>
+  smartypants: <span class="keyword">true</span>
+
+<span class="comment"># Stylus</span>
+stylus:
+  compress: <span class="keyword">false</span>
+</pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>使用Github托管博客已有好几年的时间了，<a href="http://zespia.tw/hexo/docs/" target="_blank">Hexo</a> + <a href="https://github.com/" target="_blank">Github</a> + Markdown + <a href="www.dnspod.cn">DNSPod</a>的组合方案工作地非常好，这四套组合拳打下来使得博客站点的维护成本大大降低，在Geek之间也是流传甚广。</p>
+<p>最开始在Github上建站用的是Octopress，插件在当时虽然比较丰富，但是每次生成静态页面的速度实在是不敢恭维，Ruby么… 偶然在西电开源社区邮件列表上看到有人推荐<a href="http://hexo.io/" target="_blank">Hexo</a>，当时并没太在意，但是过后几天特意Google了下Hexo，发现其最大的特性就是blazing fast! 果断在自己的Arch上配好了Hexo，比起当初配Octopress还是要省心不少的。</p>
+<p>前两三个月一直忙着项目和论文，也没怎么打理博客，前些天看了下<a href="http://hexo.io/" target="_blank">Hexo</a>的进展，真是异常活跃咩～ issues里边间或还能瞅到<a href="https://gitcafe.com" target="_blank">GitCafe</a>的身影。随手就Google了下『hexo gitcafe』，看到好些从<a href="https://github.com/" target="_blank">Github</a>迁移到<a href="https://gitcafe.com" target="_blank">GitCafe</a>的，<a href="https://github.com/" target="_blank">Github</a>的CDN固然给力，但在天朝特殊的网络环境下还是有力不从心的时候，正在这『生死存亡』的关键时刻，<a href="https://gitcafe.com" target="_blank">GitCafe</a>横空出世了，2012年10月更是推出了备受好评的<a href="http://blog.gitcafe.com/116.html" target="_blank">Pages服务</a>——没有Pages服务哪来现在的这个博客 :-) 2013年4月<a href="https://gitcafe.com" target="_blank">GitCafe</a>再次发力推出了<a href="http://blog.gitcafe.com/142.html" target="_blank">自定义域名绑定</a>功能。至此，作为独立博客建站的两大条件——Pages+域名绑定<a href="https://gitcafe.com" target="_blank">GitCafe</a>均已具备。万事俱备，只欠东风～ 这东风当然非Hexo莫属。</p>
+<h2 id="hexo下多repository部署实战使用github和gitcafe">Hexo下多Repository部署实战——使用Github和GitCafe</h2>
+<p>同时在Github和GitCafe部署Hexo的主要优势如下：<br />1. 负载均衡，速度大增——由于两大Pages服务均可自定义域名，国内用户可选择走GitCafe，国外用户则走GitHub<br />2. 自定义路由——配合DNSPod的『线路类型』可完美支持1中方案<br />3. 国内用户访问不再需要CDN，因为GitCafe确实挺快！单个Repo的300MB空间对于技术博客是完全够用的<br />4. 多机备份——两大Pages服务同时挂掉的可能微乎其微<br />5. 你懂的… 不方便说太细</p>
+]]></summary>
+    
+      <category term="gitcafe" scheme="http://blog.billryan.me/tags/gitcafe/"/>
+    
+      <category term="github" scheme="http://blog.billryan.me/tags/github/"/>
+    
+      <category term="hexo" scheme="http://blog.billryan.me/tags/hexo/"/>
+    
+      <category term="tech" scheme="http://blog.billryan.me/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[树莓派把玩之OS和硬件选型]]></title>
+    <link href="http://blog.billryan.me/posts/2014/02/raspberry-for-fun-start.html"/>
+    <id>http://blog.billryan.me/posts/2014/02/raspberry-for-fun-start.html</id>
+    <published>2014-02-09T07:38:35.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>最开始听说树莓派(Raspberry PI)是在西电开源社区的邮件列表中，那时只知道这是个可以装Linux的微型电脑，功耗非常低。一次在学校里的timo咖啡厅小聚时phil拿来了树莓派，看到实物后手就痒痒了，真是如信用卡般大小的ARM板！正逢当时实验室的网络异常地不给力，别说Google了，就连百度首页打开都要卡好一阵。于是乎就想到了用树莓派在寝室搭个代理，顺便还能给师兄们提供些福利。</p>
+<h2 id="硬件选型">硬件选型</h2>
+<p>和树莓派类似的ARM板其实还是有不少的，国内的Cubieboard, 国外的BeagleBone都是不错的选择：</p>
+<ul>
+<li>接口扩展性/性能——Cubieboard和BeagleBone完胜树莓派，Cubieboard的sata接口和自带的红外很有吸引力<br /></li>
+<li>开源硬件?——这三者能称得上开源硬件的恐怕就只有BeagleBone了<br /></li>
+<li>社区支持？——树莓派和BeagleBone都有不错的社区氛围，玩的人多，遇到问题相对好解决一些。<br /></li>
+<li>价钱？——树莓派最便宜，其他两者稍贵一点，一分钱一分货嘛！</li>
+</ul>
+<p>综上，如果不差那点钱(其实也就几十块钱)的话建议选择BeagleBone或者Cubieboard，可玩性和性能更好。唔… 当时自己的补助一直没发就没舍得买BeagleBone Black了，第一次玩ARM板经验还是不足呀。</p>
+<h2 id="os选型">OS选型</h2>
+<p>能在树莓派上安装的操作系统如今已是越来越多，<a href="http://www.raspberrypi.org/downloads" target="_blank">Downloads | Raspberry Pi</a>里包含了近7个OS, 常见的有Raspbian(基于Debian定制)，还有用于媒体中心的RaspMBC等发行版，当然还有大Arch！由于自己对Arch最为熟悉，果断选了Arch上手，完善的wiki和AUR里的众多软件真是Archer的福利！Raspbian默认安装lxde桌面环境，而且光img文件就是800M+，而Arch只有200M不到，默认无图形界面，真是太适合树莓派了！实测Archlinux在树莓派上刚开机占用内存50M不到:) 真是和谐！</p>
+<p>用<code>dd</code>把img文件烧进SD卡后即可使用，ssh进去后就和平时在PC上使用Arch无异了，除了GUI…</p>
+<h2 id="service">Service</h2>
+<p>低功耗(10W不到)的树莓派放在寝室当然不会有什么罪恶感，一个月的电费也没几块不是。计划在树莓派上要跑的服务有：</p>
+<ol style="list-style-type: decimal">
+<li>无线AP——当无线路由器用，AUR中的create_ap <strong>Done</strong><br /></li>
+<li>Squid代理——提供寝室网络&amp;校外同学下载交大学术/PT资源<br /></li>
+<li>G.o.a.g^en.t代%理——学术用途… <strong>Done</strong><br /></li>
+<li>FTP——vsftp<br /></li>
+<li>媒体中心——minidlna<br /></li>
+<li>VPN<br /></li>
+<li>外接红外模块以供手机远程控制寝室空调<br /></li>
+<li>BT下载机——transmission-cli<br /></li>
+<li>Coursera/edx 视频课件下载中心——Python脚本<br /></li>
+<li>文件共享——samba<br /></li>
+<li>云同步中心——seafile<br /></li>
+<li>网站测试</li>
+<li>…</li>
+</ol>
+<p>后期就每一个服务的折腾过程分开详述<sup>_</sup></p>
+]]></content>
+    
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Compile r8101 driver modules for Linux-3.10]]></title>
+    <link href="http://blog.billryan.me/posts/2014/02/r8101-driver-work-with-linux-310.html"/>
+    <id>http://blog.billryan.me/posts/2014/02/r8101-driver-work-with-linux-310.html</id>
+    <published>2014-02-09T05:52:08.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>Long long ago, I installed Ubuntu 10.04 as my first Linux Distro, due to the problems of networking, I used it only few times. The suck problem is that when you copy large files or did some other things as normal, the network is down! The only solution is to restart your computer! I asked bigeagle for solving this weird issue. He found it was the ethernet card driver that caused this weird issue, and you can find lots of problems with the key words searching “r8101 r8169 issue”.</p>
+<p>After moving from Ubuntu to ArchLinux, the weird issue exists. Now I decided to lock the kernel version insdead of compiling the driver again and again when the linux kernel upgrade. Just put <code>linux linux-headers linux-api-headers</code> in the Ignorepkg of <code>/etc/pacman.conf</code>.</p>
+<p>From the command <code>lsmod |grep r8</code> you will see the r8169 built-in driver for Realtek ethernet card. From the command <code>lspci |grep Ethernet</code> I got my Ethernet controller was RTL8101E/RTL8102E rather than the built-in r8169 driver. Within the AUR, you can find a package named <code>r8101</code>, but it may not work with the kernel 3.8 or newer. You can find the r8101 driver source code in their <a href="http://www.realtek.com.tw/Downloads/downloadsView.aspx?Langid=1&amp;PNid=14&amp;PFid=7&amp;Level=5&amp;Conn=4&amp;DownTypeID=3&amp;GetDown=false" target="_blank">official site</a>. Now the version is 1.024.00, which will work on kernel 3.8 or older. In order to compile on kernel 3.10 or higher, you need a patch for its source code :)</p>
+<p>After some Googling, I found a r8101 patch for kernel 3.10 in this thread-<a href="http://ubuntuforums.org/showthread.php?t=2182609" target="_blank">SOLVED Ubuntu 13.10 - RTL8101E/RTL8102E PCI Express Fast Ethernet does not work</a>. Thanks to Gujume3333! I added it to my github repo <a href="https://github.com/billryan/archlinux4fun/tree/master/net/drivers" target="_blank">archlinux4fun</a>. Change into the r8101-1.024.00 folder and excute the command <code>sudo ./autorun.sh</code>. If you want to compile it on kernel 3.12 or newer, you can write patch based on the <a href="https://code.google.com/p/r8168/" target="_blank">r8168 - Realtek r8168 linux driver</a>.</p>
+<p>The certein kernel version you can find on <a href="http://mirror.iprimus.com.au/archlinux/" target="_blank">http://mirror.iprimus.com.au</a>.</p>
+]]></content>
+    
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[resources of statistical learning - 统计学习资料小结]]></title>
+    <link href="http://blog.billryan.me/posts/2013/12/statistical-learning.html"/>
+    <id>http://blog.billryan.me/posts/2013/12/statistical-learning.html</id>
+    <published>2013-12-13T13:56:43.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>出于对Machine Learning的兴趣，选了这个学期开的『统计学习与推理』，真是一入统计深似海… 十一之后才开的统计学习，每周6节，完全招架不住的节奏=_= 作业就没几道会做的，昨天的希尔伯特空间<span class="math">\(\mathcal{H}\)</span>首先都不知道是何方神圣，亚历山大啊啊啊…<br />废话不多说，这些天陆续看到些统计学习方面不错的资料，现总结如下：<br />## 资料小结<br />1. <a href="http://bcmi.sjtu.edu.cn/statLearning/" target="_blank">交大统计学习与推理课程网站</a>——自己学校开的这门课的主页，其实上边东西不太多<br />2. <a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/index.html" target="_blank">Elements of Statistical Learning: data mining, inference, and prediction</a>——课程的主力教材，作者放出了免费的电子版，巨赞！<br />3. <a href="http://www.waxworksmath.com/Authors/G_M/Hastie/hastie.html" target="_blank">The Elements of Statistical Learning</a>——一些笔记注释及课后习题答案参考，已经是所有参考答案里边比较完整的了，网站可能得国外代理才能访问到。下载不了的可以前往我的<a href="https://www.dropbox.com/s/j9yzsltl8fic3o5/weatherwax_epstein_hastie_solutions_manual.pdf" target="_blank">Dropbox分享</a><br />4. 统计学习方法——国内李航老师写的书，算是概论吧感觉，作为基础书籍先看看不错，很多总结性的东西，可以加深理解<br />4. <a href="http://www.jdl.ac.cn/user/lyqing/statlearning/StatlLearning_handout.html" target="_blank">Statistical Learning-中科院</a>——中科院开的一门统计学习基础的课，网址中有很多中文课件<br />5. <a href="http://pan.baidu.com/s/1xjoHN" target="_blank">中科院统计学习基础43讲.iso</a>——上边这门课的配套视频<br />6. <a href="http://www.loyhome.com/%e7%bb%9f%e8%ae%a1%e5%ad%a6%e4%b9%a0%e7%b2%be%e8%a6%81the-elements-of-statistical-learning%e8%af%be%e5%a0%82%e7%ac%94%e8%ae%b0%ef%bc%88%e4%ba%8c%e5%8d%81%e4%ba%94%ef%bc%89%ef%bc%9a%e9%99%8d%e7%bb%b4/" target="_blank">统计学习精要(The Elements of Statistical Learning)课堂笔记（二十五）：降维和PCA</a>——目前看到的最全面的『课堂笔记』了，作者在复旦旁听时做的笔记。看了下落园其他的博文，不得不叹服这位学经济的妹子知识面真是广博！！<br />7. <a href="http://www.csc.kth.se/utbildning/kth/kurser/DD3364/Schedule.php" target="_blank">KTH CSC statlearn12</a>——国外KTH的统计学习课程主页，里边的一些Slides不错！<br />8. <a href="http://cs229.stanford.edu/" target="_blank">CS 229: Machine Learning</a>——斯坦福的机器学习课程主页<br />9. <a href="https://www.coursera.org/" target="_blank">Coursera.org</a>——MOOC主力中的主力，上边提到的CS229每年开两次，最近臺灣大學也开了机器学习的课，不多是中文授课，都蛮不错的<br />10. 以后再补…</p>
+<p>虽然现在学的这门课用的教材是『Elements of Statistical Learning』——但是它真的真的一点也不基础！！老湿也老是挑里边很难的题作为作业=_= 做作业的时候真是挺打击人的，说多了都是泪… 还有三座大山等着去征服0_O 加油咯！bill</p>
+]]></content>
+    
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[毫米波和体域网结合调研]]></title>
+    <link href="http://blog.billryan.me/posts/2013/12/test.html"/>
+    <id>http://blog.billryan.me/posts/2013/12/test.html</id>
+    <published>2013-12-08T15:16:35.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>今天刚从浦东赶回来，大概搜了下有如下一些资料可以参考下。</p>
+<h2 id="研究背景">研究背景</h2>
+<h3 id="毫米波背景">毫米波背景</h3>
+<ol style="list-style-type: decimal">
+<li><a href="http://en.wikipedia.org/wiki/Extremely_high_frequency" target="_blank">Extremely high frequency - Wikipedia, the free encyclopedia</a>–focusing on the telecommunications Section<br /></li>
+<li><a href="http://www.ieeeghn.org/wiki/index.php/Millimeter_Waves" target="_blank">Millimeter Waves - GHN: IEEE Global History Network</a></li>
+</ol>
+<h2 id="研究现状">研究现状</h2>
+<p>最有参考性的为第一本书籍中提到的参考文献及正文内容，但是正文内容需要另外花钱买。<br />1. <a href="http://link.springer.com/chapter/10.1007/978-1-4614-8896-5_1" target="_blank">Books-UWB and mmWave Communication Techniques and Systems for Healthcare - Springer</a><br />2. <a href="http://link.springer.com/book/10.1007%2F978-1-4614-8896-5" target="_blank">Ultra-Wideband and 60 GHz Communications for Biomedical Applications - Springer</a><br />3. <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&amp;arnumber=5600924" target="_blank">IEEE Xplore - Channel Capacity of 60 GHz Wireless Communication Systems over Indoor Line-of-Sight and Non-Line-of-Sight Channels</a><br />4. <a href="http://spectrum.ieee.org/telecom/wireless/millimeter-waves-may-be-the-future-of-5g-phones#comment-936848874" target="_blank">Millimeter Waves May Be the Future of 5G Phones - IEEE Spectrum</a></p>
+<h2 id="技术">技术</h2>
+<h2 id="标准及论文">标准及论文</h2>
+<ol style="list-style-type: decimal">
+<li>IEEE 802.15.6标准中 UWB段为3G~10G，最高的中心频率为7987.2 MHz<br /></li>
+<li><a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=4300986" target="_blank">IEEE Xplore - Short-Range Wireless Communications for Next-Generation Networks: UWB, 60 GHz Millimeter-Wave WPAN, …</a><br /></li>
+<li><a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6546336" target="_blank">IEEE Xplore - Theoretical and experimental characterization of on-body propagation at 60 GHz</a><br /></li>
+<li><a href="http://ieeexplore.ieee.org/xpl/abstractAuthors.jsp?arnumber=6257431" target="_blank">IEEE Xplore - Characterization of the Interactions Between a 60-GHz Antenna and the Human Body in an Off-Body Scen…</a></li>
+</ol>
+]]></content>
+    
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[交大生活进行时之beginning]]></title>
+    <link href="http://blog.billryan.me/posts/2013/12/life-in-sjtu.html"/>
+    <id>http://blog.billryan.me/posts/2013/12/life-in-sjtu.html</id>
+    <published>2013-12-01T03:55:03.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>开学前的复试来过一次交大，正好遇着大降温，风也是呼呼地刮，那一个星期基本都是士洲学长带着满校园转，冰冷的温度下让我感受到了阵阵暖意，真心是中国好学长呀！在士洲寝室里用过交大的校园网，不能满意再多:) 9月份开学至今差不多3个月过去了，也许是经历了四年的本科，开学之初的新鲜感早已不复存在。还记得暑假时曾问过导师和师兄是否可以早点到学校，『阿斌哥你可要珍惜这最后一个暑假哇』——小明师兄语重心长地对我说道，于是乎早来学校的想法作罢。</p>
+<p>漫长的暑假说走就走，9月4日晚从武昌站出发，5日早上到的上海，义兄特意跑过来接应了下，很是感动！ 在上海南站等了会江明，不一会就坐1号线转5号线往闵大荒奔去了。从北一门进来后很快就找到了根据地所在，这不就在大门边上么^_- 至于寝室的布局，四室一厅，两人间，24h可洗热水，空调需要自己另外交钱，总的来说还是很好的！外边就是下面这样子啦<br /><img src="/images/p2142597988.jpg" alt="西70" /> <a id="more"></a> 两人间比起本科的四人间自然是要小些的，玻璃门外边的阳台视野不错，毕竟是住在14楼嘛，风经常是呼呼地刮，9月份那会晚上开着门睡觉甚是凉爽。寝室附近就是新体，各类健身运动设施还是挺全的，而且拿校园卡过去也是出奇地便宜，大赞！一次在里边打羽毛球时随手开了wifi，没想到信号居然也是满满的，交大的网络设施真不是盖的，感觉学校是恨不得让2.4G频段的无线电波360度无死角覆盖到校园的每个角落！不过在寝室的AP点只能连内网，挂个校内/ipv6代理就成了。在寝室只靠学校提供的AP显然是远远不够的，自助申请开网后就是全静态ip+公网可访问+流量几乎无限，呼呼～后期可做的事情就很多了，前一阵子还给阳阳弄了个校外学术资源代理<sup>_</sup></p>
+<p>开学的前两周总是能有不少新的发现，因为在学校走着走着偶尔也会迷路咩=_= 介绍里号称是中国单体面积最大的校园，也不知道是怎么算的，其实5000亩不到，不过学校里边没有家属区，这个不像清华和华科，而且建成的时间也不是太久，87年闵行这边才建成。比起华科主校区的参天大树和清华各处满墙的爬山虎，交大闵行校区还得继续接受岁月的洗礼才是王道。虽然没有参天大树，也没有那么多的爬山虎，但是交大还是有不少美景的！涵泽湖/荷园/大草坪/思源湖… 都是极好的去处<br /><img src="/images/p2142600571.jpg" alt="涵泽湖" /><br /><img src="/images/p2160878056.jpg" alt="行政楼" /><br /><img src="/images/p2142598627.jpg" alt="荷园" /><br />除了各式大楼，交大也不缺大块大块的草坪，实验室旁就占据了交大最大的两块——电院大草坪 and 机动大草坪，平时在这放风筝/橄榄球/打高尔夫/搭个帐篷/野餐等都是非常惬意的！当然你也可以在这里打滚卖萌:) 有一次在电院大草坪放风筝还真看到有俩妹子在草地上打滚=_=!<br /><img src="/images/p2142599134.jpg" alt="电院大草坪" /></p>
+<p>交大这边的学生活动还是比较丰富的，东区大转盘那时不时的就有各种门票发放，<a href="http://tongqu.me" target="_blank">同去网</a>最初是士洲学长介绍的，网站上的各类活动真是应有尽有，闲的时候上去逛逛说不定就有惊喜，隔壁的好伙伴华师大偶尔也会push几个活动。下周二下午和晚上接连就有两场给力的活动，好期待呀！</p>
+<h3 id="吃货篇">吃货篇</h3>
+<p>真的，相信我，我真不是吃货→_→ 交大虽有六大食堂+两大逼格略高的餐厅，但自己常去的也就是二餐+四餐+五餐+三餐，开学那会儿二餐没开，三餐真是被挤爆了，找个停自行车的地方都不容易，吃完饭骑出来更不容易→_→ 二餐开了之后三餐就冷清多了，话说二餐的饭菜质量比起三餐还是要高出不少滴，三餐二楼的口水鸡吃过一回，再也没想吃第二回… 传说中的口水鸡竟然是甜食！<br />五餐么，一楼的两个窗口简直就是在考验人的底线，二楼的自选稍微好点，要是五餐不建在大电院实验室旁边估计就沦落到和六餐一样的境地了。据说去六餐吃一次以后再也不会嫌弃其他食堂的饭菜质量了？<br />四餐几乎是为研究生宿舍这边服务的，饭菜质量不错，去四餐一般也就是去一楼的土耳其烤肉饭和二楼的教工餐厅，每次去吃烤肉饭都吃到撑，可以随意加饭，还有免费的紫菜汤，菜的份量比起三餐二楼的要多出不少 :-)<br />一餐那已经有不知多久没去了，去上中下院上课或是去包玉刚图书馆可以考虑，但是到饭点的时候人也是出奇的多，一楼的一品川菜窗口菜的种类还是比较多的，梅菜扣肉挺赞！</p>
+<p>啊啊啊！很久没吃到虾了，淡水鱼最近也少了很多:(</p>
+<h3 id="科研篇">科研篇</h3>
+<p>研究生嘛，科研肯定是必须的，除了导师的无线体域网，现在也慢慢开始接触Machine Learning方面的东西，嗯，导师的研究方向和自己的长期规划出入是有点大:( 好在导师人还算nice，给学生的自由发展空间相对还是比较大的。？看着研二的师兄都很忙，不知以后还有多少时间可以学点WBAN之外的东西。另外不得不吐槽的就是… 补助略少，每个月刚够在食堂吃饭，买点别的真是捉襟见肘。</p>
+<p>虽然偶尔也会质疑读研的价值，但总的来说选择来交大读研感觉还是挺值的，这里的平台和资源比原来本科时要多的多，学术报告会和讲座接二连三，工业界的技术研讨/报告在上海也挺多。最近接触的东西大多比较有挑战性，当然也非常有趣好玩，不过在各种事情一堆一堆压过来的时候感觉就不那么好玩了:( 好在在实验室累了可以在大草坪上听听歌，到致远湖畔坐坐。 <img src="/images/p2160878521.jpg" alt="致远湖畔" /><br />学累了可以到草坪上放放风筝，晒晒太阳，散散心，关注下菁菁堂的高大上节目，还可以预约个场地约上三两人一起打个球，生活和科研交替并存，原来稍显枯燥的生活也可以活泼有趣～～看似业余活动挺多，其实要抽出那些空闲时间还是不太容易的，写作业&amp;Coding到晚上12点每周会有上那么一两天，也常遇到作业中连题目都看不懂的时候，今晚又要继续Coding了…<br />加油！把握好在交大的这两年！<br />～～EOF～～<br />考试月开始露出了它那狡黠的面孔，呵呵…</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>开学前的复试来过一次交大，正好遇着大降温，风也是呼呼地刮，那一个星期基本都是士洲学长带着满校园转，冰冷的温度下让我感受到了阵阵暖意，真心是中国好学长呀！在士洲寝室里用过交大的校园网，不能满意再多:) 9月份开学至今差不多3个月过去了，也许是经历了四年的本科，开学之初的新鲜感早已不复存在。还记得暑假时曾问过导师和师兄是否可以早点到学校，『阿斌哥你可要珍惜这最后一个暑假哇』——小明师兄语重心长地对我说道，于是乎早来学校的想法作罢。</p>
+<p>漫长的暑假说走就走，9月4日晚从武昌站出发，5日早上到的上海，义兄特意跑过来接应了下，很是感动！ 在上海南站等了会江明，不一会就坐1号线转5号线往闵大荒奔去了。从北一门进来后很快就找到了根据地所在，这不就在大门边上么^_- 至于寝室的布局，四室一厅，两人间，24h可洗热水，空调需要自己另外交钱，总的来说还是很好的！外边就是下面这样子啦<br /><img src="/images/p2142597988.jpg" alt="西70" /> ]]></summary>
+    
+      <category term="life" scheme="http://blog.billryan.me/tags/life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[OPNET学习笔记之入门指南]]></title>
+    <link href="http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html"/>
+    <id>http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html</id>
+    <published>2013-10-21T00:22:28.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>从接触OPNET以来大约也有3个月了，断断续续学了点皮毛，这里把自己折腾的成果陆续整理在这，也算是自己的一个学习笔记吧。</p>
+<h2 id="opnet安装">OPNET安装</h2>
+<p>在<a href="http://billryan.me/blog/2013/10/install-opnet-145-on-windows.html" target="_blank">Opnet学习笔记之安装指南 (win7 &amp; Xp)</a>一文中我已对OPNET安装部分做了详细总结，这里不再赘述。</p>
+<h2 id="入门资料">入门资料</h2>
+<p>刚开始接触时确实比较头大，软件自带的Tutorials虽然又大又全，但让新手也不知从何下手。大部分书籍基本都是照着Tutorials翻译过来的，对新手来说学习曲线也还是稍微有点抖了。这里给出个人的入门建议(喂！你自己不也是新手么…)</p>
+<ol style="list-style-type: decimal">
+<li>安装好OPNET 之后，打开Modeler的<code>help-&gt;tutorial</code>, 找到Modeler的Tutorial，没记错的话有四个，先跑上两个熟悉下仿真平台<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/I-ntro%20Modeler%20Lecture%2014.5.pdf" target="_blank">Introduction-to-Modeler 14.5 – 官方出品</a>，整理地非常好！偶然发现的，用了好几个代理才down下来。底部有confidential字样，07年的文档，严格来说算是侵权了… 不过实在是不忍心让这么好的资料埋没了，总之各位注意吧。<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/I-ntro%20Modeler%20Labs14.5.pdf" target="_blank">Introduction-to-Modeler 14.5 Labs – 官方出品</a>，和上边的Modeler介绍结合着用，估计把这两个文档吃透OPNET的基本使用应该就会比较熟练了。<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/Development%20of%20laboratory%20exercises%20based%20on%20OPNET%20Modeler.pdf" target="_blank">Development of laboratory exercises based on OPNET Modeler</a>, 一堆练习，当练练手不错！</li>
+</ol>
+<p>下边推荐点书籍，不过这方面资料也不多，我在周强写的<a href="https://dl.dropboxusercontent.com/u/54487077/blog/OPNET%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97.doc" target="_blank">OPNET学习入门指南</a>的基础上整理一部分。</p>
+<h2 id="书籍推荐">书籍推荐</h2>
+<p>关于OPNET方面的中文书籍还真不是很多，即使有大多也是从OPNET的文档里翻译过来的Tutorial。值得看看的有如下几本(以上海交大的图书馆馆藏为例)：</p>
+<ol style="list-style-type: decimal">
+<li>《OPNET网络仿真》-陈敏-清华大学出版社-2004 | 讲解比较详细，感觉就像是Tutorial的翻译，和软件文档中的Tutorial配合着看最好。| 索书号：TP393.09/98 图书馆有电子资源可供全文阅读。| 有文字版电子书。<br /></li>
+<li>《OPNET Modeler网络建模与仿真》-李馨-西安电子科技大学出版社-2006 | 第七章 核心函数介绍 不错，写得比较好，对常用的核心函数做了详细的介绍，而且也对其作了归类，适合对OPNET入门之后再去看看，第七章当手册用不错。 | 索书号：TP393.01/9<br /></li>
+<li>《OPNET通信仿真开发手册》-孟晨-国防工业出版社-2005 | OPNET编程入门方面介绍很好，开头的例子不错，后边进程模型部分介绍forced state 和unforced state时讲解深入！分析透彻！对其各个状态都做了非常好的说明和可能导致的后果。 | 索书号：TN914-39/3<br /></li>
+<li>当然OPNET学习的最好资料还是OPNET自带的英文帮助Tutorial，上面有各种例子，并且有分类好的最全的核心函数。</li>
+</ol>
+<h2 id="待续">待续…</h2>
+]]></content>
+    
+    
+      <category term="OPNET" scheme="http://blog.billryan.me/tags/OPNET/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Excerpts of _An Overview of IEEE 802.15.6 Standard_]]></title>
+    <link href="http://blog.billryan.me/posts/2013/10/excerpts-of-_an-overview-of-ieee-802156-standard_.html"/>
+    <id>http://blog.billryan.me/posts/2013/10/excerpts-of-_an-overview-of-ieee-802156-standard_.html</id>
+    <published>2013-10-12T14:35:20.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>Most of the contents in this document were <strong>excerpted from</strong> <a href="http://euro.ecom.cmu.edu/resources/elibrary/ebus/ieee-802-15-6.pdf" target="_blank"><em>An Overview of IEEE 802.15.6 Standard</em></a>.<br />The IEEE 802.15.6 standard defines a MAC layer supporting several Physical(PHY) layers. This article outlines <strong>the MAC and Physical layers specifications</strong> together with the <strong>bandwidth efficiency</strong> of IEEE 802.15.6 standard. The <em>security paradigm</em> of the standard is also discussed in this paper.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Wireless Body Area Network(WBAN) has a great potential to revolutionize the future of healthcare technology. For a successful implementation of WBAN, a standard model was required which would be able to address both medical and CE applications. Hence a Task Group called IEEE 802.15.6 was established for the standardization of WBAN.</p>
+<p>The purpose of the IEEE 802.15.6 was to define new Physical and MAC layers for WBAN. The selections of the PHYs (frequency bands) were one of the most important issues. However, the available frequencies for WBANs are not the same in different countries.<br />The current IEEE 802.15.6 standard defines three PHY layers:</p>
+<ol style="list-style-type: decimal">
+<li>Narrowband (NB)<br /></li>
+<li>Ultra wideband (UWB)<br /></li>
+<li>Human Body Communications (HBC)</li>
+</ol>
+<p>A sophisticated MAC protocol that controls access to the channel is on the top of three PHYs.</p>
+<h2 id="target-applications">Target applications</h2>
+<p>The WBAN applications consists of <em>medical</em> and <em>non-medical</em> applications.<br /><a id="more"></a> ## IEEE 802.15.6 DESCRIPTION – PHY Layer Specification<br />### Narrowband PHY (NB)<br />The NB PHY is responsible for activation/deactivation of the radio transceiver, Clear Channel Assessment (CCA) within the current channel and data transmission/reception.<br /><img src="/images/np_ppdu.jpg" alt="IEEE 802.15.6 NB PPDU structure" /></p>
+<ul>
+<li>PPDU – Physical Protocol Data Unit frame of NB PHY, contains a Physical Layer Convergence Procedure(PLCP) preamble, a PLCP header, and a PHY Service Data Unit(PSDU).<br /></li>
+<li>PLCP preamble – Helps the receiver in the timing synchronization and carrier-offset recovery. It is the first component being transmitted.<br /></li>
+<li>PLCP header – Conveys information necessary for a successful decoding of a packet to the receiver. Transmitted after PLCP preamble using the given header data rate in the operating frequency band.<br /></li>
+<li>PSDU – last component of PPDU. Consists of a MAC header, MAC frame body, Frame Check Sequence(FCS). Transmitted after PLCP header using any of the available data rates in the operating frequency band.</li>
+</ul>
+<h3 id="ultra-wideband-phy-uwb">Ultra Wideband PHY (UWB)</h3>
+<p>UWB PHY operates in two frequency bands: low band and high band. Each band is divided into channels, all of them characterized by a bandwidth of 499.2 MHz.</p>
+<ul>
+<li>Synchronization Header(SHR) – Composed of a preamble and a Start Frame Delimiter(SFD)<br /></li>
+<li>PHY Header(PHR) – Conveys information about the data rate of the PSDU, length of the payload and scrambler seed. The information in the PHY is used by the receiver in order to decode the PSDU.<br /></li>
+<li>PSDU</li>
+</ul>
+<h3 id="human-body-communications-phyhbc">Human Body Communications PHY(HBC)</h3>
+<p>Preamble | SFD | PHR | PSDU |<br />The preamble sequence is transmitted four times in order to ensure packet synchronization while the SFD is transmitted only once. When the packet is received by the receiver, it finds the start of the packet by detecting the preamble sequence, and then it finds the start of the frame by detecting the SFD.</p>
+<h2 id="ieee-802.15.6-description-mac-layer-specification">IEEE 802.15.6 DESCRIPTION – MAC Layer Specification</h2>
+<h3 id="the-ieee-802.15.6-network-operates-in-one-of-the-following-three-modes">The IEEE 802.15.6 network operates in one of the following three modes</h3>
+<div class="figure">
+<img src="/images/802.15.6_superframe.jpg" alt="IEEE 802.15.6 superframe structure" /><p class="caption">IEEE 802.15.6 superframe structure</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Beacon mode with beacon period superframe boundaries:<br />the beacons are transmitted by the hub in each beacon period except in inactive superframes or unless prohibited by regulations.</li>
+</ol>
+<p>In 802.15.6, the entire channel is divided into superframe structures:</p>
+<ul>
+<li>Exclusive Access Phase 1 (EAP1)<br /></li>
+<li>Random Access Phase 1 (RAP1)<br /></li>
+<li>Type I/II phase<br /></li>
+<li>Exclusive Access Phase 2 (EAP 2), Random Access Phase 2 (RAP 2)<br /></li>
+<li>Type I/II phase<br /></li>
+<li>Contention Access Phase (CAP)</li>
+</ul>
+<p>Implication for each frame:</p>
+<ul>
+<li>In EAP, RAP and CAP periods, nodes contend for the resource allocation using either CSMA/CA or a slotted Aloha access procedure.<br /></li>
+<li>The EAP1 and EAP2 are used for highest priority traffic such as reporting emergency events.<br /></li>
+<li>The RAP1, RAP2, and CAP are used for regular traffic only.<br /></li>
+<li>The Type I/II phases are used for uplink allocation intervals, downlink allocation intervals, bilink allocation intervals, and delay bilink allocation intervals.<br /></li>
+<li>In Type I/II phases, polling is used for resource allocation.<br /></li>
+<li>Depending on the application requirements, the coordinator can disable any of these periods by setting the duration length to zero.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Non-beacon mode with superframe boundaries:<br />In this mode, the entire superframe duration is covered either by a type I or a type II access phase but not by both phases.</p></li>
+<li><p>Non-beacon mode without superframe boundaries:<br />In this mode, the coordinator provides unscheduled Type II polled allocation only.</p></li>
+</ol>
+<h3 id="the-three-access-mechanisms-used-in-each-period-of-the-superframe">The three access mechanisms used in each period of the superframe</h3>
+<ol style="list-style-type: decimal">
+<li>Random access mechanism – Uses either CSMA/CA or a slotted Aloha procedure for resource allocation<br /></li>
+<li>Improvised and unscheduled access (connectionless contention-free access) – Uses unscheduled polling/posting for resource allocation<br /></li>
+<li>Scheduled access and variants (connectionoriented contention-free access) – Schedules the allocation of slots in one or multiple upcoming superframes, also called 1-periodic or m-periodic allocations.</li>
+</ol>
+<h2 id="ieee-802.15.6-description-mac-layer-specificationthree-levels-of-security">IEEE 802.15.6 DESCRIPTION – MAC Layer Specification(three levels of security)</h2>
+<ol style="list-style-type: decimal">
+<li>Level 0 - unsecured communication: This is the lowest security level where data is transmitted in unsecured frames. There is no mechanism for data authentication and integrity, confidentiality and privacy protection, and replay defense.<br /></li>
+<li>Level 1 - authentication only:This is the medium security level where data is transmitted in secured authentication but is not encrypted. The confidentially and privacy is not supported by this mode.<br /></li>
+<li>Level 2 - authentication and encryption: This is the highest security level where data is transmitted in secured authentication and encryption frames. It provides solutions to all of the problems not covered by the level 0 and level 1.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>This paper can be used to quickly understand the key concepts of IEEE 802.15.6 without reading the whole standard. However, this paper was a bit outdated for studying 802.15.6 protocol thoroughly in 2013.</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>Most of the contents in this document were <strong>excerpted from</strong> <a href="http://euro.ecom.cmu.edu/resources/elibrary/ebus/ieee-802-15-6.pdf" target="_blank"><em>An Overview of IEEE 802.15.6 Standard</em></a>.<br />The IEEE 802.15.6 standard defines a MAC layer supporting several Physical(PHY) layers. This article outlines <strong>the MAC and Physical layers specifications</strong> together with the <strong>bandwidth efficiency</strong> of IEEE 802.15.6 standard. The <em>security paradigm</em> of the standard is also discussed in this paper.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Wireless Body Area Network(WBAN) has a great potential to revolutionize the future of healthcare technology. For a successful implementation of WBAN, a standard model was required which would be able to address both medical and CE applications. Hence a Task Group called IEEE 802.15.6 was established for the standardization of WBAN.</p>
+<p>The purpose of the IEEE 802.15.6 was to define new Physical and MAC layers for WBAN. The selections of the PHYs (frequency bands) were one of the most important issues. However, the available frequencies for WBANs are not the same in different countries.<br />The current IEEE 802.15.6 standard defines three PHY layers:</p>
+<ol style="list-style-type: decimal">
+<li>Narrowband (NB)<br /></li>
+<li>Ultra wideband (UWB)<br /></li>
+<li>Human Body Communications (HBC)</li>
+</ol>
+<p>A sophisticated MAC protocol that controls access to the channel is on the top of three PHYs.</p>
+<h2 id="target-applications">Target applications</h2>
+<p>The WBAN applications consists of <em>medical</em> and <em>non-medical</em> applications.<br />]]></summary>
+    
+      <category term="excerpts" scheme="http://blog.billryan.me/tags/excerpts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Excerpts of _How to Read a Paper_]]></title>
+    <link href="http://blog.billryan.me/posts/2013/10/excerpts-of-how-to-read-a-paper.html"/>
+    <id>http://blog.billryan.me/posts/2013/10/excerpts-of-how-to-read-a-paper.html</id>
+    <published>2013-10-10T13:48:40.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>Most of the contents in this document were <strong>excerpted from</strong> <a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf" target="_blank"><em>How to read a Paper</em></a>. This article outlines a practical and efficient <em>three-pass method</em> for reading research papers, and describes how to use this method to do a literature survey.</p>
+<h2 id="three-pass-approach">Three-Pass approach</h2>
+<p>Read the paper in up to three passes.<br />1. The <em>first</em> pass gives you a general idea about the paper.<br />2. The <em>second</em> pass lets you grasp the paper’s content, but not its details.<br />3. The <em>third</em> pass helps you understand the paper in depth.</p>
+<h3 id="the-first-pass">The first pass</h3>
+<p>Takes about five to ten minutes and consists of the following steps:<br />1. Carefully read the title, abstract, and introduction<br />2. Read the section and sub-section headings, but ignore everything else.<br />3. Glance at the mathematical content (if any) to determining the underlying theoretical foundations.<br />4. Read the conclusions.<br />5. Glance over the references, mentally ticking off the ones you’ve already read.</p>
+<p>At the end of the first pass, you should be able to answer the five Cs:<br />1. Category: What the type of paper is this?<br />2. Context: Which other papers is related to? Which theoretical bases were used to analyze the problem?<br />3. Correctness: Do the assumptions appear to be valid?<br />4. Contributions: What are the paper’s main contributions?<br />5. Clarity: Is the paper well written?</p>
+<p>Enlightenment for writing a paper: Take care to choose coherent section and sub-section titles and to write concise and comprehensive abstracts.</p>
+<h3 id="the-second-pass">The second pass</h3>
+<p>Read the paper with greater care, but ignore details such as proofs. Jot down the key points, or to make comments in the margins as you read(Note down terms you didn’t understand, or questions you may want to ask the author).<br />1. Look carefully at the figures, diagrams and other illustrations in the paper. Pay special attention to graphs. Are the axes properly labeled? Are results shown with error bars, so that conclusions are statistically significant?<br />2. Remember to mark relevant unread references for further reading(Learn more about the background of the paper).</p>
+<p>After this pass, you should be able to summarize the main thrust of the paper, with supporting evidence, to someone else.</p>
+<h3 id="the-third-pass">The third pass</h3>
+<p>Attempt to <em>virtually re-implement</em> the paper: making the same assumptions as the authors, re-creation with the actual paper. Identify not only a paper’s innovations, but also its hidden failings and assumptions. Pinpoint implicit assumptions, missing citations to relevant work, and potential issues with experimental or analytical techniques.</p>
+<p>Add the proof and presentation techniques in the paper to your tools list and jot down ideas for future work.</p>
+<h2 id="doing-a-literature-survey">Doing a literature survey</h2>
+<p>Read tens of papers.</p>
+<ol style="list-style-type: decimal">
+<li>use an academic search engine and some well-chosen keywords to find three to five <em>recent</em> papers in the area. Do one pass on each paper to get a sense of the work, then read their related work sections.<br /></li>
+<li>Find shared citations and repeated author names in the bibliography. Then go to the websites of the key researchers and see where they’ve published recently.<br /></li>
+<li>Go to the website for these top conferences and look through their recent proceedings. Then make two passes through these papers.</li>
+</ol>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="http://www.psychologyinc.org/2012/06/literature-review-matrix.html" target="_blank">Literature Review Matrix | Psychology inc.</a> You can download it from <a href="http://ia601508.us.archive.org/12/items/LiteratureReviewMatrix/" target="_blank">Index of /12/items/LiteratureReviewMatrix/</a> with a wide variety of formats.<br /></li>
+<li><a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/giving-a-talk/giving-a-talk.htm" target="_blank">How to write a good research paper and give a good research talk</a><br /></li>
+<li><a href="http://people.inf.ethz.ch/troscoe/pubs/review-writing.pdf" target="_blank">Writing reviews for systems conferences</a><br /></li>
+<li><a href="http://www.ee.ucr.edu/~rlake/Whitesides_writing_res_paper.pdf" target="_blank">www.ee.ucr.edu/~rlake/Whitesides_writing_res_paper.pdf</a><br /></li>
+<li><a href="http://www.cs.columbia.edu/~hgs/etc/writing-style.html" target="_blank">Writing Systems and Networking Articles</a></li>
+</ul>
+]]></content>
+    
+    
+      <category term="excerpts" scheme="http://blog.billryan.me/tags/excerpts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[OPNET学习笔记之安装指南 (Win7 & XP)]]></title>
+    <link href="http://blog.billryan.me/posts/2013/10/install-opnet-145-on-windows.html"/>
+    <id>http://blog.billryan.me/posts/2013/10/install-opnet-145-on-windows.html</id>
+    <published>2013-10-05T14:17:30.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>在<a href="http://126.am/uGltr3" target="_blank">前文</a>已经就OPNET14.5在Windows下的安装做了简要说明，这篇blog就OPNET 14.5安装方面做了更为详细的介绍，对于XP和win7/vista应该都是有效的。下边是安装的流程图解及其代码表示，额… 其实用普通话就OK的，代码的表示方式纯属个人自娱自乐。<br />由于OPNET底层大量采用VC进行编译，所以如VC6, VC++ 2008, VS2008 或者 VS2010等必选其一啦。当然OPNET Modeler也是可以在Linux/*nix下跑的，大致看了下这方面的资料不多，就没去折腾了，有熟悉的朋友可以补充下，谢谢！ 另外OPNET还提供了<a href="http://www.opnet.com/university_program/itguru_academic_edition/" target="_blank">OPNET IT Guru Academic Edition</a>，这个我了解也不多，就不在这胡写了。<br /><img src="/images/opnet_install.jpg" alt="安装流程图" /></p>
+<p><figure class="highlight c"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;stdio.h&gt;</span>
+
+<span class="keyword">void</span> opnet_install();
+<span class="keyword">void</span> setx_install();
+<span class="keyword">void</span> opnet_configure_path();
+<span class="keyword">void</span> opnet_configure_path_vs2008();
+<span class="keyword">void</span> opnet_configure_path_vs2010();
+<span class="keyword">void</span> opnet_crack();
+
+<span class="keyword">if</span> (<span class="number">1</span> == Win_XP &amp;&amp; VC++ <span class="number">6.0</span>)  
+    opnet_install();  
+<span class="keyword">else</span> <span class="keyword">if</span> (Win_XP) 
+{
+    setx_install();
+    opnet_configure_path();
+    opnet_install();
+    opnet_crack();
+}
+<span class="keyword">else</span> <span class="keyword">if</span> (Win7)
+{
+    opnet_configure_path();
+    opnet_install();
+    opnet_crack();
+}
+
+<span class="keyword">void</span> opnet_configure_path()
+{
+    <span class="keyword">if</span> (<span class="number">1</span> == (Win_XP || Win_7) &amp;&amp; (VS2008 || VC++ <span class="number">2008</span>)) 
+        opnet_configure_path_vs2008();
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">1</span> == (Win_XP || Win_7) &amp;&amp; VS2010) 
+        opnet_configure_path_vs2010();
+
+    <span class="built_in">printf</span>(<span class="string">"Restart your computer to take effect PATH settings.\n"</span>)
+}
+</pre></td></tr></table></figure></p>
+<h2 id="fuction-definition">fuction definition</h2>
+<h3 id="opnet_install">opnet_install()</h3>
+<ol style="list-style-type: decimal">
+<li>切换至OPNET的安装包文件夹<br /></li>
+<li>以自大至小的顺序安装各安装包，也就是说：<br /></li>
+<li>最先安装主程序 – modeler_145A_PL1_7116_win.exe<br /></li>
+<li>然后安装OPNET相关文档 – modeler_docs_28-Jan-2008_win.exe<br /></li>
+<li>最后安装OPNET库文件 – models_145A_PL1_27Feb08_win.exe 将modeler库选上。<br /></li>
+<li>自己在安装时截的<a href="https://dl.dropboxusercontent.com/u/54487077/blog/OPNET%2014.5%20installation%20guide.pdf" target="_blank">图文教程</a></li>
+</ol>
+<h3 id="setx_install">setx_install()</h3>
+<p>用于设置环境变量（仅XP系统需要，Win7已自带），但这个工具设置PATH后重启后才有效，故下边设置好环境变量后还需重启计算机才有效。你可以从<a href="http://db.tt/nTfoGgtB" target="_blank">这里</a>下载到M$提供的setx工具，官网上下载实在是麻烦至极。</p>
+<h3 id="opnet_configure_path_vs2008-and-opnet_configure_path_vs2010">opnet_configure_path_vs2008() and opnet_configure_path_vs2010()</h3>
+<p>这两个批处理算是整个安装过程中最为核心的部分了，<strong>将繁琐恼人的环境变量设置部分进行自动化批处理</strong>，从此再也不用担心OPNET安装时环境变量设不对了！！！<br />1. <a href="https://dl.dropboxusercontent.com/u/54487077/blog/opnet-vs2008.bat" target="_blank">opnet_configure_path_vs2008.bat</a><br />2. <a href="https://dl.dropboxusercontent.com/u/54487077/blog/opnet-vs2010.bat" target="_blank">opnet_configure_path_vs2010.bat</a><br />需要注意的是在运行批处理时使用当前用户即可，win7下不必右键使用管理员权限，原则上不用用户登录时环境变量是不一样的。</p>
+<h3 id="opnet_crack">opnet_crack()</h3>
+<ol style="list-style-type: decimal">
+<li>将文件 OPNET.Modeler.11.5.License.MakerFFS.exe 拷贝到 <code>your_opnet_install_location\14.5.A\sys\pc_intel_win32\bin</code><br /></li>
+<li>双击之，再次启动OPNET Modeler 14.5时你应该能看到1000+ 的license 许可，仅用于education purpose…</li>
+</ol>
+<h2 id="verification">verification</h2>
+<p>验证下仿真是否正常，File-&gt;open-&gt;到OPNET安装文件夹下找个Modeler的tutorial跑一跑，正常的话就没啥问题了。</p>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<p>Win7系统下多分区的情况（如有C, D两个分区），注册时虽然提示在C盘已生成相应License, 但实际运行OPNET时弹出的License Manager却提示License无效，经仔细查明发现在Win7多分区情况下，License Manager会自动在非系统盘分区中指定license 文件，即使将C盘中生成好的license文件覆盖D盘中的license也无效，指定文件只读时也无解，更改D盘的驱动器号为B, E等均无效… 想着OPNET14.5毕竟是Win7前的玩意儿，试着将<code>C:\OPNET\14.5.A\sys\pc_intel_win32\bin</code>中的modeler.exe改为以xp sp3的兼容模式来运行，尼玛就解决问题了！！右键-&gt;兼容性-&gt;勾上XP SP3</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://db.tt/7YdSKESL" target="_blank">OPNET-configure-VC-PATH</a>——VC6 2003 2005 2008<br /></li>
+<li><a href="http://db.tt/R9vulOHp" target="_blank">How to install OPNET Modeler 14.5 on Windows 7</a><br /></li>
+<li><a href="http://blog.sina.com.cn/s/blog_6c73f6ef0100xdyf.html" target="_blank">Opnet仿真环境安装配置-图文安装指南</a></li>
+</ul>
+]]></content>
+    
+    
+      <category term="OPNET" scheme="http://blog.billryan.me/tags/OPNET/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Install OPNET14.5 on Windows OS]]></title>
+    <link href="http://blog.billryan.me/posts/2013/10/install-opnet145-on-windows7.html"/>
+    <id>http://blog.billryan.me/posts/2013/10/install-opnet145-on-windows7.html</id>
+    <published>2013-10-05T01:39:12.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>Install OPNET Modeler 14.5 under Windows_XP and Windows7<br />Several month ago, I wrote a <a href="http://126.am/uGltr3" target="_blank">Chinese</a> version of installation with OPNET on Windows OS. Today I will give a more thorough way to install OPNET14.5 on Windows.<br />An installation procedure could be shown as a piece of C code.<br /><img src="/images/opnet_install.jpg" alt="A flow chart" /> could be helpful.</p>
+<p><figure class="highlight c"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;stdio.h&gt;</span>
+
+<span class="keyword">void</span> opnet_install();
+<span class="keyword">void</span> setx_install();
+<span class="keyword">void</span> opnet_configure_path();
+<span class="keyword">void</span> opnet_configure_path_vs2008();
+<span class="keyword">void</span> opnet_configure_path_vs2010();
+<span class="keyword">void</span> opnet_crack();
+
+<span class="keyword">if</span> (<span class="number">1</span> == Win_XP &amp;&amp; VC++ <span class="number">6.0</span>)  
+    opnet_install();  
+<span class="keyword">else</span> <span class="keyword">if</span> (Win_XP) 
+{
+    setx_install();
+    opnet_configure_path();
+    opnet_install();
+    opnet_crack();
+}
+<span class="keyword">else</span> <span class="keyword">if</span> (Win7)
+{
+    opnet_configure_path();
+    opnet_install();
+    opnet_crack();
+}
+
+<span class="keyword">void</span> opnet_configure_path()
+{
+    <span class="keyword">if</span> (<span class="number">1</span> == (Win_XP || Win_7) &amp;&amp; (VS2008 || VC++ <span class="number">2008</span>)) 
+        opnet_configure_path_vs2008();
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">1</span> == (Win_XP || Win_7) &amp;&amp; VS2010) 
+        opnet_configure_path_vs2010();
+
+    <span class="built_in">printf</span>(<span class="string">"Restart your computer to take effect PATH settings.\n"</span>)
+}
+</pre></td></tr></table></figure></p>
+<h2 id="fuction-definition">fuction definition</h2>
+<h3 id="opnet_install">opnet_install()</h3>
+<ol style="list-style-type: decimal">
+<li>Change into the install_package folder.<br /></li>
+<li>Install the executable file in size order biggest on top. i.e.<br /></li>
+<li>First, run the main executable file-modeler_145A_PL1_7116_win.exe When it comes to license, check the box with standalone.<br /></li>
+<li>Second, run the opnet document executable file-modeler_docs_28-Jan-2008_win.exe<br /></li>
+<li>Third, run the opnet library executable file-models_145A_PL1_27Feb08_win.exe Check the box with modeler library.</li>
+</ol>
+<h3 id="setx_install">setx_install()</h3>
+<p>Install the setx tools, which is called to set the PATH of current user in the next login of Windows OS. You can download the setx from <a href="http://db.tt/nTfoGgtB" target="_blank">here</a></p>
+<h3 id="opnet_configure_path_vs2008-and-opnet_configure_path_vs2010">opnet_configure_path_vs2008() and opnet_configure_path_vs2010()</h3>
+<p>In order to fight for the complex procedures while configuring the PATH for OPNET, I wrote a .bat file for doing it automatically.<br />1. <a href="https://dl.dropboxusercontent.com/u/54487077/blog/opnet-vs2008.bat" target="_blank">opnet_configure_path_vs2008.bat</a><br />2. <a href="https://dl.dropboxusercontent.com/u/54487077/blog/opnet-vs2010.bat" target="_blank">opnet_configure_path_vs2010.bat</a><br />Notice: run the bat file as current user rather than administration user under Windows7.</p>
+<h3 id="opnet_crack">opnet_crack()</h3>
+<ol style="list-style-type: decimal">
+<li>Copy the file <code>OPNET.Modeler.11.5.License.MakerFFS.exe</code> to the folder <code>your_opnet_install_location\14.5.A\sys\pc_intel_win32\bin</code>.<br /></li>
+<li>Launch OPNET Modeler 14.5 and close the license management window(not the modeler window), run the <code>OPNET.Modeler.11.5.License.MakerFFS.exe</code>(Maybe you should have administrator priviledge).<br /></li>
+<li>Wait for a moment and you will see OPNET_license in the root directory of C drive.<br /></li>
+<li>Restart the OPNET Modeler 14.5 and you will get 1000+ license if everything goes well.</li>
+</ol>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<p>Sometimes you may find the license manager of OPNET generate the license file on <strong>another patition</strong>, you need change into folder <code>C:\OPNET\14.5.A\sys\pc_intel_win32\bin</code>, and right click the <code>modeler.exe</code>. Then select the compatibility with XP SP3.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://db.tt/7YdSKESL" target="_blank">OPNET-configure-VC-PATH</a>——VC6 2003 2005 2008<br /></li>
+<li><a href="http://db.tt/R9vulOHp" target="_blank">How to install OPNET Modeler 14.5 on Windows 7</a></li>
+</ul>
+]]></content>
+    
+    
+      <category term="OPNET" scheme="http://blog.billryan.me/tags/OPNET/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[使用exiftool 和digikam 管理数码照片]]></title>
+    <link href="http://blog.billryan.me/posts/2013/09/manage-photos-with-exiftool-and-digikam.html"/>
+    <id>http://blog.billryan.me/posts/2013/09/manage-photos-with-exiftool-and-digikam.html</id>
+    <published>2013-09-03T01:12:03.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="何谓管理">何谓管理</h3>
+<p>「管理」一词对于照片数据量比较少的时候来说几乎是没什么意义的，几十张上百张照片瞟一眼几乎都知道是些啥，但是当数码照片达到成千上万的量级时，要找张照片人眼一瞥可就不那么容易找到了，「管理」也只有在这种情况下才变得有些实用价值。</p>
+<p>「管理」在计算机中的实现，核心理念可以认为是「抽象」。其实不只是在计算机中存在抽象，「抽象」无处不在：</p>
+<ul>
+<li>数学中常用的换元法和函数就是一种常用的抽象<br /></li>
+<li>各种数学物理模型就是对现实生活中的抽象<br /></li>
+<li>大学里学校的院-系-班，抽象层次逐级提升<br /></li>
+<li>C语言可以认为是对汇编语言的抽象<br /></li>
+<li>In Unix Everything is a File<br /></li>
+<li>…<br />抽象的目的无非是为了人类更好的去掌控，去使用，或者说是为了「管理」上的方便。照片不像文字，可搜索性还是比较差的，所以喽，不得不借助点外力了</li>
+</ul>
+<h3 id="exiftool简介及使用">exiftool简介及使用</h3>
+<p><a href="http://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank">exiftool</a> 是一种用于读写操作图像、音频和视频媒体信息的<strong>自由软件</strong>，可通过命名行和Perl library调用，如果习惯于GUI的话可以在Windows下试试<a href="http://u88.n24.queensu.ca/~bogdan/" target="_blank">ExifToolGUI</a>， 也有人用Python对其命令行应用做了封装——<a href="http://smarnach.github.io/pyexiftool/" target="_blank">PyExifTool</a>. exiftool的命令行个人感觉对10^3数量级的照片已经够用了，如果有上万张照片要处理的话用PyExifTool应该要更快一些。<br />关于exiftool的使用，<a href="http://owl.phy.queensu.ca/~phil/exiftool/exiftool_pod.html" target="_blank">官方文档</a>十分详细，在Terminal里<code>man exiftool</code>得到的内容也是一样的。我这次整理照片主要使用了exiftool提供的文件重命名功能，对个别exif信息不全的照片做了修改，比如补上datetimeorginal等信息。<br />比较了众多照片的管理方式，自己最终的方案是「年/年月/文件」+「digikam的Tags」，年/年月 的文件夹组织方式可以保证唯一性，归类时方便。Tags可以跨文件夹，以「地点/人物/事件」等标签组织。这两种方式结合起来就是二维的结构了。之后无论照片数目如何增多，几乎都可以在1分钟以内找到一张想要的照片。</p>
+<h4 id="根据照片exif中的create-date参数格式化文件名">根据照片exif中的Create Date参数格式化文件名</h4>
+<p>使用exiftool进行实际操作之前最好先拿张照片出来练练手，有个感性的认识就好。 <code>exiftool photo.jpg</code>默认显示所有的信息</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>exiftool <span class="string">'-filename&lt;CreateDate'</span> -d %<span class="constant">Y</span>-%m-%d<span class="number">_</span>%<span class="constant">H</span>-%<span class="constant">M</span>-%<span class="constant">S</span><span class="string">%%-c.%</span>%le -r .
+</pre></td></tr></table></figure></p>
+<p>OK, 下边解释一下每个参数的含义：</p>
+<ul>
+<li>‘-filename&lt;CreateDate’ 根据照片的创建日期和时间重命名文件，如果CreateDate信息不对的话可以看看DateTimeOriginal对不对，代替之<br /></li>
+<li>-d 设置日期和时间值的显示格式<br /></li>
+<li>%Y-%m-%d_%H-%M-%S 意思就是「年-月-日_时-分-秒」，比如 <code>2013-08-31_14-23-45</code><br /></li>
+<li>%%-c 用于文件创建时间相同时自动在秒后边添加数字后缀，从1开始。比如<code>2013-08-31_14-23-45-1</code>, 和 <code>2013-08-31_14-23-45</code><br /></li>
+<li>.%%le 保持原文件的扩展名，但是全部小写。比如原文件后缀为.JPG, 使用.%%le之后则变为.jpg<br /></li>
+<li>-r 递归处理子文件夹，有时候一个文件夹下也许还有很多子文件夹，子文件夹中又有子文件夹，-r就是用来干这事的<br /></li>
+<li>. 最后的「.」指的是待处理目录，这里的「.」当然就是指当前目录啦。可以自行更改<br />还有不懂的看看文档就好了。<br />接下来就是整理到相应的文件夹了，如上所述，我要的是「年/年月/文件」的形式，口诀如下：</li>
+</ul>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>exiftool <span class="string">'-Directory&lt;CreateDate'</span> -d ~<span class="regexp">/Pictures/</span><span class="variable">%Y</span>/<span class="variable">%Y</span><span class="variable">%m</span> -r .
+</pre></td></tr></table></figure></p>
+<p><code>~/Pictures/%Y/%Y%m</code> 是目标文件夹，最底层的文件夹形式为「年月」，只用月的话有时候会引起不必要的麻烦。其他的参数就不解释了，不懂的自行到终端找man去。<br />如果没有以上exif信息的话原文件仍原封不动地保存在原地，等着你去处理咧。像这类顽固分子大部分是截图或者低劣手机拍的照片，拿digikam打咯Tags就好了。如果只是一些小毛病的话就用exiftool修一修吧，也不是很碍事。像我用过的有如下秘技：<br />复制tag(此tag可不是digikam中的tag)<br /><code>exiftool -TagsFromFile from.jpg to.jpg</code><br />调整创建时间<br /><code>exiftool -AllDates-='92:0:0 0:0:0' .</code><br />从文件内复制参数<br /><code>exiftool &quot;-CreateDate&lt;DateTimeOriginal&quot; file.jpg</code><br />这个是参考的 <a href="http://cpanforum.com/posts/4352" target="_blank">http://cpanforum.com/posts/4352</a></p>
+<h3 id="digikam简介及使用">Digikam简介及使用</h3>
+<p>喂！有完没完，digikam凭发音就知道干嘛的了，目测是Linux下最重量级的数码照片管理软件了，如果只在Win下使用的话，Picasa更合适些。你能想到的功能它基本都有，你想不到的它也有！赞美之词罢了，别太当真～ 类似于exiftool的功能digikam也是有的，只是个人觉得这种活在GUI下太麻烦，灵活性也没exiftool高。不过拿digikam给照片打Tag还是很合适的，digikam的其他N多功能自己暂时还用不着，<a href="http://userbase.kde.org/Digikam/Tutorials" target="_blank">Digikam的Tutorials</a>介绍了很多实用的技巧。</p>
+<p>—EOF—</p>
+]]></content>
+    
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[本科毕设之RapidIO技术小结]]></title>
+    <link href="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html"/>
+    <id>http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html</id>
+    <published>2013-08-28T13:30:43.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>本科毕设一晃就已然过去两个多月了，再过上一个多星期就要正式开始研究生的生活了，在此之前把本科毕设做个总结，算是对自己的知识框架再打包压缩罢，又算作是对后来者研究使用RapidIO技术的一个指引。嗯，一举两得，何乐而不为？</p>
+<p>毕设是在去年12月份开始选题，那时倒也挺贪心，一心想做一个软硬结合的课题，最先开始选的课题现在都差不多忘光了，只记得选了之后将指导老师的姓名用站内搜索在好网上搜了下。这一看不知道，二看吓一跳呀！鸡皮疙瘩都快出来了。立马到教务处上删掉了，万幸那个指导老师没及时确认，由此逃过一劫… 再找了下其他的软硬结合的课题，看来看去感觉RapidIO还不错，对自己来说是全新的领域。RapidIO相关的课题共有两个，一个是B档难度的，只需在FPGA上实现，而另一个老师的是A档难度，需要使用串行RapidIO协议在DSP和FPGA之间完成通信。当时选题的时候还是患了老毛病，求新求刺激！RapidIO DSP FPGA这三者当时没有一个是很熟悉的，真是初生牛犊不怕虎！</p>
+<p>选题之后自然是没法马上开工，毕竟还有1月份的考研初试咧。就这样拖到了来年的1月考完初试才开始了解这个课题——基于TMS320C6455的串行RapidIO技术及其实现。到Google Scholar上搜了下，发现包含TMS320C6455 和RapidIO两个关键词的论文还真不多，随便看了几篇，结果自然是云里雾里0.o 过年在家论文方面几乎也没什么动静，等到开学回学校也差不多要复试了，于是乎又拖了两个月才正式开始——也就是从4月3号左右开始全心准备毕设的。</p>
+<h3 id="毕设之前期准备">毕设之前期准备</h3>
+<p>现在看来在前期最好先大概了解下课题，并进一步分解为小课题。这个可以让指导老师和师兄给个引导，一般在毕设的任务书和工作计划书中有详细说明，每条任务都可以认为是一个小课题，也许还要进一步细分。自己在这方面开始也没有经验，首先瞎摸索了一个星期也没啥收获，到实验室请教老师和师兄时才发现任务书和工作计划的好处。接下来就是根据任务书和工作计划自己拟定小课题和研究计划了。根据自己对课题的了解，我大概把毕设分为了如下几大块：</p>
+<ol style="list-style-type: decimal">
+<li>串行RapidIO协议的了解<br /></li>
+<li>TMS320C6455芯片的编程使用<br /></li>
+<li>TMS320C6455中有关串行RapidIO部分的初始化及使用<br /></li>
+<li>Altera FPGA的烧写使用<br /></li>
+<li>Altera FPGA中串行RapidIO IP核的了解和使用<br /></li>
+<li>FPGA 和 DSP 进行串行RapidIO传输测试<br /></li>
+<li>论文写作——学习使用LaTeX对论文进行排版<br />可以看出要在短短的两个月里全部完成难度还是稍微有点大的，更坑爹的是后期实验室包含Altera FPGA的板子一直没画出来，于是乎便换到实验室现有的Xilinx平台，关键时刻还是得自己看着形势走呀，说多了都是泪…</li>
+</ol>
+<h3 id="毕设之论文思路">毕设之论文思路</h3>
+<p>这个主体部分其实是参考了些硕士博士论文来的，当然也参考了RapidIO协会力荐的《RapidIO嵌入式系统互连》。首先简单描述了传统总线技术的不足，树个靶子，接下来自然就引申出了新型总线所需要的一些技术特性，满足这些技术特性的往往不止一个协议，所以对这些新型总线技术又有一个横向的比较，给些数据+曲线图，来点说服力，说明串行RapidIO在嵌入式互连领域的优势，接下来就是对RapidIO的大写特写了。写完RapidIO自然不是目的，毕竟论文标题中有个硕大的「实现」么。DSP和FPGA上的串行RapidIO实现自然也值得仔细地描述一番。OK，论文写到这差不多就快到尾声了，最后分析一下DSP和FPGA联调时使用串行RapidIO通信的一些实测数据画个图分析下原因差不多就完事了。KO! 大功告成。<br /><a id="more"></a> 最后的成果就是这么一篇论文咯——<a href="/downloads/基于TMS320C6455的串行RapidIO技术及其实现-1.2.pdf">基于TMS320C6455的串行RapidIO技术及其实现</a>.<br />从中抽出一张高清大图献上–&gt;<br /><img src="/images/interconnects-trends.png" alt="总线互连的发展趋势" /></p>
+<h3 id="何为串行rapidio">何为串行RapidIO</h3>
+<p>串行RapidIO(serial RapidIO, 又简称SRIO)技术是一种高性能、低引脚数、点对点的基于数据包交换的系统级互连架构。其高带宽、低延时、高效率及高可靠性的优点为高性能的嵌入式系统内部互连通信提供了良好的解决方案。嗯，差不多就是这么一回事，我就不在这儿凑字数了，有兴趣的看我前边的论文就好了。<br />#### RapidIO架构规范了解<br />了解RapidIO最好的去处就是他们的<a href="http://www.rapidio.org/" target="_blank">官网</a>了。</p>
+<ul>
+<li><a href="http://www.rapidio.org/specs/current" target="_blank">协议规范</a>——加起来1000多页的样子，官网上是分开的，我把零碎的pdf合并在一起了，下载见<a href="http://db.tt/d041O2fG" target="_blank">我的Dropbox链接</a><br /></li>
+<li><a href="http://www.rapidio.org/zdata/techwhitepaper_rev3.pdf" target="_blank">RapidIO : The Interconnect Architecture for High Performance Embedded Systems</a>——RapidIO简明介绍，极具参考价值的一份文档。毕竟是技术白皮书嘛<br /></li>
+<li><a href="http://book.douban.com/subject/1835451/" target="_blank">RapidIO嵌入式系统互连</a>——可以说是了解RapidIO规范及在嵌入式系统中应用的必读读物，也是官网上推荐的唯一一本参考书目。同上，力荐<br /></li>
+<li><a href="http://www.rapidio.org/education/technology_overview/" target="_blank">RapidIO Technology Overview</a>——可以瞅瞅，其实个人感觉文档<a href="http://www.rapidio.org/education/documents/RapidIO_Overview-Apps_v07.pdf" target="_blank">RapidIO Technology Overview and Applications Presentation</a>更有价值。<br /></li>
+<li><a href="http://www.rapidio.org/education/technology_comparisons/" target="_blank">Technology Comparisons</a>——一系列（总线）技术的比较，PCI-e, Gigabyte-Ethernet<br /></li>
+<li><a href="http://en.wikipedia.org/wiki/RapidIO" target="_blank">RapidIO Wiki页面</a>——权当作参考吧，其中提到的链接基本都在上边写过了</li>
+</ul>
+<h3 id="dsp和fpga中rapidio的使用">DSP和FPGA中RapidIO的使用</h3>
+<p>DSP和FPGA本身的使用及编程不必赘述，DSP使用C即可；FPGA嘛，verilog还是要方便些。找本书跟着敲敲代码烧点程序进去就差不多入门了。这方面我也算得上是半个门外汉，当时DSP入门用过的有<a href="http://book.douban.com/subject/6116205/" target="_blank">手把手教你学DSP</a>，了解下基本概念和实战操作用。FPGA之前选修课学得一知半解，等于没学，在做毕设的时候尝到自己种下的恶果了… 毕设时又翻了很多资料才算入了个门——同义词也就是过久了就差不多忘掉了。</p>
+<h4 id="dsp中rapidio操作">DSP中RapidIO操作</h4>
+<p>个人感觉DSP中使用RapidIO还是比FPGA要简单些的，毕竟是过程性语句，好控制些。不像FPGA并行，而且有很多信号都有时序约束的。DSP中RapidIO的应用可以参考下<a href="http://www.ti.com.cn/general/cn/docs/gencontent.tsp?contentId=50741" target="_blank">串行 RapidIO: 高性能嵌入式互连技术</a>，可以初步了解下RapidIO在DSP中的应用。更进一步的了解可以参考C64x的RapidIO视频部分——<a href="http://www.chinaaet.com/video/817.html" target="_blank">C64x+ 网络培训(九)——sRIO（串行RapidIO）</a><br />最重要的就是参考DSP芯片有关RapidIO部分的用户指南了，像C6455的<a href="http://www.ti.com/lit/ug/spru976e/spru976e.pdf" target="_blank">Serial RapidIO User’s Guide</a>, 也是挺厚的一本，200多页来着，字都是很小的。</p>
+<h4 id="fpga中的rapidio操作">FPGA中的RapidIO操作</h4>
+<p>FPGA厂商一般都将RapidIO进行了封装，直接调用IP核即可，<strong>需要到Xilinx/Altera网站上申请评估版的IP</strong>，再自行设置些参数。否则有可能会在map或者translate时无法通过。当时自己在这一步偷了些懒，拿了实验板生成好的IP核直接用上了。本来准备对各个参数进行定制后做详细测评的，后来时间实在是太紧了就罢了(需要先申请评估版IP)。同DSP中的RapidIO用户手册，FPGA部分也有相应的IP核文档，500来页(Xilinx)…. 字同样也挺小，够看的了。</p>
+<p>DSP和FPGA部分的测试代码在我的Github中，有需要的可以前往<a href="https://github.com/billryan/srio_test" target="_blank">Serial RapidIO test with SEEDHPS6455</a>自取，DSP部分的代码用srio_a_fixed目录内的就好。</p>
+<h3 id="期刊论文等资料">期刊论文等资料</h3>
+<p>做学术研究，参考前人的成果是必不可少的啦，以下提供pdf和caj(知网专用的格式，少量硕博士论文)两种格式的论文和资料。所有资料都放在Dropbox里头了，需要的自取，尽量通过「Add to my Dropbox」同步下载，不然有可能因为流量耗费过多造成这些公开链接被暂时禁掉。<code>slides</code>目录下有我的答辩幻灯片，本来是想用beamer来做的，但是自己的图太多，还是用WPS省心些，字体主要使用文泉驿雅黑，如果觉得样式还不错的可以随便用，我的也是在秋叶PPT的答辩模板基础上稍微改动了下。封面大概就是下面这样子啦–&gt;：<br /><img src="/images/slides-thesis.png" alt="答辩slides封面" /></p>
+<h3 id="end">end</h3>
+<p>做毕设的两个多月的时间里，中间有一个月左右是早出晚归的，早上7点多坐着校车去，晚上5点的校车回，车费差不多花了￥150，心痛… 没有保送本校的不能报销=_= 好在最后把其中一组频率的速率给详细地测出来了，结果自然是和理论值有一定差距。DSP <code>nwrite</code>能稍微好点，接近理论值的90%，已经很不错了。<br />费了很大功夫整理了这么些东西，希望能对后头搞RapidIO的有点参考作用吧，也不枉我码这么多字了。如果Dropbox里边的东西对你有些帮助，请你一定一定要记得猛击我的<a href="http://db.tt/KS1HOz14" target="_blank">Dropbox推广链接</a> 哦～ 大家的空间都涨500M，何乐而不为？同步下来也方便，告别没完没了的备份，没有理由不用是不？</p>
+<p>我敲一敲Enter，给海量的互联网空间里又代谢了10000+ bytes的数据……</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>本科毕设一晃就已然过去两个多月了，再过上一个多星期就要正式开始研究生的生活了，在此之前把本科毕设做个总结，算是对自己的知识框架再打包压缩罢，又算作是对后来者研究使用RapidIO技术的一个指引。嗯，一举两得，何乐而不为？</p>
+<p>毕设是在去年12月份开始选题，那时倒也挺贪心，一心想做一个软硬结合的课题，最先开始选的课题现在都差不多忘光了，只记得选了之后将指导老师的姓名用站内搜索在好网上搜了下。这一看不知道，二看吓一跳呀！鸡皮疙瘩都快出来了。立马到教务处上删掉了，万幸那个指导老师没及时确认，由此逃过一劫… 再找了下其他的软硬结合的课题，看来看去感觉RapidIO还不错，对自己来说是全新的领域。RapidIO相关的课题共有两个，一个是B档难度的，只需在FPGA上实现，而另一个老师的是A档难度，需要使用串行RapidIO协议在DSP和FPGA之间完成通信。当时选题的时候还是患了老毛病，求新求刺激！RapidIO DSP FPGA这三者当时没有一个是很熟悉的，真是初生牛犊不怕虎！</p>
+<p>选题之后自然是没法马上开工，毕竟还有1月份的考研初试咧。就这样拖到了来年的1月考完初试才开始了解这个课题——基于TMS320C6455的串行RapidIO技术及其实现。到Google Scholar上搜了下，发现包含TMS320C6455 和RapidIO两个关键词的论文还真不多，随便看了几篇，结果自然是云里雾里0.o 过年在家论文方面几乎也没什么动静，等到开学回学校也差不多要复试了，于是乎又拖了两个月才正式开始——也就是从4月3号左右开始全心准备毕设的。</p>
+<h3 id="毕设之前期准备">毕设之前期准备</h3>
+<p>现在看来在前期最好先大概了解下课题，并进一步分解为小课题。这个可以让指导老师和师兄给个引导，一般在毕设的任务书和工作计划书中有详细说明，每条任务都可以认为是一个小课题，也许还要进一步细分。自己在这方面开始也没有经验，首先瞎摸索了一个星期也没啥收获，到实验室请教老师和师兄时才发现任务书和工作计划的好处。接下来就是根据任务书和工作计划自己拟定小课题和研究计划了。根据自己对课题的了解，我大概把毕设分为了如下几大块：</p>
+<ol style="list-style-type: decimal">
+<li>串行RapidIO协议的了解<br /></li>
+<li>TMS320C6455芯片的编程使用<br /></li>
+<li>TMS320C6455中有关串行RapidIO部分的初始化及使用<br /></li>
+<li>Altera FPGA的烧写使用<br /></li>
+<li>Altera FPGA中串行RapidIO IP核的了解和使用<br /></li>
+<li>FPGA 和 DSP 进行串行RapidIO传输测试<br /></li>
+<li>论文写作——学习使用LaTeX对论文进行排版<br />可以看出要在短短的两个月里全部完成难度还是稍微有点大的，更坑爹的是后期实验室包含Altera FPGA的板子一直没画出来，于是乎便换到实验室现有的Xilinx平台，关键时刻还是得自己看着形势走呀，说多了都是泪…</li>
+</ol>
+<h3 id="毕设之论文思路">毕设之论文思路</h3>
+<p>这个主体部分其实是参考了些硕士博士论文来的，当然也参考了RapidIO协会力荐的《RapidIO嵌入式系统互连》。首先简单描述了传统总线技术的不足，树个靶子，接下来自然就引申出了新型总线所需要的一些技术特性，满足这些技术特性的往往不止一个协议，所以对这些新型总线技术又有一个横向的比较，给些数据+曲线图，来点说服力，说明串行RapidIO在嵌入式互连领域的优势，接下来就是对RapidIO的大写特写了。写完RapidIO自然不是目的，毕竟论文标题中有个硕大的「实现」么。DSP和FPGA上的串行RapidIO实现自然也值得仔细地描述一番。OK，论文写到这差不多就快到尾声了，最后分析一下DSP和FPGA联调时使用串行RapidIO通信的一些实测数据画个图分析下原因差不多就完事了。KO! 大功告成。<br />]]></summary>
+    
+      <category term="research" scheme="http://blog.billryan.me/tags/research/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[MOOC之Coursera初体验]]></title>
+    <link href="http://blog.billryan.me/posts/2013/08/mooc%E4%B9%8Bcoursera%E5%88%9D%E4%BD%93%E9%AA%8C.html"/>
+    <id>http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html</id>
+    <published>2013-08-28T07:31:20.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>毕业前在果壳和Twitter上时不时地就能看到MOOC/Coursera的影子，不过当时做毕设也一直没有闲情去体验一把，暑假有一大把时间是该来瞅瞅这传说中的MOOC(Massive Open Online Course)式教学了。在Coursera网站上挑了门7月底开始上的<a href="https://class.coursera.org/mathphil-001/" target="_blank">Introduction to Mathematical Philosophy</a>, 持续时间8个星期，艾吗… 到目前已经落下了三周的课程了…</p>
+<p>从自己上过的两个星期的课来看，Coursera上的老师备课极其认真，有种感觉那些视频像是专门为你一人准备似的。Coursera上的课每周的课根据主题分为很多小主题+introduction+conclusion，一个小主题就是一段几分钟的视频，一般来说视频都会有英文字幕，所以说即使听力跟不上来看看字幕大部分还是能懂的。conclusion一般由主讲老师精心制作，其中有不少很好的补充材料及背景介绍。现在上的这门课里出现频率最高的就是<a href="http://plato.stanford.edu/" target="_blank">Stanford Encyclopedia of Philosophy</a>了。由于自己原来的哲学方面的接触的并不多，上这门课的压力还是略大的，第二周的视频反复看了几遍才懂点皮毛。不过由此也吸取了些教训，课前预习下相关主题听课的时候压力就小多了，尤其是接触那些不太熟悉的领域。俗话说隔行如隔山咩~</p>
+<p>看视频的时候基本都是下下来之后再看的，网页上看有时候老卡了，Review的时候也不太方便。好在有国外热心网友的提供的<a href="https://github.com/jplehmann/coursera" target="_blank">Coursera Downloader</a>，嘛，Python干这种活太合适不过了。terminal下一条命令<code>coursera-dl -n -- mathphil-001</code>就搞定了！</p>
+<p>相对于之前在PT上下的国外大学开放课程的视频课，Coursera给我的感觉有如下几个进步的地方：<br />1. 视频给人的感觉像是在一对一的远程教育，虽然实际上还是一对N…<br />2. 备课十分精细，像之前介绍的subtopics+conclusion<br />3. 时效性略强，课程作业是有deadline的<br />4. 互动性好一些，每门课的主页都会有供讨论问题的bbs，参与进去很方便<br />5. 尚待发现ing<br />当然，还有很多其他的优势，Daphne Koller 在TED中提到的<a href="http://www.ted.com/talks/lang/zh-cn/daphne_koller_what_we_re_learning_from_online_education.html" target="_blank">我们从在线教育学到了什么</a>讲述地就要详细多了。但是其中一个致命的缺陷就是——暂时还缺乏线下小组学习的氛围和机制，这个可以通过在学校寻找MOOC爱好者一起参与效果也许会好一些。</p>
+<p>MOOC式教育革命(也可以认为是传统教育的延伸)才刚刚开始，优质的教育资源如今只需接入网络就可免费获得，不可不说是人类前进方向上的一大步！虽然目前各大MOOC机构的课程还是以英文为主，其他语种的课也在不断地增加，前一阵子就在果壳上看到有台湾一名老师的概率论课程将会上线，嗯，不错！<a href="http://www.guokr.com/group/184/" target="_blank">果壳MOOC自习教室</a>也是个新人了解MOOC的好去处。</p>
+<p>MOOC的实现形式远不止Coursera Udacity edX这三座大山，微信的公众号+微博反馈何尝不是国内的MOOC呢？当然这个质量就因人而异了。拥抱MOOC，拥抱教育的现在和未来。</p>
+]]></content>
+    
+    
+      <category term="MOOC" scheme="http://blog.billryan.me/tags/MOOC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[上海交大校外代理初体验]]></title>
+    <link href="http://blog.billryan.me/posts/2013/08/vpn-sjtu.html"/>
+    <id>http://blog.billryan.me/posts/2013/08/vpn-sjtu.html</id>
+    <published>2013-08-19T02:56:30.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>最近忙着熟悉导师的研究方向和OPNET网络仿真工具，做毕设翻译那会找导师要过几篇英文文献，认真翻译了 Enable Pervasive Healthcare through Continuous Remote Health Monitoring 一文，论文前半部分概述了远程医疗监控(RHM)的体系架构，后半部分介绍了ViiCare产品提供的解决方案。概述性的东西毕竟只是起个引导作用，而且短短几页的论文也不可能会交待较多的细节。如果要结合OPNET来分析网络性能什么的显然是不知从何下手，于是乎习惯性的Google了一番，找到了一篇博士论文，正准备下载的时候… 乖乖，现在已经不是校园网了哟，立马向西电的基友求助，短信刚发出去就想到了个令人激动的消息——隐约记得交大网络信息中心是提供校外访问的代理服务器的，那么？Google一下立马找到了<a href="http://www.lib.sjtu.edu.cn/list.do?articleType_id=45&amp;type=63" target="_blank">这个链接</a>，网页中提供了局域网和ADSL下的使用方法，都是针对IE的。说白了就是提供了代理服务器的地址和端口号，如果只是在浏览器中使用的话SwitchySharp/Foxyproxy插件新增个代理就好了，试了下速度很理想！</p>
+<h2 id="代理服务器">代理服务器</h2>
+<p>代理服务器名：inproxy.sjtu.edu.cn<br />端口号：8000 OR 80</p>
+<p>连通后会让输入jAccount帐号密码，这个新生已经可以申请了，perfect!</p>
+<h3 id="全局代理">全局代理</h3>
+<p>虽然大部分情况在浏览器中使用代理就足够了，但有时其他应用程序也许也需要代理访问，这个时候就稍微有点麻烦喽。 如果想要全局代理的话则需要模拟http认证，Windows下似乎有p-roxycap比较方便，Linux下暂时还没看到类似的软件，之前也没怎么需要用非浏览器应用中使用代理，这方面了解不太多。舍友yqt用Python写了个DXTL的全局代理，于是乎便借过来用了下，还不错，效果就是下边这个样子：<br /><img src="/images/inproxy-sjtu.png" alt="sjtu-inroxy" /><br />需要使用时只需在Terminal下运行<code>python sjtu-inproxy.py</code>即可，很方便。<br /><a id="more"></a> 上代码==&gt;</p>
+<p><figure class="highlight python"><figcaption><span>sjtu-inproxy </span><a href="http://billryan.me/downloads/sjtu-inproxy.py" target="_blank">link</a></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+</pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python</span>
+<span class="comment"># -*- coding: UTF-8 -*-</span>
+<span class="comment"># Filename: sjtu-inproxy.py</span>
+
+<span class="string">'''
+    *major code is retrieved and modified from webvpn_proxy_via_stunnel.py by
+    yqt.  
+    http://script-holic.appspot.com/2013/04/22/SPDY%20proxy%E2%86%92HTTP%E4%BB%A3%E7%90%86/%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86
+'''</span>
+
+<span class="keyword">from</span> BaseHTTPServer <span class="keyword">import</span> BaseHTTPRequestHandler, HTTPServer
+<span class="keyword">from</span> httplib <span class="keyword">import</span> HTTPResponse
+<span class="keyword">from</span> SocketServer <span class="keyword">import</span> ThreadingMixIn
+<span class="keyword">import</span> socket, os, select
+<span class="keyword">import</span> threading
+<span class="keyword">import</span> base64
+
+<span class="comment"># Minimize Memory Usage</span>
+threading.stack_size(<span class="number">128</span>*<span class="number">1024</span>)
+
+BufferSize = <span class="number">8192</span>
+
+<span class="comment"># local proxy</span>
+local_proxy_host = <span class="string">''</span> <span class="comment"># bind all network types</span>
+local_proxy_port = <span class="number">8090</span>
+
+<span class="comment"># proxy host</span>
+proxy_host = <span class="string">'inproxy.sjtu.edu.cn'</span>
+proxy_port = <span class="number">80</span>
+proxy_user = <span class="string">'your jAccount user name'</span>
+proxy_pass = <span class="string">'your jAccount user secret'</span>
+
+auth = proxy_user + <span class="string">':'</span> + proxy_pass
+
+<span class="class"><span class="keyword">class</span> <span class="title">Handler</span><span class="params">(BaseHTTPRequestHandler)</span>:</span>
+    remote = <span class="keyword">None</span>
+    
+    <span class="comment"># Ignore Connection Failure</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">handle</span><span class="params">(self)</span>:</span>
+        <span class="keyword">try</span>:
+            BaseHTTPRequestHandler.handle(self)
+        <span class="keyword">except</span> socket.error: <span class="keyword">pass</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span>
+        <span class="keyword">try</span>:
+            BaseHTTPRequestHandler.finish(self)
+        <span class="keyword">except</span> socket.error: <span class="keyword">pass</span>
+    
+    <span class="comment"># CONNECT Data Transfer</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">transfer</span><span class="params">(self, a, b)</span>:</span>
+        fdset = [a, b]
+        <span class="keyword">while</span> <span class="keyword">True</span>:
+            r,w,e = select.select(fdset, [], [])
+            <span class="keyword">if</span> a <span class="keyword">in</span> r:
+                data = a.recv(BufferSize)
+                <span class="keyword">if</span> <span class="keyword">not</span> data: <span class="keyword">break</span>
+                b.sendall(data)
+            <span class="keyword">if</span> b <span class="keyword">in</span> r:
+                data = b.recv(BufferSize)
+                <span class="keyword">if</span> <span class="keyword">not</span> data: <span class="keyword">break</span>
+                a.sendall(data)
+    
+    <span class="function"><span class="keyword">def</span> <span class="title">proxy</span><span class="params">(self)</span>:</span>
+        <span class="keyword">if</span> self.remote <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> self.lastHost != self.headers[<span class="string">'Host'</span>]:
+            self.remote = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.remote.connect((proxy_host, proxy_port))
+        self.remote.sendall(self.requestline.encode(<span class="string">'ascii'</span>) + <span class="string">b'\r\n'</span>)
+        <span class="comment"># Add auth inf.</span>
+        self.headers[<span class="string">'Proxy-Authorization'</span>] = <span class="string">'Basic %s'</span> % base64.b64encode(auth)
+        <span class="comment">#self.remote.sendall('Proxy-Authorization: Basic %s\r\n' % base64.b64encode(auth))</span>
+        headerstr = str(self.headers).replace(<span class="string">'\r\n'</span>, <span class="string">'\n'</span>).replace(<span class="string">'\n'</span>, <span class="string">'\r\n'</span>)
+        self.remote.sendall(headerstr.encode(<span class="string">'ascii'</span>) + <span class="string">b"\r\n"</span>)
+        <span class="comment"># Send Post data</span>
+        <span class="keyword">if</span> self.command == <span class="string">'POST'</span>:
+            self.remote.sendall(self.rfile.read(int(self.headers[<span class="string">'Content-Length'</span>])))
+        response = HTTPResponse(self.remote, method=self.command)
+        response.begin()
+        
+        <span class="comment"># Reply to the browser</span>
+        status = <span class="string">'HTTP/1.1 '</span> + str(response.status) + <span class="string">' '</span> + response.reason
+        self.wfile.write(status.encode(<span class="string">'ascii'</span>) + <span class="string">b'\r\n'</span>)
+        hlist = []
+        <span class="keyword">for</span> line <span class="keyword">in</span> response.msg.headers: <span class="comment"># Fixed multiple values of a same name</span>
+            <span class="keyword">if</span> <span class="string">'TRANSFER-ENCODING'</span> <span class="keyword">not</span> <span class="keyword">in</span> line.upper():
+                hlist.append(line)
+        self.wfile.write(<span class="string">''</span>.join(hlist) + <span class="string">b'\r\n'</span>)
+        
+        <span class="keyword">if</span> self.command == <span class="string">'CONNECT'</span> <span class="keyword">and</span> response.status == <span class="number">200</span>:
+            <span class="keyword">return</span> self.transfer(self.remote, self.connection)
+        <span class="keyword">else</span>:
+            <span class="keyword">while</span> <span class="keyword">True</span>:
+                response_data = response.read(BufferSize)
+                <span class="keyword">if</span> <span class="keyword">not</span> response_data: <span class="keyword">break</span>
+                self.wfile.write(response_data)
+    
+    do_POST = do_GET = do_CONNECT = proxy
+
+<span class="class"><span class="keyword">class</span> <span class="title">ThreadingHTTPServer</span><span class="params">(ThreadingMixIn, HTTPServer)</span>:</span> 
+    <span class="comment">#address_family = socket.AF_INET6 # IPV6</span>
+    address_family = socket.AF_INET <span class="comment"># IPV4</span>
+
+server_address = (local_proxy_host, local_proxy_port)
+server = ThreadingHTTPServer(server_address, Handler)
+
+print(<span class="string">'Proxy over {}:{}\nPlease set your browser\'s or PAC\'s proxy to {}'</span>.format(proxy_host, proxy_port, server_address))
+<span class="keyword">try</span>:
+    server.serve_forever()
+<span class="keyword">except</span>:
+    os._exit(<span class="number">1</span>)
+</pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>最近忙着熟悉导师的研究方向和OPNET网络仿真工具，做毕设翻译那会找导师要过几篇英文文献，认真翻译了 Enable Pervasive Healthcare through Continuous Remote Health Monitoring 一文，论文前半部分概述了远程医疗监控(RHM)的体系架构，后半部分介绍了ViiCare产品提供的解决方案。概述性的东西毕竟只是起个引导作用，而且短短几页的论文也不可能会交待较多的细节。如果要结合OPNET来分析网络性能什么的显然是不知从何下手，于是乎习惯性的Google了一番，找到了一篇博士论文，正准备下载的时候… 乖乖，现在已经不是校园网了哟，立马向西电的基友求助，短信刚发出去就想到了个令人激动的消息——隐约记得交大网络信息中心是提供校外访问的代理服务器的，那么？Google一下立马找到了<a href="http://www.lib.sjtu.edu.cn/list.do?articleType_id=45&amp;type=63" target="_blank">这个链接</a>，网页中提供了局域网和ADSL下的使用方法，都是针对IE的。说白了就是提供了代理服务器的地址和端口号，如果只是在浏览器中使用的话SwitchySharp/Foxyproxy插件新增个代理就好了，试了下速度很理想！</p>
+<h2 id="代理服务器">代理服务器</h2>
+<p>代理服务器名：inproxy.sjtu.edu.cn<br />端口号：8000 OR 80</p>
+<p>连通后会让输入jAccount帐号密码，这个新生已经可以申请了，perfect!</p>
+<h3 id="全局代理">全局代理</h3>
+<p>虽然大部分情况在浏览器中使用代理就足够了，但有时其他应用程序也许也需要代理访问，这个时候就稍微有点麻烦喽。 如果想要全局代理的话则需要模拟http认证，Windows下似乎有p-roxycap比较方便，Linux下暂时还没看到类似的软件，之前也没怎么需要用非浏览器应用中使用代理，这方面了解不太多。舍友yqt用Python写了个DXTL的全局代理，于是乎便借过来用了下，还不错，效果就是下边这个样子：<br /><img src="/images/inproxy-sjtu.png" alt="sjtu-inroxy" /><br />需要使用时只需在Terminal下运行<code>python sjtu-inproxy.py</code>即可，很方便。<br />]]></summary>
+    
+      <category term="SJTU" scheme="http://blog.billryan.me/tags/SJTU/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[OPNET14.5 Win7/XP下安装小记]]></title>
+    <link href="http://blog.billryan.me/posts/2013/08/opnet145-win7xp%E4%B8%8B%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0.html"/>
+    <id>http://blog.billryan.me/posts/2013/08/opnet145-win7xp下安装小记.html</id>
+    <published>2013-08-08T11:17:16.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>导师几个星期前就发来邮件让熟悉网络仿真软件了，只是自己前一个月基本都在到处转悠，加之网络不便，也耽搁了许久，这个月可以好好学习研究一番了。 第一次听说OPNET的时候似乎离现在已经很久远了，只记得那时对面7、8号楼还住着大四。值得一提的是7号楼当时是男女混住的<sup>_</sup>，哈哈，挺羡慕的吧！估计是当年的男女比例比较惊人，只不过男生住的是最南边那一排寝室，这段美好的过去估计只能写入西电的史册了… 这样算来，当时的我才大一。毕业之际，好网上到处都可以看到卖书的帖子，于是乎随便联系了一个7号楼的学长就去那淘书了，买回来差不多一堆书，OPNET就在其中，估摸着有半米多高，三年过后，发现能用的上的没几本呀！！连现在要用的OPNET都被我当废纸卖掉了… 当初怎么也没想到研究生要用这玩意儿。所以嘛，旧书买下一年要用的就足够了啦，买多了真是浪费体力=_=! 喂喂！偏题了！</p>
+<h2 id="网络仿真软件">网络仿真软件</h2>
+<p>就我所知道的，常用的网络仿真/模拟软件要么是<a href="http://en.wikipedia.org/wiki/Ns_(simulator)" target="_blank">NS2</a> (NS3正在活跃开发中), 要么就是OPNET, 前者是自由软件，后者是商业软件。它们二者之间在使用上的区别可见<a href="http://www.360doc.com/content/11/0103/15/1520315_83619061.shtml" target="_blank">NS2和OPNET的讨论</a>，在仿真层次上的详细区别可见<a href="http://db.tt/61l7RxNR" target="_blank">OPNET Modeler and NS-2: Comparing the Accuracy of Network Simulators for Packet-Level Analysis using a Network Testbed</a>，让我自己来选的话当然是NS2咯，优先自由软件么，OPNET14.5 Modeler在Linux下不能用，这是硬伤呀！用了近两年的Arch Linux后，我发现我越来越离不开它了，切换到MS Windows下感觉麻烦死了。问了下师兄，实验室里导师和师兄们都是用的OPNET14.5，合群一点自然是要用OPNET的。相对比较好的整合方案就是在Arch下用vbox/kvm虚拟个XP了，内存8G还是比较够使的，只是这样不符合如今节能环保的大趋势么</p>
+<h2 id="win7xp下安装opnet14.5">Win7/XP下安装OPNET14.5</h2>
+<p>OPNET软件安装本身其实没啥好扯的，下载得到的3个软件包从大到小安装。关键在于OPNET是采用VC++进行编译的，相关的环境变量和编译器什么的配置起来就值得一提了。OPNET14.5是一款比较老的软件了，XP下先装VC6.0，OPNET14.5编译时所需的用户变量也就配置好了，所以说如果你还在用上古时代的XP系统，VC6.0是再好不过的搭档了。当然，现在大多数人的电脑里估计已经换成了Win7/Win8了，装个VC6.0还是比较费劲的。所以喽，当然得另辟蹊径。</p>
+<a id="more"></a>
+<h3 id="win7下vs2008opnet14.5">Win7下VS2008+OPNET14.5</h3>
+<p>对于高校学生来说，Dreamspark上一般有免费的正版软件提供，有个edu的邮箱即可下载。找VS2008，我开始下的是VS2012，装好后设置了下用户变量，安装OPNE后提示库版本过高。转头立马奔向VC++2008 Express去了，又是一番痛苦繁琐的各种注册配置，终于修成正果… 按照OPNET Modeler <code>help-&gt;tutorial</code>中提供的例子编译通过，无不良反应。安装VC Express版本时还需要个微软帐号以注册，虽然是免费的，但个人对M$这种浪费用户时间的行为投以强烈的鄙视！所以说嘛，有个edu的邮箱或是学校本身提供正版授权的话直接奔专业版去吧。安装好VS2008(这里只需VC部分)后比较繁琐的用户变量设置部分就来了，我当然希望几条命令或者是一个批处理搞定就好，后头重装时我可不想用鼠标点来点去的做苦力活。在这之前需要MS 官方提供的setx命令行工具，信得过我的可以在<a href="http://db.tt/nTfoGgtB" target="_blank">这里</a>下载，当然你也可以选择到微软官方下载，一系列正版验证在那里等着你咧，真JB繁琐。有了命令行工具，剩下的就只剩用户变量设置喽，批处理脚本<a href="http://db.tt/XAxZ2e6F" target="_blank">在此</a>，双击即可。<br />迫不及待想看脚本庐山真面目的请目光下移：</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="code"><pre>PATH=<span class="comment">%PATH%;C:\Program Files\Resource Kit\</span>
+@echo off
+echo "set the environment of OPNET with VC++2008..."
+set 
+setx DevEnvDir "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\Common</span>7<span class="command">\IDE</span>"
+
+setx Framework35Version "v3.5"
+
+setx FrameworkDir "C:<span class="command">\WINDOWS</span><span class="command">\Microsoft</span>.NET<span class="command">\Framework</span>"
+
+setx FrameworkVersion "v2.0.50727"
+
+setx INCLUDE "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span><span class="command">\INCLUDE</span>;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> SDKs<span class="command">\Windows</span><span class="command">\v</span>6.0A<span class="command">\include</span>;"
+
+setx LIB "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span><span class="command">\LIB</span>;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> SDKs<span class="command">\Windows</span><span class="command">\v</span>6.0A<span class="command">\lib</span>;"
+
+setx LIBPATH "C:<span class="command">\WINDOWS</span><span class="command">\Microsoft</span>.NET<span class="command">\Framework</span><span class="command">\v</span>3.5;C:<span class="command">\WINDOWS</span><span class="command">\Microsoft</span>.NET<span class="command">\Framework</span><span class="command">\v</span>2.0.50727;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span><span class="command">\LIB</span>;"
+
+setx Path "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\Common</span>7<span class="command">\IDE</span>;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span><span class="command">\BIN</span>;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\Common</span>7<span class="command">\Tools</span>;C:<span class="command">\WINDOWS</span><span class="command">\Microsoft</span>.NET<span class="command">\Framework</span><span class="command">\v</span>3.5;C:<span class="command">\WINDOWS</span><span class="command">\Microsoft</span>.NET<span class="command">\Framework</span><span class="command">\v</span>2.0.50727;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span><span class="command">\VCPackages</span>;C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> SDKs<span class="command">\Windows</span><span class="command">\v</span>6.0A<span class="command">\bin</span>;"
+
+setx VCINSTALLDIR "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\VC</span>"
+
+setx VS90COMNTOOLS "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0<span class="command">\Common</span>7<span class="command">\Tools</span><span class="command">\"</span>
+
+setx VSINSTALLDIR "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> Visual Studio 9.0"
+
+setx WindowsSdkDir "C:<span class="command">\Program</span> Files<span class="command">\Microsoft</span> SDKs<span class="command">\Windows</span><span class="command">\v</span>6.0A<span class="command">\"</span>
+
+echo "Congratulations! environment set succesful."
+pause
+</pre></td></tr></table></figure></p>
+<p>如果你需要在XP下使用VC2008进行编译，方法同上，不过也许在仿真时会出现「无法找到msvcr90.dll」等相关字样，不用急，解决方法如下：<br />先复制opnet安装目录4.5.A<em>intel</em>win32<em>NET2008目录下面文件到opnet安装目录4.5.A</em>intel_win32，再到opnet安装目录4.5.A<em>intel</em>win32：</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>Mt<span class="preprocessor">.exe</span> -manifest op_runsim<span class="preprocessor">.exe</span><span class="preprocessor">.manifest</span> -outputresource:op_runsim<span class="preprocessor">.exe</span><span class="comment">;1</span>
+Mt<span class="preprocessor">.exe</span> -manifest op_runsim_opt<span class="preprocessor">.exe</span><span class="preprocessor">.manifest</span> -outputresource:op_runsim_opt<span class="preprocessor">.exe</span><span class="comment">;1</span>
+Mt<span class="preprocessor">.exe</span> -manifest op_runsim_mtdev<span class="preprocessor">.exe</span><span class="preprocessor">.manifest</span> -outputresource:op_runsim_mtdev<span class="preprocessor">.exe</span><span class="comment">;1</span>
+Mt<span class="preprocessor">.exe</span> -manifest op_runsim_dev<span class="preprocessor">.exe</span><span class="preprocessor">.manifest</span> -outputresource:op_runsim_dev<span class="preprocessor">.exe</span><span class="comment">;1</span>
+</pre></td></tr></table></figure></p>
+<p>不用一个一个输啦，不怕看错还怕输错呀，打开命令行窗口一把粘贴进去，Enter一敲，KO<br />以上解决办法引自<a href="http://ihacklog.com/post/opnet-14-5-vs2008-win7-trouble-and-the-solution.html" target="_blank">opnet 14.5 + VS2008 + win7＝麻烦</a>。</p>
+<p>最后献上OPNET资料若干用以回馈广大观众朋友们听我唠嗑：</p>
+<ul>
+<li><a href="http://db.tt/7YdSKESL" target="_blank">OPNET配置VC环境变量</a>——这个很强大，对VC6 2003 2005 2008的设置方法都有整理<br /></li>
+<li><a href="http://db.tt/R9vulOHp" target="_blank">How to install OPNET Modeler 14.5 on Windows 7</a>——Win7下使用VS2010作为编译<br /></li>
+<li><a href="http://db.tt/pdVBkh7r" target="_blank">OPNET常见错误</a>——网友自己的整理总结<br /></li>
+<li>陈敏的OPNET网络仿真——作者使用的OPNET版本比较老了，有时在你自己的软件上找不到书上说的东西也不用大惊小怪的，仅作参考，最有用最权威的入门教程当属软件自带的<code>help-&gt;tutorial</code></li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>导师几个星期前就发来邮件让熟悉网络仿真软件了，只是自己前一个月基本都在到处转悠，加之网络不便，也耽搁了许久，这个月可以好好学习研究一番了。 第一次听说OPNET的时候似乎离现在已经很久远了，只记得那时对面7、8号楼还住着大四。值得一提的是7号楼当时是男女混住的<sup>_</sup>，哈哈，挺羡慕的吧！估计是当年的男女比例比较惊人，只不过男生住的是最南边那一排寝室，这段美好的过去估计只能写入西电的史册了… 这样算来，当时的我才大一。毕业之际，好网上到处都可以看到卖书的帖子，于是乎随便联系了一个7号楼的学长就去那淘书了，买回来差不多一堆书，OPNET就在其中，估摸着有半米多高，三年过后，发现能用的上的没几本呀！！连现在要用的OPNET都被我当废纸卖掉了… 当初怎么也没想到研究生要用这玩意儿。所以嘛，旧书买下一年要用的就足够了啦，买多了真是浪费体力=_=! 喂喂！偏题了！</p>
+<h2 id="网络仿真软件">网络仿真软件</h2>
+<p>就我所知道的，常用的网络仿真/模拟软件要么是<a href="http://en.wikipedia.org/wiki/Ns_(simulator)" target="_blank">NS2</a> (NS3正在活跃开发中), 要么就是OPNET, 前者是自由软件，后者是商业软件。它们二者之间在使用上的区别可见<a href="http://www.360doc.com/content/11/0103/15/1520315_83619061.shtml" target="_blank">NS2和OPNET的讨论</a>，在仿真层次上的详细区别可见<a href="http://db.tt/61l7RxNR" target="_blank">OPNET Modeler and NS-2: Comparing the Accuracy of Network Simulators for Packet-Level Analysis using a Network Testbed</a>，让我自己来选的话当然是NS2咯，优先自由软件么，OPNET14.5 Modeler在Linux下不能用，这是硬伤呀！用了近两年的Arch Linux后，我发现我越来越离不开它了，切换到MS Windows下感觉麻烦死了。问了下师兄，实验室里导师和师兄们都是用的OPNET14.5，合群一点自然是要用OPNET的。相对比较好的整合方案就是在Arch下用vbox/kvm虚拟个XP了，内存8G还是比较够使的，只是这样不符合如今节能环保的大趋势么</p>
+<h2 id="win7xp下安装opnet14.5">Win7/XP下安装OPNET14.5</h2>
+<p>OPNET软件安装本身其实没啥好扯的，下载得到的3个软件包从大到小安装。关键在于OPNET是采用VC++进行编译的，相关的环境变量和编译器什么的配置起来就值得一提了。OPNET14.5是一款比较老的软件了，XP下先装VC6.0，OPNET14.5编译时所需的用户变量也就配置好了，所以说如果你还在用上古时代的XP系统，VC6.0是再好不过的搭档了。当然，现在大多数人的电脑里估计已经换成了Win7/Win8了，装个VC6.0还是比较费劲的。所以喽，当然得另辟蹊径。</p>
+]]></summary>
+    
+      <category term="OPNET" scheme="http://blog.billryan.me/tags/OPNET/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[3G无线上网卡分享网络之 Arch Linux与Win7篇]]></title>
+    <link href="http://blog.billryan.me/posts/2013/07/3g_modem_under_arch-linux_and_win7.html"/>
+    <id>http://blog.billryan.me/posts/2013/07/3g_modem_under_arch-linux_and_win7.html</id>
+    <published>2013-07-13T15:50:20.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>暑假回家没有宽带确实有点小郁闷，好在有日益发达的无线通信技术，使得在没法用上昂贵的宽带时还能按需使用3G网络，当然喽，费用也不菲，三个月￥300才15GB的流量，不看视频的话勉强能凑合着用，短期使用的话相对于一年近￥1000的电信宽带还是要便宜一些的。</p>
+<p>下面进入正题，3G无线上网卡最开始是用在家里的台式机上，自己的笔记本电脑和手机要想同时上网自然得另外想想办法。大约可分为以下三种方案：<br />1. 3G上网卡&lt;==&gt;台式机有线网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />2. 3G上网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />3. 3G上网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;(台式机有线网卡&lt;==&gt;)笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />其中台式机运行Win7, 笔记本电脑运行Arch Linux. 总的思路就是3G网络接入，无线热点输出，3G网络与无线热点间则为局域网。<br />形象一点的如下图所示： <img src="/images/3g-internet-share.jpeg" alt="3G上网卡网络分享示意图" /></p>
+<a id="more"></a>
+<h3 id="g网络接入">3G网络接入</h3>
+<ul>
+<li><h4>Win7</h4>
+<p>3G上网卡应该会有Win7的客户端之类的东西，鼠标点击个连接就完事了。</p></li>
+<li><h4>Linux(以Arch Linux为例)</h4>
+<p>现在一般能买到的3G上网卡都是USB接口的，在Linux下使用自然也还算便利的，装好相应的ppp和拨号工具即可。当然前提是能正常识别USB 3G上网卡为modem，这一步在Arch的<a href="https://wiki.archlinux.org/index.php/USB_3G_Modem" target="_blank">wiki</a>中有详细的说明，识别为modem的工具常用<code>usb_modeswitch</code>，只要系统能正确识别3G Modem(使用<code>lsusb</code>能看到modem字样)，这一步也许是可以省掉的。识别为modem后下一步要做的就是拨号了。拨号用<a href="https://wiki.archlinux.org/index.php/Wvdial" target="_blank">wvdial</a>就很好了，命令行下比较灵活。更为详细完整的介绍可以参考<a href="http://linux-wiki.cn/wiki/zh-hans/%E4%BD%BF%E7%94%A83G%E4%B8%8A%E7%BD%91%E5%8D%A1%E6%97%A0%E7%BA%BF%E4%B8%8A%E7%BD%91" target="_blank">使用3G上网卡无线上网</a>。</p></li>
+</ul>
+<h3 id="组建局域网">组建局域网</h3>
+<p>简单一点的拿根网线将台式机和笔记本直接对接+配置局域网IP，配置IP时注意好台式机和笔记本有线网卡在同一网段(同一网络号)即可。网上这方面的资料多如牛毛，「3G无线上网卡 共享网络」关键词能出来一大堆Step by Step的图文教程。我当时遇到的问题是设置好共享网络和局域网IP后上网时好时坏，debug了很久后发现自己设置的局域网IP可能和台式机(Win7)某个程序有冲突，因为在设置静态IP时系统默认为192.168.137.1(这个是在将静态IP参数留空时重启系统后发现的)，后来索性就将192.168.137.*设置为网络号，再后来台式机和笔记本就一起过上了幸福快乐的生活<sup>_</sup></p>
+<h3 id="分享3g网络">分享3G网络</h3>
+<ul>
+<li><h4>Win7</h4>
+连接好3G网络后在「网络连接」属性的「分享」处设置分享网络即可，不会弄的搜索关键词「3G无线上网卡 共享网络」也很容易就搞定了。</li>
+<li><h4>Linux</h4>
+Arch中的<a href="https://wiki.archlinux.org/index.php/Internet_Sharea" target="_blank">Internet Share</a>说的很清晰了，根据自己的情况写个脚本就好了，当然刚开始接触时可能会略显麻烦，后边会介绍一个异常强大的脚本。</li>
+</ul>
+<h3 id="搭建无线热点">搭建无线热点</h3>
+<ul>
+<li><h4>Win7</h4>
+Win7下最方便的应该就是<a href="http://www.connectify.me" target="_blank">connectify</a>了，之前看到有「<a href="http://connectify.wifijl.com/" target="_blank">connectify中文版</a>」，仔细一看才知道与connectify没啥关系，「connectify中文版」相当于connectify专业版的功能，还是免费的，所以没太敢用，感觉connectify免费版已经够用了。<br /></li>
+<li><h4>Linux</h4>
+之前拿hostapd建过热点，还算轻车熟路，几行脚本就能搞定，不过灵活性还是不够高。昨晚在Arch的<a href="https://wiki.archlinux.org/index.php/Software_Access_Point" target="_blank">wiki</a>上看到一个异乎强大的<a href="https://bbs.archlinux.org/viewtopic.php?pid=1269258" target="_blank">Shell脚本-creat_ap</a>，一行命令即可搞定繁琐的Wifi热点/软AP设定，而且灵活性极好！Awesome!</li>
+</ul>
+<h3 id="吐槽3g网络">吐槽3G网络</h3>
+<p>用的是中国电信的3G卡，网速异常稳定，下载上传持续稳定在60KB/s以下…</p>
+<p>与农村地区的电信信号差也许有一点点关系。自己的联通手机在家里信号也不太好，经常在3G/H/H+之间切换，很难持续在300KB/s以上，联通基本套餐包含的100MB外省流量也被早早地用完了，自己还是学通信的，真是怨念</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>暑假回家没有宽带确实有点小郁闷，好在有日益发达的无线通信技术，使得在没法用上昂贵的宽带时还能按需使用3G网络，当然喽，费用也不菲，三个月￥300才15GB的流量，不看视频的话勉强能凑合着用，短期使用的话相对于一年近￥1000的电信宽带还是要便宜一些的。</p>
+<p>下面进入正题，3G无线上网卡最开始是用在家里的台式机上，自己的笔记本电脑和手机要想同时上网自然得另外想想办法。大约可分为以下三种方案：<br />1. 3G上网卡&lt;==&gt;台式机有线网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />2. 3G上网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />3. 3G上网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;(台式机有线网卡&lt;==&gt;)笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />其中台式机运行Win7, 笔记本电脑运行Arch Linux. 总的思路就是3G网络接入，无线热点输出，3G网络与无线热点间则为局域网。<br />形象一点的如下图所示： <img src="/images/3g-internet-share.jpeg" alt="3G上网卡网络分享示意图" /></p>
+]]></summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[骑行：西电——西工大]]></title>
+    <link href="http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html"/>
+    <id>http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html</id>
+    <published>2013-06-11T15:15:43.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>昨天下午趁着西安难得的好天气和春哥骑车去了西工大新校区，出校门的时候是雨过天晴，没想到回来的时候仍然是雨过天晴 :( 从西太路回学校的时候被大雨淋得那叫一个迎头痛击，四年来总算赶上一回西北的暴风雨了。</p>
+<p>自己还是挺喜欢骑行的，学校的南边就是秦岭，到西工大新校区来回也就35公里左右，不算很远，往南边走的话路上空气还算不错，透透气也蛮好的。</p>
+<p>坐骑是室友的普通车，好想有一辆山地哇<sup>_</sup> 可惜…木有银子</p>
+<p>偶然在313县道上看到的秦岭纪念碑，当然得来一张 <img src="/images/qinling_monument.jpg" alt="秦岭纪念碑" /> <a id="more"></a> 秦岭部分全景一张，第一次用全景试了下，效果忒差了，离那些山还是太远了。当然咯，毕竟只是一部普通的爪机啦，又何必奢求过多 <img src="/images/qinling_all.jpg" alt="秦岭部分全景" /></p>
+<p>应@小雨姐的要求，本人玉照一张献上 <img src="/images/me_qinling.jpg" alt="看什么看，没见过人么！" /> 如果这两周天气好的话还计划一次骑行，估计以后就没什么机会游览秦岭了。sigh =_=</p>
+<p>最后以一张秦岭部分山脉的近景结尾 <img src="/images/qinling_near.jpg" alt="秦岭部分山脉近景" /> 赶紧睡觉去，明儿还得继续修改论文+答辩幻灯片</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>昨天下午趁着西安难得的好天气和春哥骑车去了西工大新校区，出校门的时候是雨过天晴，没想到回来的时候仍然是雨过天晴 :( 从西太路回学校的时候被大雨淋得那叫一个迎头痛击，四年来总算赶上一回西北的暴风雨了。</p>
+<p>自己还是挺喜欢骑行的，学校的南边就是秦岭，到西工大新校区来回也就35公里左右，不算很远，往南边走的话路上空气还算不错，透透气也蛮好的。</p>
+<p>坐骑是室友的普通车，好想有一辆山地哇<sup>_</sup> 可惜…木有银子</p>
+<p>偶然在313县道上看到的秦岭纪念碑，当然得来一张 <img src="/images/qinling_monument.jpg" alt="秦岭纪念碑" /> ]]></summary>
+    
+      <category term="骑行" scheme="http://blog.billryan.me/tags/%E9%AA%91%E8%A1%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[小米2 HDR小试]]></title>
+    <link href="http://blog.billryan.me/posts/2013/06/test-with-hdr.html"/>
+    <id>http://blog.billryan.me/posts/2013/06/test-with-hdr.html</id>
+    <published>2013-06-09T11:24:09.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>以夕阳西下为例</p>
+<p><img src="/images/hdrtest_no_long.jpg" alt="不开启HDR，快门时间1/134秒，几乎什么都看不清" /> <img src="/images/hdrtest_no_short.jpg" alt="不开启HDR，快门时间1/397秒，天边的云彩依稀可见" /> <a id="more"></a> <img src="/images/hdrtest_yes.jpg" alt="开启HDR，快门时间1/351秒，比前两张效果好多了！天边的云和近处的树啥的都能看清楚模样了" /></p>
+<p>下边再来一张威武霸气光芒万丈的夕阳，毫无疑问，必须开启HDR <img src="/images/hdr-sunset.jpg" alt="光芒万丈！！" /> 要原图？请移步<a href="https://www.dropbox.com/s/454z513buvojxcg/2013-06-09%2019.43.03.jpg" target="_blank">Dropbox分享</a>，可自由使用，使用时说明来源即可</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>以夕阳西下为例</p>
+<p><img src="/images/hdrtest_no_long.jpg" alt="不开启HDR，快门时间1/134秒，几乎什么都看不清" /> <img src="/images/hdrtest_no_short.jpg" alt="不开启HDR，快门时间1/397秒，天边的云彩依稀可见" /> ]]></summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[add cc license to your blog with Hexo]]></title>
+    <link href="http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html"/>
+    <id>http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html</id>
+    <published>2013-05-04T06:46:53.000Z</published>
+    <updated>2014-05-01T13:44:32.000Z</updated>
+    <content type="html"><![CDATA[<p>Thank <span class="citation">[@tommy351]</span>(https://github.com/tommy351/hexo) for developing <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>-a fast, simple &amp; powerful blog framework. In <a href="http://zespia.tw/hexo/docs/writing.html" target="_blank">this article</a>, he described how to use with Scaffolds. We can add some permanent information in it, such as the following Creative Commons license.</p>
+<p>You can choose a license from creative commons’s <a href="http://creativecommons.org/choose/" target="_blank">site</a> and put it under your <code>scaffolds/*.md</code> files. As for me, I put it in <a href="/downloads/post.md.raw">scaffolds/post.md</a>.</p>
+<p>B.T.W. Putting a CC license in your personal blog is a good habit. :) But… The Copyright Notice seems too obvious.</p>
+<h2 id="版权声明copyright-notice">版权声明(Copyright Notice)</h2>
+<p>本作品由<a xmlns:cc="http://creativecommons.org/ns#" href="http://billryan.me" property="cc:attributionName" rel="cc:attributionURL" target="_blank">Bill Ryan</a>创作，采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>进行许可。</p>
+]]></content>
+    
+    
+      <category term="Hexo" scheme="http://blog.billryan.me/tags/Hexo/"/>
+    
+  </entry>
+  
+</feed>

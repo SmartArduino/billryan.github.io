@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>本科毕设之RapidIO技术小结 | Bill Ryan&#39;s Cyberspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta content="article" property="og:type">
+<meta content="本科毕设之RapidIO技术小结" property="og:title">
+<meta content="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html" property="og:url">
+<meta content="/images/interconnects-trends.png" property="og:image">
+<meta content="Bill Ryan's Cyberspace" property="og:site_name">
+<meta content="本科毕设一晃就已然过去两个多月了，再过上一个多星期就要正式开始研究生的生活了，在此之前把本科毕设做个总结，算是对自己的知识框架再打包压缩罢，又算作是对后来者研究使用RapidIO技术的一个指引。嗯，一举两得，何乐而不为？
+毕设是在去年12月份开始选题，那时倒也挺贪心，一心想做一个软硬结合的课题，最先开始选的课题现在都差不多忘光了，只记得选了之后将指导老师的姓名用站内搜索在好网上搜了下。这一看不知道" property="og:description">
+<meta content="summary" name="twitter:card">
+  
+    <link rel="alternative" href="/atom.xml" title="Bill Ryan&#39;s Cyberspace" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32317667-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Bill Ryan&#39;s Cyberspace</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Make a backup of my Thought and Life</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me">Blog</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://blog.billryan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-summary-of-rapidio" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/08/summary-of-rapidio.html" class="article-date">
+  <time datetime="2013-08-28T13:30:43.000Z" itemprop="datePublished">Aug 28 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      本科毕设之RapidIO技术小结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本科毕设一晃就已然过去两个多月了，再过上一个多星期就要正式开始研究生的生活了，在此之前把本科毕设做个总结，算是对自己的知识框架再打包压缩罢，又算作是对后来者研究使用RapidIO技术的一个指引。嗯，一举两得，何乐而不为？</p>
+<p>毕设是在去年12月份开始选题，那时倒也挺贪心，一心想做一个软硬结合的课题，最先开始选的课题现在都差不多忘光了，只记得选了之后将指导老师的姓名用站内搜索在好网上搜了下。这一看不知道，二看吓一跳呀！鸡皮疙瘩都快出来了。立马到教务处上删掉了，万幸那个指导老师没及时确认，由此逃过一劫… 再找了下其他的软硬结合的课题，看来看去感觉RapidIO还不错，对自己来说是全新的领域。RapidIO相关的课题共有两个，一个是B档难度的，只需在FPGA上实现，而另一个老师的是A档难度，需要使用串行RapidIO协议在DSP和FPGA之间完成通信。当时选题的时候还是患了老毛病，求新求刺激！RapidIO DSP FPGA这三者当时没有一个是很熟悉的，真是初生牛犊不怕虎！</p>
+<p>选题之后自然是没法马上开工，毕竟还有1月份的考研初试咧。就这样拖到了来年的1月考完初试才开始了解这个课题——基于TMS320C6455的串行RapidIO技术及其实现。到Google Scholar上搜了下，发现包含TMS320C6455 和RapidIO两个关键词的论文还真不多，随便看了几篇，结果自然是云里雾里0.o 过年在家论文方面几乎也没什么动静，等到开学回学校也差不多要复试了，于是乎又拖了两个月才正式开始——也就是从4月3号左右开始全心准备毕设的。</p>
+<h3 id="毕设之前期准备">毕设之前期准备</h3>
+<p>现在看来在前期最好先大概了解下课题，并进一步分解为小课题。这个可以让指导老师和师兄给个引导，一般在毕设的任务书和工作计划书中有详细说明，每条任务都可以认为是一个小课题，也许还要进一步细分。自己在这方面开始也没有经验，首先瞎摸索了一个星期也没啥收获，到实验室请教老师和师兄时才发现任务书和工作计划的好处。接下来就是根据任务书和工作计划自己拟定小课题和研究计划了。根据自己对课题的了解，我大概把毕设分为了如下几大块：</p>
+<ol style="list-style-type: decimal">
+<li>串行RapidIO协议的了解<br /></li>
+<li>TMS320C6455芯片的编程使用<br /></li>
+<li>TMS320C6455中有关串行RapidIO部分的初始化及使用<br /></li>
+<li>Altera FPGA的烧写使用<br /></li>
+<li>Altera FPGA中串行RapidIO IP核的了解和使用<br /></li>
+<li>FPGA 和 DSP 进行串行RapidIO传输测试<br /></li>
+<li>论文写作——学习使用LaTeX对论文进行排版<br />可以看出要在短短的两个月里全部完成难度还是稍微有点大的，更坑爹的是后期实验室包含Altera FPGA的板子一直没画出来，于是乎便换到实验室现有的Xilinx平台，关键时刻还是得自己看着形势走呀，说多了都是泪…</li>
+</ol>
+<h3 id="毕设之论文思路">毕设之论文思路</h3>
+<p>这个主体部分其实是参考了些硕士博士论文来的，当然也参考了RapidIO协会力荐的《RapidIO嵌入式系统互连》。首先简单描述了传统总线技术的不足，树个靶子，接下来自然就引申出了新型总线所需要的一些技术特性，满足这些技术特性的往往不止一个协议，所以对这些新型总线技术又有一个横向的比较，给些数据+曲线图，来点说服力，说明串行RapidIO在嵌入式互连领域的优势，接下来就是对RapidIO的大写特写了。写完RapidIO自然不是目的，毕竟论文标题中有个硕大的「实现」么。DSP和FPGA上的串行RapidIO实现自然也值得仔细地描述一番。OK，论文写到这差不多就快到尾声了，最后分析一下DSP和FPGA联调时使用串行RapidIO通信的一些实测数据画个图分析下原因差不多就完事了。KO! 大功告成。<br /><a id="more"></a> 最后的成果就是这么一篇论文咯——<a href="/downloads/基于TMS320C6455的串行RapidIO技术及其实现-1.2.pdf">基于TMS320C6455的串行RapidIO技术及其实现</a>.<br />从中抽出一张高清大图献上–&gt;<br /><img src="/images/interconnects-trends.png" alt="总线互连的发展趋势" /></p>
+<h3 id="何为串行rapidio">何为串行RapidIO</h3>
+<p>串行RapidIO(serial RapidIO, 又简称SRIO)技术是一种高性能、低引脚数、点对点的基于数据包交换的系统级互连架构。其高带宽、低延时、高效率及高可靠性的优点为高性能的嵌入式系统内部互连通信提供了良好的解决方案。嗯，差不多就是这么一回事，我就不在这儿凑字数了，有兴趣的看我前边的论文就好了。<br />#### RapidIO架构规范了解<br />了解RapidIO最好的去处就是他们的<a href="http://www.rapidio.org/" target="_blank">官网</a>了。</p>
+<ul>
+<li><a href="http://www.rapidio.org/specs/current" target="_blank">协议规范</a>——加起来1000多页的样子，官网上是分开的，我把零碎的pdf合并在一起了，下载见<a href="http://db.tt/d041O2fG" target="_blank">我的Dropbox链接</a><br /></li>
+<li><a href="http://www.rapidio.org/zdata/techwhitepaper_rev3.pdf" target="_blank">RapidIO : The Interconnect Architecture for High Performance Embedded Systems</a>——RapidIO简明介绍，极具参考价值的一份文档。毕竟是技术白皮书嘛<br /></li>
+<li><a href="http://book.douban.com/subject/1835451/" target="_blank">RapidIO嵌入式系统互连</a>——可以说是了解RapidIO规范及在嵌入式系统中应用的必读读物，也是官网上推荐的唯一一本参考书目。同上，力荐<br /></li>
+<li><a href="http://www.rapidio.org/education/technology_overview/" target="_blank">RapidIO Technology Overview</a>——可以瞅瞅，其实个人感觉文档<a href="http://www.rapidio.org/education/documents/RapidIO_Overview-Apps_v07.pdf" target="_blank">RapidIO Technology Overview and Applications Presentation</a>更有价值。<br /></li>
+<li><a href="http://www.rapidio.org/education/technology_comparisons/" target="_blank">Technology Comparisons</a>——一系列（总线）技术的比较，PCI-e, Gigabyte-Ethernet<br /></li>
+<li><a href="http://en.wikipedia.org/wiki/RapidIO" target="_blank">RapidIO Wiki页面</a>——权当作参考吧，其中提到的链接基本都在上边写过了</li>
+</ul>
+<h3 id="dsp和fpga中rapidio的使用">DSP和FPGA中RapidIO的使用</h3>
+<p>DSP和FPGA本身的使用及编程不必赘述，DSP使用C即可；FPGA嘛，verilog还是要方便些。找本书跟着敲敲代码烧点程序进去就差不多入门了。这方面我也算得上是半个门外汉，当时DSP入门用过的有<a href="http://book.douban.com/subject/6116205/" target="_blank">手把手教你学DSP</a>，了解下基本概念和实战操作用。FPGA之前选修课学得一知半解，等于没学，在做毕设的时候尝到自己种下的恶果了… 毕设时又翻了很多资料才算入了个门——同义词也就是过久了就差不多忘掉了。</p>
+<h4 id="dsp中rapidio操作">DSP中RapidIO操作</h4>
+<p>个人感觉DSP中使用RapidIO还是比FPGA要简单些的，毕竟是过程性语句，好控制些。不像FPGA并行，而且有很多信号都有时序约束的。DSP中RapidIO的应用可以参考下<a href="http://www.ti.com.cn/general/cn/docs/gencontent.tsp?contentId=50741" target="_blank">串行 RapidIO: 高性能嵌入式互连技术</a>，可以初步了解下RapidIO在DSP中的应用。更进一步的了解可以参考C64x的RapidIO视频部分——<a href="http://www.chinaaet.com/video/817.html" target="_blank">C64x+ 网络培训(九)——sRIO（串行RapidIO）</a><br />最重要的就是参考DSP芯片有关RapidIO部分的用户指南了，像C6455的<a href="http://www.ti.com/lit/ug/spru976e/spru976e.pdf" target="_blank">Serial RapidIO User’s Guide</a>, 也是挺厚的一本，200多页来着，字都是很小的。</p>
+<h4 id="fpga中的rapidio操作">FPGA中的RapidIO操作</h4>
+<p>FPGA厂商一般都将RapidIO进行了封装，直接调用IP核即可，<strong>需要到Xilinx/Altera网站上申请评估版的IP</strong>，再自行设置些参数。否则有可能会在map或者translate时无法通过。当时自己在这一步偷了些懒，拿了实验板生成好的IP核直接用上了。本来准备对各个参数进行定制后做详细测评的，后来时间实在是太紧了就罢了(需要先申请评估版IP)。同DSP中的RapidIO用户手册，FPGA部分也有相应的IP核文档，500来页(Xilinx)…. 字同样也挺小，够看的了。</p>
+<p>DSP和FPGA部分的测试代码在我的Github中，有需要的可以前往<a href="https://github.com/billryan/srio_test" target="_blank">Serial RapidIO test with SEEDHPS6455</a>自取，DSP部分的代码用srio_a_fixed目录内的就好。</p>
+<h3 id="期刊论文等资料">期刊论文等资料</h3>
+<p>做学术研究，参考前人的成果是必不可少的啦，以下提供pdf和caj(知网专用的格式，少量硕博士论文)两种格式的论文和资料。所有资料都放在Dropbox里头了，需要的自取，尽量通过「Add to my Dropbox」同步下载，不然有可能因为流量耗费过多造成这些公开链接被暂时禁掉。<code>slides</code>目录下有我的答辩幻灯片，本来是想用beamer来做的，但是自己的图太多，还是用WPS省心些，字体主要使用文泉驿雅黑，如果觉得样式还不错的可以随便用，我的也是在秋叶PPT的答辩模板基础上稍微改动了下。封面大概就是下面这样子啦–&gt;：<br /><img src="/images/slides-thesis.png" alt="答辩slides封面" /></p>
+<h3 id="end">end</h3>
+<p>做毕设的两个多月的时间里，中间有一个月左右是早出晚归的，早上7点多坐着校车去，晚上5点的校车回，车费差不多花了￥150，心痛… 没有保送本校的不能报销=_= 好在最后把其中一组频率的速率给详细地测出来了，结果自然是和理论值有一定差距。DSP <code>nwrite</code>能稍微好点，接近理论值的90%，已经很不错了。<br />费了很大功夫整理了这么些东西，希望能对后头搞RapidIO的有点参考作用吧，也不枉我码这么多字了。如果Dropbox里边的东西对你有些帮助，请你一定一定要记得猛击我的<a href="http://db.tt/KS1HOz14" target="_blank">Dropbox推广链接</a> 哦～ 大家的空间都涨500M，何乐而不为？同步下来也方便，告别没完没了的备份，没有理由不用是不？</p>
+<p>我敲一敲Enter，给海量的互联网空间里又代谢了10000+ bytes的数据……</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html" data-id="ii0whreuoro8eo9t" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2013/09/manage-photos-with-exiftool-and-digikam.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用exiftool 和digikam 管理数码照片
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2013/08/mooc之coursera初体验.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MOOC之Coursera初体验</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2014/05/multi-deployment-with-hexo.html">Hexo多Repo部署——使用Github和GitCafe同时托管博客</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/raspberry-for-fun-start.html">树莓派把玩之OS和硬件选型</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/r8101-driver-work-with-linux-310.html">Compile r8101 driver modules for Linux-3.10</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/statistical-learning.html">resources of statistical learning - 统计学习资料小结</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/test.html">毫米波和体域网结合调研</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Bill Ryan<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="http://blog.billryan.me" class="mobile-nav-link">Blog</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://blog.billryan.me/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'billryan';
+  
+  var disqus_url = 'http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Bill Ryan&#39;s Cyberspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta content="website" property="og:type">
+<meta content="Bill Ryan's Cyberspace" property="og:title">
+<meta content="http://blog.billryan.me/page/5/" property="og:url">
+<meta property="og:image">
+<meta content="Bill Ryan's Cyberspace" property="og:site_name">
+<meta property="og:description">
+<meta content="summary" name="twitter:card">
+  
+    <link rel="alternative" href="/atom.xml" title="Bill Ryan&#39;s Cyberspace" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32317667-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Bill Ryan&#39;s Cyberspace</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Make a backup of my Thought and Life</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me">Blog</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://blog.billryan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-summary-of-rapidio" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/08/summary-of-rapidio.html" class="article-date">
+  <time datetime="2013-08-28T13:30:43.000Z" itemprop="datePublished">Aug 28 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2013/08/summary-of-rapidio.html">本科毕设之RapidIO技术小结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本科毕设一晃就已然过去两个多月了，再过上一个多星期就要正式开始研究生的生活了，在此之前把本科毕设做个总结，算是对自己的知识框架再打包压缩罢，又算作是对后来者研究使用RapidIO技术的一个指引。嗯，一举两得，何乐而不为？</p>
+<p>毕设是在去年12月份开始选题，那时倒也挺贪心，一心想做一个软硬结合的课题，最先开始选的课题现在都差不多忘光了，只记得选了之后将指导老师的姓名用站内搜索在好网上搜了下。这一看不知道，二看吓一跳呀！鸡皮疙瘩都快出来了。立马到教务处上删掉了，万幸那个指导老师没及时确认，由此逃过一劫… 再找了下其他的软硬结合的课题，看来看去感觉RapidIO还不错，对自己来说是全新的领域。RapidIO相关的课题共有两个，一个是B档难度的，只需在FPGA上实现，而另一个老师的是A档难度，需要使用串行RapidIO协议在DSP和FPGA之间完成通信。当时选题的时候还是患了老毛病，求新求刺激！RapidIO DSP FPGA这三者当时没有一个是很熟悉的，真是初生牛犊不怕虎！</p>
+<p>选题之后自然是没法马上开工，毕竟还有1月份的考研初试咧。就这样拖到了来年的1月考完初试才开始了解这个课题——基于TMS320C6455的串行RapidIO技术及其实现。到Google Scholar上搜了下，发现包含TMS320C6455 和RapidIO两个关键词的论文还真不多，随便看了几篇，结果自然是云里雾里0.o 过年在家论文方面几乎也没什么动静，等到开学回学校也差不多要复试了，于是乎又拖了两个月才正式开始——也就是从4月3号左右开始全心准备毕设的。</p>
+<h3 id="毕设之前期准备">毕设之前期准备</h3>
+<p>现在看来在前期最好先大概了解下课题，并进一步分解为小课题。这个可以让指导老师和师兄给个引导，一般在毕设的任务书和工作计划书中有详细说明，每条任务都可以认为是一个小课题，也许还要进一步细分。自己在这方面开始也没有经验，首先瞎摸索了一个星期也没啥收获，到实验室请教老师和师兄时才发现任务书和工作计划的好处。接下来就是根据任务书和工作计划自己拟定小课题和研究计划了。根据自己对课题的了解，我大概把毕设分为了如下几大块：</p>
+<ol style="list-style-type: decimal">
+<li>串行RapidIO协议的了解<br /></li>
+<li>TMS320C6455芯片的编程使用<br /></li>
+<li>TMS320C6455中有关串行RapidIO部分的初始化及使用<br /></li>
+<li>Altera FPGA的烧写使用<br /></li>
+<li>Altera FPGA中串行RapidIO IP核的了解和使用<br /></li>
+<li>FPGA 和 DSP 进行串行RapidIO传输测试<br /></li>
+<li>论文写作——学习使用LaTeX对论文进行排版<br />可以看出要在短短的两个月里全部完成难度还是稍微有点大的，更坑爹的是后期实验室包含Altera FPGA的板子一直没画出来，于是乎便换到实验室现有的Xilinx平台，关键时刻还是得自己看着形势走呀，说多了都是泪…</li>
+</ol>
+<h3 id="毕设之论文思路">毕设之论文思路</h3>
+<p>这个主体部分其实是参考了些硕士博士论文来的，当然也参考了RapidIO协会力荐的《RapidIO嵌入式系统互连》。首先简单描述了传统总线技术的不足，树个靶子，接下来自然就引申出了新型总线所需要的一些技术特性，满足这些技术特性的往往不止一个协议，所以对这些新型总线技术又有一个横向的比较，给些数据+曲线图，来点说服力，说明串行RapidIO在嵌入式互连领域的优势，接下来就是对RapidIO的大写特写了。写完RapidIO自然不是目的，毕竟论文标题中有个硕大的「实现」么。DSP和FPGA上的串行RapidIO实现自然也值得仔细地描述一番。OK，论文写到这差不多就快到尾声了，最后分析一下DSP和FPGA联调时使用串行RapidIO通信的一些实测数据画个图分析下原因差不多就完事了。KO! 大功告成。<br />
+        
+          <p class="article-more-link">
+            <a href="/posts/2013/08/summary-of-rapidio.html#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html" data-id="ii0whreuoro8eo9t" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mooc之coursera初体验" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/08/mooc之coursera初体验.html" class="article-date">
+  <time datetime="2013-08-28T07:31:20.000Z" itemprop="datePublished">Aug 28 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2013/08/mooc之coursera初体验.html">MOOC之Coursera初体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>毕业前在果壳和Twitter上时不时地就能看到MOOC/Coursera的影子，不过当时做毕设也一直没有闲情去体验一把，暑假有一大把时间是该来瞅瞅这传说中的MOOC(Massive Open Online Course)式教学了。在Coursera网站上挑了门7月底开始上的<a href="https://class.coursera.org/mathphil-001/" target="_blank">Introduction to Mathematical Philosophy</a>, 持续时间8个星期，艾吗… 到目前已经落下了三周的课程了…</p>
+<p>从自己上过的两个星期的课来看，Coursera上的老师备课极其认真，有种感觉那些视频像是专门为你一人准备似的。Coursera上的课每周的课根据主题分为很多小主题+introduction+conclusion，一个小主题就是一段几分钟的视频，一般来说视频都会有英文字幕，所以说即使听力跟不上来看看字幕大部分还是能懂的。conclusion一般由主讲老师精心制作，其中有不少很好的补充材料及背景介绍。现在上的这门课里出现频率最高的就是<a href="http://plato.stanford.edu/" target="_blank">Stanford Encyclopedia of Philosophy</a>了。由于自己原来的哲学方面的接触的并不多，上这门课的压力还是略大的，第二周的视频反复看了几遍才懂点皮毛。不过由此也吸取了些教训，课前预习下相关主题听课的时候压力就小多了，尤其是接触那些不太熟悉的领域。俗话说隔行如隔山咩~</p>
+<p>看视频的时候基本都是下下来之后再看的，网页上看有时候老卡了，Review的时候也不太方便。好在有国外热心网友的提供的<a href="https://github.com/jplehmann/coursera" target="_blank">Coursera Downloader</a>，嘛，Python干这种活太合适不过了。terminal下一条命令<code>coursera-dl -n -- mathphil-001</code>就搞定了！</p>
+<p>相对于之前在PT上下的国外大学开放课程的视频课，Coursera给我的感觉有如下几个进步的地方：<br />1. 视频给人的感觉像是在一对一的远程教育，虽然实际上还是一对N…<br />2. 备课十分精细，像之前介绍的subtopics+conclusion<br />3. 时效性略强，课程作业是有deadline的<br />4. 互动性好一些，每门课的主页都会有供讨论问题的bbs，参与进去很方便<br />5. 尚待发现ing<br />当然，还有很多其他的优势，Daphne Koller 在TED中提到的<a href="http://www.ted.com/talks/lang/zh-cn/daphne_koller_what_we_re_learning_from_online_education.html" target="_blank">我们从在线教育学到了什么</a>讲述地就要详细多了。但是其中一个致命的缺陷就是——暂时还缺乏线下小组学习的氛围和机制，这个可以通过在学校寻找MOOC爱好者一起参与效果也许会好一些。</p>
+<p>MOOC式教育革命(也可以认为是传统教育的延伸)才刚刚开始，优质的教育资源如今只需接入网络就可免费获得，不可不说是人类前进方向上的一大步！虽然目前各大MOOC机构的课程还是以英文为主，其他语种的课也在不断地增加，前一阵子就在果壳上看到有台湾一名老师的概率论课程将会上线，嗯，不错！<a href="http://www.guokr.com/group/184/" target="_blank">果壳MOOC自习教室</a>也是个新人了解MOOC的好去处。</p>
+<p>MOOC的实现形式远不止Coursera Udacity edX这三座大山，微信的公众号+微博反馈何尝不是国内的MOOC呢？当然这个质量就因人而异了。拥抱MOOC，拥抱教育的现在和未来。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html" data-id="azbggajm9uiojvcc" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MOOC/">MOOC</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vpn-sjtu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/08/vpn-sjtu.html" class="article-date">
+  <time datetime="2013-08-19T02:56:30.000Z" itemprop="datePublished">Aug 19 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2013/08/vpn-sjtu.html">上海交大校外代理初体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近忙着熟悉导师的研究方向和OPNET网络仿真工具，做毕设翻译那会找导师要过几篇英文文献，认真翻译了 Enable Pervasive Healthcare through Continuous Remote Health Monitoring 一文，论文前半部分概述了远程医疗监控(RHM)的体系架构，后半部分介绍了ViiCare产品提供的解决方案。概述性的东西毕竟只是起个引导作用，而且短短几页的论文也不可能会交待较多的细节。如果要结合OPNET来分析网络性能什么的显然是不知从何下手，于是乎习惯性的Google了一番，找到了一篇博士论文，正准备下载的时候… 乖乖，现在已经不是校园网了哟，立马向西电的基友求助，短信刚发出去就想到了个令人激动的消息——隐约记得交大网络信息中心是提供校外访问的代理服务器的，那么？Google一下立马找到了<a href="http://www.lib.sjtu.edu.cn/list.do?articleType_id=45&amp;type=63" target="_blank">这个链接</a>，网页中提供了局域网和ADSL下的使用方法，都是针对IE的。说白了就是提供了代理服务器的地址和端口号，如果只是在浏览器中使用的话SwitchySharp/Foxyproxy插件新增个代理就好了，试了下速度很理想！</p>
+<h2 id="代理服务器">代理服务器</h2>
+<p>代理服务器名：inproxy.sjtu.edu.cn<br />端口号：8000 OR 80</p>
+<p>连通后会让输入jAccount帐号密码，这个新生已经可以申请了，perfect!</p>
+<h3 id="全局代理">全局代理</h3>
+<p>虽然大部分情况在浏览器中使用代理就足够了，但有时其他应用程序也许也需要代理访问，这个时候就稍微有点麻烦喽。 如果想要全局代理的话则需要模拟http认证，Windows下似乎有p-roxycap比较方便，Linux下暂时还没看到类似的软件，之前也没怎么需要用非浏览器应用中使用代理，这方面了解不太多。舍友yqt用Python写了个DXTL的全局代理，于是乎便借过来用了下，还不错，效果就是下边这个样子：<br /><img src="/images/inproxy-sjtu.png" alt="sjtu-inroxy" /><br />需要使用时只需在Terminal下运行<code>python sjtu-inproxy.py</code>即可，很方便。<br />
+        
+          <p class="article-more-link">
+            <a href="/posts/2013/08/vpn-sjtu.html#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/08/vpn-sjtu.html" data-id="5yd8q1zqzi205ylt" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/08/vpn-sjtu.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SJTU/">SJTU</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" href="/page/6/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2014/05/multi-deployment-with-hexo.html">Hexo多Repo部署——使用Github和GitCafe同时托管博客</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/raspberry-for-fun-start.html">树莓派把玩之OS和硬件选型</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/r8101-driver-work-with-linux-310.html">Compile r8101 driver modules for Linux-3.10</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/statistical-learning.html">resources of statistical learning - 统计学习资料小结</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/test.html">毫米波和体域网结合调研</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Bill Ryan<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="http://blog.billryan.me" class="mobile-nav-link">Blog</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://blog.billryan.me/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'billryan';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

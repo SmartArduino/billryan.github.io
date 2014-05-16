@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OPNET学习笔记之入门指南 | Bill Ryan&#39;s Cyberspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta content="article" property="og:type">
+<meta content="OPNET学习笔记之入门指南" property="og:title">
+<meta content="http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html" property="og:url">
+<meta property="og:image">
+<meta content="Bill Ryan's Cyberspace" property="og:site_name">
+<meta content="从接触OPNET以来大约也有3个月了，断断续续学了点皮毛，这里把自己折腾的成果陆续整理在这，也算是自己的一个学习笔记吧。
+OPNET安装
+在Opnet学习笔记之安装指南 (win7 &amp; Xp)一文中我已对OPNET安装部分做了详细总结，这里不再赘述。
+入门资料
+刚开始接触时确实比较头大，软件自带的Tutorials虽然又大又全，但让新手也不知从何下手。大部分书籍基本都是照着Tutorial" property="og:description">
+<meta content="summary" name="twitter:card">
+  
+    <link rel="alternative" href="/atom.xml" title="Bill Ryan&#39;s Cyberspace" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32317667-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Bill Ryan&#39;s Cyberspace</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Make a backup of my Thought and Life</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me">Blog</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://blog.billryan.me/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://blog.billryan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-opnet-notes-for-getting-started-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/10/opnet-notes-for-getting-started-guide.html" class="article-date">
+  <time datetime="2013-10-21T00:22:28.000Z" itemprop="datePublished">Oct 21 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OPNET学习笔记之入门指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从接触OPNET以来大约也有3个月了，断断续续学了点皮毛，这里把自己折腾的成果陆续整理在这，也算是自己的一个学习笔记吧。</p>
+<h2 id="opnet安装">OPNET安装</h2>
+<p>在<a href="http://billryan.me/blog/2013/10/install-opnet-145-on-windows.html" target="_blank">Opnet学习笔记之安装指南 (win7 &amp; Xp)</a>一文中我已对OPNET安装部分做了详细总结，这里不再赘述。</p>
+<h2 id="入门资料">入门资料</h2>
+<p>刚开始接触时确实比较头大，软件自带的Tutorials虽然又大又全，但让新手也不知从何下手。大部分书籍基本都是照着Tutorials翻译过来的，对新手来说学习曲线也还是稍微有点抖了。这里给出个人的入门建议(喂！你自己不也是新手么…)</p>
+<ol style="list-style-type: decimal">
+<li>安装好OPNET 之后，打开Modeler的<code>help-&gt;tutorial</code>, 找到Modeler的Tutorial，没记错的话有四个，先跑上两个熟悉下仿真平台<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/I-ntro%20Modeler%20Lecture%2014.5.pdf" target="_blank">Introduction-to-Modeler 14.5 – 官方出品</a>，整理地非常好！偶然发现的，用了好几个代理才down下来。底部有confidential字样，07年的文档，严格来说算是侵权了… 不过实在是不忍心让这么好的资料埋没了，总之各位注意吧。<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/I-ntro%20Modeler%20Labs14.5.pdf" target="_blank">Introduction-to-Modeler 14.5 Labs – 官方出品</a>，和上边的Modeler介绍结合着用，估计把这两个文档吃透OPNET的基本使用应该就会比较熟练了。<br /></li>
+<li><a href="https://dl.dropboxusercontent.com/u/54487077/blog/Development%20of%20laboratory%20exercises%20based%20on%20OPNET%20Modeler.pdf" target="_blank">Development of laboratory exercises based on OPNET Modeler</a>, 一堆练习，当练练手不错！</li>
+</ol>
+<p>下边推荐点书籍，不过这方面资料也不多，我在周强写的<a href="https://dl.dropboxusercontent.com/u/54487077/blog/OPNET%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97.doc" target="_blank">OPNET学习入门指南</a>的基础上整理一部分。</p>
+<h2 id="书籍推荐">书籍推荐</h2>
+<p>关于OPNET方面的中文书籍还真不是很多，即使有大多也是从OPNET的文档里翻译过来的Tutorial。值得看看的有如下几本(以上海交大的图书馆馆藏为例)：</p>
+<ol style="list-style-type: decimal">
+<li>《OPNET网络仿真》-陈敏-清华大学出版社-2004 | 讲解比较详细，感觉就像是Tutorial的翻译，和软件文档中的Tutorial配合着看最好。| 索书号：TP393.09/98 图书馆有电子资源可供全文阅读。| 有文字版电子书。<br /></li>
+<li>《OPNET Modeler网络建模与仿真》-李馨-西安电子科技大学出版社-2006 | 第七章 核心函数介绍 不错，写得比较好，对常用的核心函数做了详细的介绍，而且也对其作了归类，适合对OPNET入门之后再去看看，第七章当手册用不错。 | 索书号：TP393.01/9<br /></li>
+<li>《OPNET通信仿真开发手册》-孟晨-国防工业出版社-2005 | OPNET编程入门方面介绍很好，开头的例子不错，后边进程模型部分介绍forced state 和unforced state时讲解深入！分析透彻！对其各个状态都做了非常好的说明和可能导致的后果。 | 索书号：TN914-39/3<br /></li>
+<li>当然OPNET学习的最好资料还是OPNET自带的英文帮助Tutorial，上面有各种例子，并且有分类好的最全的核心函数。</li>
+</ol>
+<h2 id="待续">待续…</h2>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html" data-id="7g0mrqhrkgfdz8vh" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OPNET/">OPNET</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2013/12/life-in-sjtu.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          交大生活进行时之beginning
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2013/10/excerpts-of-_an-overview-of-ieee-802156-standard_.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Excerpts of _An Overview of IEEE 802.15.6 Standard_</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2014/05/multi-deployment-with-hexo.html">Hexo多Repo部署——使用Github和GitCafe同时托管博客</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/raspberry-for-fun-start.html">树莓派把玩之OS和硬件选型</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2014/02/r8101-driver-work-with-linux-310.html">Compile r8101 driver modules for Linux-3.10</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/statistical-learning.html">resources of statistical learning - 统计学习资料小结</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2013/12/test.html">毫米波和体域网结合调研</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Bill Ryan<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="http://blog.billryan.me" class="mobile-nav-link">Blog</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://blog.billryan.me/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'billryan';
+  
+  var disqus_url = 'http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>
