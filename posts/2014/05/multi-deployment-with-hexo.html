@@ -110,10 +110,26 @@
 <h2 id="hexo下多repository部署实战使用github和gitcafe">Hexo下多Repository部署实战——使用Github和GitCafe</h2>
 <p>同时在Github和GitCafe部署Hexo的主要优势如下：<br />1. 负载均衡，速度大增——由于两大Pages服务均可自定义域名，国内用户可选择走GitCafe，国外用户则走GitHub<br />2. 自定义路由——配合DNSPod的『线路类型』可完美支持1中方案<br />3. 国内用户访问不再需要CDN，因为GitCafe确实挺快！单个Repo的300MB空间对于技术博客是完全够用的<br />4. 多机备份——两大Pages服务同时挂掉的可能微乎其微<br />5. 你懂的… 不方便说太细</p>
 <a id="more"></a>
+<p>今天看了下Hexo的Github主页，偶然发现Hexo新升级的2.5.7已经修复了「Multiple Deployment」这一bug，issue如下：</p>
 <ul>
 <li><a href="https://github.com/tommy351/hexo/issues/611" target="_blank">Multiple Deployment not working? · Issue #611 · tommy351/hexo</a></li>
-<li><a href="http://hexo.io/docs/deployment.html" target="_blank">Deployment | Hexo</a></li>
 </ul>
+<p>5月9日Tommy已更新Deployment部分文档，其中加入了Github和Gitcafe多Deployment的说明，详情见<a href="http://hexo.io/docs/deployment.html" target="_blank">Deployment | Hexo</a></p>
+<p>所以现在如果你需要同时部署blog到Github和Gitcafe的话，只需要在「hexo init」目录的<code>_config.yml</code>文件deploy处写上:</p>
+<p><figure class="highlight yaml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="tag">deploy</span>:
+  <span class="tag">type</span>: <span class="tag">git</span>
+  <span class="tag">message</span>: <span class="attr_selector">[message]</span>
+  <span class="tag">repo</span>:
+    <span class="tag">github</span>: &lt;<span class="tag">repository</span> <span class="tag">url</span>&gt;,<span class="attr_selector">[branch]</span>
+    <span class="tag">gitcafe</span>: &lt;<span class="tag">repository</span> <span class="tag">url</span>&gt;,<span class="attr_selector">[branch]</span>
+</pre></td></tr></table></figure></p>
+<p>现在你可以直接跳至「DNSPod多线路解析」节了，中间为之前的hack方案，比起Hexo的native support还是要二不少的=_=</p>
 <h3 id="gitcafe上部署hexo">GitCafe上部署Hexo</h3>
 <ol style="list-style-type: decimal">
 <li>配置Pages和域名绑定——<a href="https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9" target="_blank">Wiki Pages 相关帮助-GitCafe</a><br /></li>
@@ -404,7 +420,7 @@ stylus:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html" data-id="uxeefopk4bq6vblr" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html" data-id="ov7l5519xsyuxkyj" class="article-share-link">Share</a>
       
         <a href="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html#disqus_thread" class="article-comment-link">Comments</a>
       
