@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: excerpts | Bill Ryan&#39;s Cyberspace</title>
+  <title>deepin-screenshot把玩小记 | Bill Ryan&#39;s Cyberspace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="website" property="og:type">
-<meta content="Bill Ryan's Cyberspace" property="og:title">
-<meta content="http://blog.billryan.me/tags/excerpts/" property="og:url">
-<meta property="og:image">
+  <meta content="article" property="og:type">
+<meta content="deepin-screenshot把玩小记" property="og:title">
+<meta content="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html" property="og:url">
+<meta content="/images/deepin-scrot-1.png" property="og:image">
 <meta content="Bill Ryan's Cyberspace" property="og:site_name">
-<meta property="og:description">
+<meta content="在用上「deepin-screenshot」之前用过不少截屏软件，有重量级的shutter, 也有轻量级的scrot, 后来换到KDE桌面环境后便一直在用其自带的ksnapshot. 这几类截屏软件要么是功能过于复杂，要么是功能有所欠缺。截屏软件最常用的场景恐怕就是做一些图文说明了，因此对图片做一些简单的注释说明啥的还是很有必要的，在我眼中一款简单的截屏软件应该主要具备如下几种功能：1. 支持全局" property="og:description">
 <meta content="summary" name="twitter:card">
   
     <link rel="alternative" href="/atom.xml" title="Bill Ryan&#39;s Cyberspace" type="application/atom+xml">
@@ -77,58 +77,79 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2013" class="archive-year">2013</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/posts/2013/10/excerpts-of-_an-overview-of-ieee-802156-standard_.html" class="archive-article-date">
-  <time datetime="2013-10-12T14:35:20.000Z" itemprop="datePublished">Oct 12</time>
+        <section id="main"><article id="post-play-with-deepin-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2014/05/play-with-deepin-screenshot.html" class="article-date">
+  <time datetime="2014-05-16T12:47:22.000Z" itemprop="datePublished">May 16 2014</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tools/">tools</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/posts/2013/10/excerpts-of-_an-overview-of-ieee-802156-standard_.html">Excerpts of _An Overview of IEEE 802.15.6 Standard_</a>
+    <h1 class="article-title" itemprop="name">
+      deepin-screenshot把玩小记
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/posts/2013/10/excerpts-of-how-to-read-a-paper.html" class="archive-article-date">
-  <time datetime="2013-10-10T13:48:40.000Z" itemprop="datePublished">Oct 10</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/posts/2013/10/excerpts-of-how-to-read-a-paper.html">Excerpts of _How to Read a Paper_</a>
-    </h1>
-  
+        <p>在用上「deepin-screenshot」之前用过不少截屏软件，有重量级的shutter, 也有轻量级的scrot, 后来换到KDE桌面环境后便一直在用其自带的ksnapshot. 这几类截屏软件要么是功能过于复杂，要么是功能有所欠缺。截屏软件最常用的场景恐怕就是做一些图文说明了，因此对图片做一些简单的注释说明啥的还是很有必要的，在我眼中一款简单的截屏软件应该主要具备如下几种功能：<br />1. 支持全局快捷键(严格来说与截屏软件本身关系不大)<br />2. 支持按活动窗口进行截图<br />3. 支持延时截屏<br />4. 截屏后能做简单的标记注释</p>
+<p>大部分截屏软件能做到1, 2和3, shutter虽然能做到4,但是用起来也不是那么方便快捷的，刚才写fcitx那篇博文时需要用到截屏软件，于是乎随手Google了下「screenshot xfce」，第一页就出现了Arch的<a href="https://wiki.archlinux.org/index.php/Taking_a_screenshot" target="_blank">Taking a screenshot</a>，进去一看第一个软件就是「deepin-screenshot」，看了下deepin官方对这款软件的简介，这才是桌面用户想要的截屏软件啊！！别看它和QQ截图长得那么像，用起来确实还挺方便。<br /><img src="/images/deepin-scrot-1.png" alt="deepin-screenshot使用截图-deepin wiki" /></p>
+<p>鉴于Arch有异常强大的AUR，立马<code>yaourt -Ss screenshot|grep deepin</code>，果然发现好几个deepin-screenshot相关的软件，根据deepin官网和包信息来判断，「deepin-screenshot」才是应该要安装的包，<code>yaourt -S deepin-screenshot</code>发现依赖了一堆python的库，装上后在终端试着执行<code>deepin-screenshot</code>，立马报错，提示无<code>dbus-python</code>，再次求教于<code>yaourt -Ss dbus-python</code>, 发现extra中有<code>python2-dbus</code>，同步安装好之后再次启动深度截屏软件，发现这货和QQ截图软件真是一样一样的呀，从这里可以窥得Deepin Linux在桌面领域是下了一番功夫的，国内用Qq的用户确实挺多，客观点来说Qq截图软件也确实好用，所以云儿姐姐曾经也说过Qq是一款非常好的「截屏软件」而不是聊天软件…</p>
+<p>一直在Terminal底下使用deepin-screenshot肯定不是什么好主意，全局快捷键飒爽登场！XFCE4桌面环境下的「Application menu」-&gt;「Settings」-&gt;「Keyboard」处可设置全局快捷键，首先新增命令，随后便会捕捉你使用的组合键什么的作为快捷键，官网<a href="http://wiki.linuxdeepin.com/index.php?title=Deepin_Screenshot" target="_blank">Deepin Screenshot</a>有详细的快捷键可以参考，我这里遇到的问题是无法使用Alt+Print组合键，在设定全局快捷键时总是捕捉不到Alt+Print同时按下的事件。虽然这个可以通过其它快捷键绕过这道坎，但是不搞定这个问题心里实在是不爽，遂Google了下XFCE4的全局快捷键的设定，在Xfce的bbs上找到了这么一个帖子——<a href="http://forum.xfce.org/viewtopic.php?id=6528" target="_blank">xfce key binding configuration file</a>，于是乎照葫芦画瓢便把Alt+Print的组合键给加上去了，以下是配置文件(<code>~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml</code>)中有关deepin-screenshot的设置：</p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Primary&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f -d 5"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Super&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -w"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Alt_L&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot"</span>/&gt;</span>
+</pre></td></tr></table></figure></p>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html" data-id="na3ifrgx9xzkrsle" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/screenshot/">screenshot</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/posts/2014/05/install-fcitx-under-english-locale.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">英文Locale下使用Fcitx中文输入法</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -228,11 +249,13 @@
 <script>
   var disqus_shortname = 'billryan';
   
+  var disqus_url = 'http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//go.disqus.com/count.js';
+    dsq.src = '//go.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>

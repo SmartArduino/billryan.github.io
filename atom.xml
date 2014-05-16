@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Make a backup of my Thought and Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.billryan.me/"/>
-  <updated>2014-05-16T12:45:59.087Z</updated>
+  <updated>2014-05-16T13:51:41.722Z</updated>
   <id>http://blog.billryan.me/</id>
   
   <author>
@@ -13,6 +13,34 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[deepin-screenshot把玩小记]]></title>
+    <link href="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html"/>
+    <id>http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html</id>
+    <published>2014-05-16T12:47:22.000Z</published>
+    <updated>2014-05-16T13:46:57.000Z</updated>
+    <content type="html"><![CDATA[<p>在用上「deepin-screenshot」之前用过不少截屏软件，有重量级的shutter, 也有轻量级的scrot, 后来换到KDE桌面环境后便一直在用其自带的ksnapshot. 这几类截屏软件要么是功能过于复杂，要么是功能有所欠缺。截屏软件最常用的场景恐怕就是做一些图文说明了，因此对图片做一些简单的注释说明啥的还是很有必要的，在我眼中一款简单的截屏软件应该主要具备如下几种功能：<br />1. 支持全局快捷键(严格来说与截屏软件本身关系不大)<br />2. 支持按活动窗口进行截图<br />3. 支持延时截屏<br />4. 截屏后能做简单的标记注释</p>
+<p>大部分截屏软件能做到1, 2和3, shutter虽然能做到4,但是用起来也不是那么方便快捷的，刚才写fcitx那篇博文时需要用到截屏软件，于是乎随手Google了下「screenshot xfce」，第一页就出现了Arch的<a href="https://wiki.archlinux.org/index.php/Taking_a_screenshot" target="_blank">Taking a screenshot</a>，进去一看第一个软件就是「deepin-screenshot」，看了下deepin官方对这款软件的简介，这才是桌面用户想要的截屏软件啊！！别看它和QQ截图长得那么像，用起来确实还挺方便。<br /><img src="/images/deepin-scrot-1.png" alt="deepin-screenshot使用截图-deepin wiki" /></p>
+<p>鉴于Arch有异常强大的AUR，立马<code>yaourt -Ss screenshot|grep deepin</code>，果然发现好几个deepin-screenshot相关的软件，根据deepin官网和包信息来判断，「deepin-screenshot」才是应该要安装的包，<code>yaourt -S deepin-screenshot</code>发现依赖了一堆python的库，装上后在终端试着执行<code>deepin-screenshot</code>，立马报错，提示无<code>dbus-python</code>，再次求教于<code>yaourt -Ss dbus-python</code>, 发现extra中有<code>python2-dbus</code>，同步安装好之后再次启动深度截屏软件，发现这货和QQ截图软件真是一样一样的呀，从这里可以窥得Deepin Linux在桌面领域是下了一番功夫的，国内用Qq的用户确实挺多，客观点来说Qq截图软件也确实好用，所以云儿姐姐曾经也说过Qq是一款非常好的「截屏软件」而不是聊天软件…</p>
+<p>一直在Terminal底下使用deepin-screenshot肯定不是什么好主意，全局快捷键飒爽登场！XFCE4桌面环境下的「Application menu」-&gt;「Settings」-&gt;「Keyboard」处可设置全局快捷键，首先新增命令，随后便会捕捉你使用的组合键什么的作为快捷键，官网<a href="http://wiki.linuxdeepin.com/index.php?title=Deepin_Screenshot" target="_blank">Deepin Screenshot</a>有详细的快捷键可以参考，我这里遇到的问题是无法使用Alt+Print组合键，在设定全局快捷键时总是捕捉不到Alt+Print同时按下的事件。虽然这个可以通过其它快捷键绕过这道坎，但是不搞定这个问题心里实在是不爽，遂Google了下XFCE4的全局快捷键的设定，在Xfce的bbs上找到了这么一个帖子——<a href="http://forum.xfce.org/viewtopic.php?id=6528" target="_blank">xfce key binding configuration file</a>，于是乎照葫芦画瓢便把Alt+Print的组合键给加上去了，以下是配置文件(<code>~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml</code>)中有关deepin-screenshot的设置：</p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Primary&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f -d 5"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Super&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -w"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Alt_L&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot"</span>/&gt;</span>
+</pre></td></tr></table></figure></p>
+]]></content>
+    
+    
+      <category term="screenshot" scheme="http://blog.billryan.me/tags/screenshot/"/>
+    
+      <category term="tools" scheme="http://blog.billryan.me/categories/tools/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[英文Locale下使用Fcitx中文输入法]]></title>
@@ -1427,28 +1455,6 @@ Win7下最方便的应该就是<a href="http://www.connectify.me" target="_blank
     <summary type="html"><![CDATA[<p>暑假回家没有宽带确实有点小郁闷，好在有日益发达的无线通信技术，使得在没法用上昂贵的宽带时还能按需使用3G网络，当然喽，费用也不菲，三个月￥300才15GB的流量，不看视频的话勉强能凑合着用，短期使用的话相对于一年近￥1000的电信宽带还是要便宜一些的。</p>
 <p>下面进入正题，3G无线上网卡最开始是用在家里的台式机上，自己的笔记本电脑和手机要想同时上网自然得另外想想办法。大约可分为以下三种方案：<br />1. 3G上网卡&lt;==&gt;台式机有线网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />2. 3G上网卡&lt;==&gt;笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />3. 3G上网卡&lt;==&gt;笔记本电脑有线网卡&lt;==&gt;(台式机有线网卡&lt;==&gt;)笔记本电脑无线网卡作为热点&lt;==&gt;手机接入<br />其中台式机运行Win7, 笔记本电脑运行Arch Linux. 总的思路就是3G网络接入，无线热点输出，3G网络与无线热点间则为局域网。<br />形象一点的如下图所示： <img src="/images/3g-internet-share.jpeg" alt="3G上网卡网络分享示意图" /></p>
 ]]></summary>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[骑行：西电——西工大]]></title>
-    <link href="http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html"/>
-    <id>http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html</id>
-    <published>2013-06-11T15:15:43.000Z</published>
-    <updated>2014-05-01T13:44:32.000Z</updated>
-    <content type="html"><![CDATA[<p>昨天下午趁着西安难得的好天气和春哥骑车去了西工大新校区，出校门的时候是雨过天晴，没想到回来的时候仍然是雨过天晴 :( 从西太路回学校的时候被大雨淋得那叫一个迎头痛击，四年来总算赶上一回西北的暴风雨了。</p>
-<p>自己还是挺喜欢骑行的，学校的南边就是秦岭，到西工大新校区来回也就35公里左右，不算很远，往南边走的话路上空气还算不错，透透气也蛮好的。</p>
-<p>坐骑是室友的普通车，好想有一辆山地哇<sup>_</sup> 可惜…木有银子</p>
-<p>偶然在313县道上看到的秦岭纪念碑，当然得来一张 <img src="/images/qinling_monument.jpg" alt="秦岭纪念碑" /> <a id="more"></a> 秦岭部分全景一张，第一次用全景试了下，效果忒差了，离那些山还是太远了。当然咯，毕竟只是一部普通的爪机啦，又何必奢求过多 <img src="/images/qinling_all.jpg" alt="秦岭部分全景" /></p>
-<p>应@小雨姐的要求，本人玉照一张献上 <img src="/images/me_qinling.jpg" alt="看什么看，没见过人么！" /> 如果这两周天气好的话还计划一次骑行，估计以后就没什么机会游览秦岭了。sigh =_=</p>
-<p>最后以一张秦岭部分山脉的近景结尾 <img src="/images/qinling_near.jpg" alt="秦岭部分山脉近景" /> 赶紧睡觉去，明儿还得继续修改论文+答辩幻灯片</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>昨天下午趁着西安难得的好天气和春哥骑车去了西工大新校区，出校门的时候是雨过天晴，没想到回来的时候仍然是雨过天晴 :( 从西太路回学校的时候被大雨淋得那叫一个迎头痛击，四年来总算赶上一回西北的暴风雨了。</p>
-<p>自己还是挺喜欢骑行的，学校的南边就是秦岭，到西工大新校区来回也就35公里左右，不算很远，往南边走的话路上空气还算不错，透透气也蛮好的。</p>
-<p>坐骑是室友的普通车，好想有一辆山地哇<sup>_</sup> 可惜…木有银子</p>
-<p>偶然在313县道上看到的秦岭纪念碑，当然得来一张 <img src="/images/qinling_monument.jpg" alt="秦岭纪念碑" /> ]]></summary>
-    
-      <category term="骑行" scheme="http://blog.billryan.me/tags/%E9%AA%91%E8%A1%8C/"/>
     
   </entry>
   

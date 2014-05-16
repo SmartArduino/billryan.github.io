@@ -79,6 +79,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-play-with-deepin-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2014/05/play-with-deepin-screenshot.html" class="article-date">
+  <time datetime="2014-05-16T12:47:22.000Z" itemprop="datePublished">May 16 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tools/">tools</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2014/05/play-with-deepin-screenshot.html">deepin-screenshot把玩小记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在用上「deepin-screenshot」之前用过不少截屏软件，有重量级的shutter, 也有轻量级的scrot, 后来换到KDE桌面环境后便一直在用其自带的ksnapshot. 这几类截屏软件要么是功能过于复杂，要么是功能有所欠缺。截屏软件最常用的场景恐怕就是做一些图文说明了，因此对图片做一些简单的注释说明啥的还是很有必要的，在我眼中一款简单的截屏软件应该主要具备如下几种功能：<br />1. 支持全局快捷键(严格来说与截屏软件本身关系不大)<br />2. 支持按活动窗口进行截图<br />3. 支持延时截屏<br />4. 截屏后能做简单的标记注释</p>
+<p>大部分截屏软件能做到1, 2和3, shutter虽然能做到4,但是用起来也不是那么方便快捷的，刚才写fcitx那篇博文时需要用到截屏软件，于是乎随手Google了下「screenshot xfce」，第一页就出现了Arch的<a href="https://wiki.archlinux.org/index.php/Taking_a_screenshot" target="_blank">Taking a screenshot</a>，进去一看第一个软件就是「deepin-screenshot」，看了下deepin官方对这款软件的简介，这才是桌面用户想要的截屏软件啊！！别看它和QQ截图长得那么像，用起来确实还挺方便。<br /><img src="/images/deepin-scrot-1.png" alt="deepin-screenshot使用截图-deepin wiki" /></p>
+<p>鉴于Arch有异常强大的AUR，立马<code>yaourt -Ss screenshot|grep deepin</code>，果然发现好几个deepin-screenshot相关的软件，根据deepin官网和包信息来判断，「deepin-screenshot」才是应该要安装的包，<code>yaourt -S deepin-screenshot</code>发现依赖了一堆python的库，装上后在终端试着执行<code>deepin-screenshot</code>，立马报错，提示无<code>dbus-python</code>，再次求教于<code>yaourt -Ss dbus-python</code>, 发现extra中有<code>python2-dbus</code>，同步安装好之后再次启动深度截屏软件，发现这货和QQ截图软件真是一样一样的呀，从这里可以窥得Deepin Linux在桌面领域是下了一番功夫的，国内用Qq的用户确实挺多，客观点来说Qq截图软件也确实好用，所以云儿姐姐曾经也说过Qq是一款非常好的「截屏软件」而不是聊天软件…</p>
+<p>一直在Terminal底下使用deepin-screenshot肯定不是什么好主意，全局快捷键飒爽登场！XFCE4桌面环境下的「Application menu」-&gt;「Settings」-&gt;「Keyboard」处可设置全局快捷键，首先新增命令，随后便会捕捉你使用的组合键什么的作为快捷键，官网<a href="http://wiki.linuxdeepin.com/index.php?title=Deepin_Screenshot" target="_blank">Deepin Screenshot</a>有详细的快捷键可以参考，我这里遇到的问题是无法使用Alt+Print组合键，在设定全局快捷键时总是捕捉不到Alt+Print同时按下的事件。虽然这个可以通过其它快捷键绕过这道坎，但是不搞定这个问题心里实在是不爽，遂Google了下XFCE4的全局快捷键的设定，在Xfce的bbs上找到了这么一个帖子——<a href="http://forum.xfce.org/viewtopic.php?id=6528" target="_blank">xfce key binding configuration file</a>，于是乎照葫芦画瓢便把Alt+Print的组合键给加上去了，以下是配置文件(<code>~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml</code>)中有关deepin-screenshot的设置：</p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Primary&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -f -d 5"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Super&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot -w"</span>/&gt;</span>
+      <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"&lt;Alt_L&gt;Print"</span> <span class="attribute">type</span>=<span class="value">"string"</span> <span class="attribute">value</span>=<span class="value">"deepin-screenshot"</span>/&gt;</span>
+</pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html" data-id="na3ifrgx9xzkrsle" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/screenshot/">screenshot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-install-fcitx-under-english-locale" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/posts/2014/05/install-fcitx-under-english-locale.html" class="article-date">
@@ -126,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html" data-id="93a80f57rz6okzrt" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html" data-id="9f7qy1n3rngv2frs" class="article-share-link">Share</a>
       
         <a href="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -180,56 +237,13 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html" data-id="ioedx9xsmwlt8nqd" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html" data-id="qki0y9autnlv3w7j" class="article-share-link">Share</a>
       
         <a href="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitcafe/">gitcafe</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-happy-birthday-for-wenwen-girlfriend" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html" class="article-date">
-  <time datetime="2014-03-30T12:37:00.000Z" itemprop="datePublished">Mar 30 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/生活/">生活</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html">致文嫂的生日祝福</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>废话不多说，接图！ <img src="/images/IMG_20140330.jpg" alt="Happy birthday" /> 不知骚文从哪部电影上学来的，不能亲自去西安，只能以这种别致的方式送上祝福了，目测文嫂还是会很感动的吧。还记得那天早上在春风的吹拂下，空气里满是桃花的味道。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html" data-id="7st4vyhlh0o4394g" class="article-share-link">Share</a>
-      
-        <a href="http://blog.billryan.me/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
     </footer>
   </div>
   
@@ -250,7 +264,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -259,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fcitx/">fcitx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fcitx/">fcitx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/screenshot/">screenshot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -268,7 +282,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/fcitx/" style="font-size: 10.00px;">fcitx</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
+      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/fcitx/" style="font-size: 10.00px;">fcitx</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/screenshot/" style="font-size: 10.00px;">screenshot</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
     </div>
   </div>
 
@@ -277,7 +291,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -287,6 +301,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/posts/2014/05/play-with-deepin-screenshot.html">deepin-screenshot把玩小记</a>
+          </li>
         
           <li>
             <a href="/posts/2014/05/install-fcitx-under-english-locale.html">英文Locale下使用Fcitx中文输入法</a>
@@ -302,10 +320,6 @@
         
           <li>
             <a href="/posts/2014/02/raspberry-for-fun-start.html">树莓派把玩之OS和硬件选型</a>
-          </li>
-        
-          <li>
-            <a href="/posts/2014/02/r8101-driver-work-with-linux-310.html">Compile r8101 driver modules for Linux-3.10</a>
           </li>
         
       </ul>
