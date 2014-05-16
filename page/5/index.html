@@ -79,6 +79,79 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-manage-photos-with-exiftool-and-digikam" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/2013/09/manage-photos-with-exiftool-and-digikam.html" class="article-date">
+  <time datetime="2013-09-03T01:12:03.000Z" itemprop="datePublished">Sep 3 2013</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2013/09/manage-photos-with-exiftool-and-digikam.html">使用exiftool 和digikam 管理数码照片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="何谓管理">何谓管理</h3>
+<p>「管理」一词对于照片数据量比较少的时候来说几乎是没什么意义的，几十张上百张照片瞟一眼几乎都知道是些啥，但是当数码照片达到成千上万的量级时，要找张照片人眼一瞥可就不那么容易找到了，「管理」也只有在这种情况下才变得有些实用价值。</p>
+<p>「管理」在计算机中的实现，核心理念可以认为是「抽象」。其实不只是在计算机中存在抽象，「抽象」无处不在：</p>
+<ul>
+<li>数学中常用的换元法和函数就是一种常用的抽象<br /></li>
+<li>各种数学物理模型就是对现实生活中的抽象<br /></li>
+<li>大学里学校的院-系-班，抽象层次逐级提升<br /></li>
+<li>C语言可以认为是对汇编语言的抽象<br /></li>
+<li>In Unix Everything is a File<br /></li>
+<li>…<br />抽象的目的无非是为了人类更好的去掌控，去使用，或者说是为了「管理」上的方便。照片不像文字，可搜索性还是比较差的，所以喽，不得不借助点外力了</li>
+</ul>
+<h3 id="exiftool简介及使用">exiftool简介及使用</h3>
+<p><a href="http://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank">exiftool</a> 是一种用于读写操作图像、音频和视频媒体信息的<strong>自由软件</strong>，可通过命名行和Perl library调用，如果习惯于GUI的话可以在Windows下试试<a href="http://u88.n24.queensu.ca/~bogdan/" target="_blank">ExifToolGUI</a>， 也有人用Python对其命令行应用做了封装——<a href="http://smarnach.github.io/pyexiftool/" target="_blank">PyExifTool</a>. exiftool的命令行个人感觉对10^3数量级的照片已经够用了，如果有上万张照片要处理的话用PyExifTool应该要更快一些。<br />关于exiftool的使用，<a href="http://owl.phy.queensu.ca/~phil/exiftool/exiftool_pod.html" target="_blank">官方文档</a>十分详细，在Terminal里<code>man exiftool</code>得到的内容也是一样的。我这次整理照片主要使用了exiftool提供的文件重命名功能，对个别exif信息不全的照片做了修改，比如补上datetimeorginal等信息。<br />比较了众多照片的管理方式，自己最终的方案是「年/年月/文件」+「digikam的Tags」，年/年月 的文件夹组织方式可以保证唯一性，归类时方便。Tags可以跨文件夹，以「地点/人物/事件」等标签组织。这两种方式结合起来就是二维的结构了。之后无论照片数目如何增多，几乎都可以在1分钟以内找到一张想要的照片。</p>
+<h4 id="根据照片exif中的create-date参数格式化文件名">根据照片exif中的Create Date参数格式化文件名</h4>
+<p>使用exiftool进行实际操作之前最好先拿张照片出来练练手，有个感性的认识就好。 <code>exiftool photo.jpg</code>默认显示所有的信息</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>exiftool <span class="string">'-filename&lt;CreateDate'</span> -d %<span class="constant">Y</span>-%m-%d<span class="number">_</span>%<span class="constant">H</span>-%<span class="constant">M</span>-%<span class="constant">S</span><span class="string">%%-c.%</span>%le -r .
+</pre></td></tr></table></figure></p>
+<p>OK, 下边解释一下每个参数的含义：</p>
+<ul>
+<li>‘-filename&lt;CreateDate’ 根据照片的创建日期和时间重命名文件，如果CreateDate信息不对的话可以看看DateTimeOriginal对不对，代替之<br /></li>
+<li>-d 设置日期和时间值的显示格式<br /></li>
+<li>%Y-%m-%d_%H-%M-%S 意思就是「年-月-日_时-分-秒」，比如 <code>2013-08-31_14-23-45</code><br /></li>
+<li>%%-c 用于文件创建时间相同时自动在秒后边添加数字后缀，从1开始。比如<code>2013-08-31_14-23-45-1</code>, 和 <code>2013-08-31_14-23-45</code><br /></li>
+<li>.%%le 保持原文件的扩展名，但是全部小写。比如原文件后缀为.JPG, 使用.%%le之后则变为.jpg<br /></li>
+<li>-r 递归处理子文件夹，有时候一个文件夹下也许还有很多子文件夹，子文件夹中又有子文件夹，-r就是用来干这事的<br /></li>
+<li>. 最后的「.」指的是待处理目录，这里的「.」当然就是指当前目录啦。可以自行更改<br />还有不懂的看看文档就好了。<br />接下来就是整理到相应的文件夹了，如上所述，我要的是「年/年月/文件」的形式，口诀如下：</li>
+</ul>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>exiftool <span class="string">'-Directory&lt;CreateDate'</span> -d ~<span class="regexp">/Pictures/</span><span class="variable">%Y</span>/<span class="variable">%Y</span><span class="variable">%m</span> -r .
+</pre></td></tr></table></figure></p>
+<p><code>~/Pictures/%Y/%Y%m</code> 是目标文件夹，最底层的文件夹形式为「年月」，只用月的话有时候会引起不必要的麻烦。其他的参数就不解释了，不懂的自行到终端找man去。<br />如果没有以上exif信息的话原文件仍原封不动地保存在原地，等着你去处理咧。像这类顽固分子大部分是截图或者低劣手机拍的照片，拿digikam打咯Tags就好了。如果只是一些小毛病的话就用exiftool修一修吧，也不是很碍事。像我用过的有如下秘技：<br />复制tag(此tag可不是digikam中的tag)<br /><code>exiftool -TagsFromFile from.jpg to.jpg</code><br />调整创建时间<br /><code>exiftool -AllDates-='92:0:0 0:0:0' .</code><br />从文件内复制参数<br /><code>exiftool &quot;-CreateDate&lt;DateTimeOriginal&quot; file.jpg</code><br />这个是参考的 <a href="http://cpanforum.com/posts/4352" target="_blank">http://cpanforum.com/posts/4352</a></p>
+<h3 id="digikam简介及使用">Digikam简介及使用</h3>
+<p>喂！有完没完，digikam凭发音就知道干嘛的了，目测是Linux下最重量级的数码照片管理软件了，如果只在Win下使用的话，Picasa更合适些。你能想到的功能它基本都有，你想不到的它也有！赞美之词罢了，别太当真～ 类似于exiftool的功能digikam也是有的，只是个人觉得这种活在GUI下太麻烦，灵活性也没exiftool高。不过拿digikam给照片打Tag还是很合适的，digikam的其他N多功能自己暂时还用不着，<a href="http://userbase.kde.org/Digikam/Tutorials" target="_blank">Digikam的Tutorials</a>介绍了很多实用的技巧。</p>
+<p>—EOF—</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.billryan.me/posts/2013/09/manage-photos-with-exiftool-and-digikam.html" data-id="e97j9bwn35919k1i" class="article-share-link">Share</a>
+      
+        <a href="http://blog.billryan.me/posts/2013/09/manage-photos-with-exiftool-and-digikam.html#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-summary-of-rapidio" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/posts/2013/08/summary-of-rapidio.html" class="article-date">
@@ -125,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html" data-id="vyqe2ypillvju41a" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html" data-id="ndeoo41tjoksbomy" class="article-share-link">Share</a>
       
         <a href="http://blog.billryan.me/posts/2013/08/summary-of-rapidio.html#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -171,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html" data-id="ldtem9q8hg5dc4uk" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html" data-id="ve8lzhi5iw2jnz7l" class="article-share-link">Share</a>
       
         <a href="http://blog.billryan.me/posts/2013/08/mooc之coursera初体验.html#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -185,59 +258,9 @@
 
 
   
-    <article id="post-vpn-sjtu" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/posts/2013/08/vpn-sjtu.html" class="article-date">
-  <time datetime="2013-08-19T02:56:30.000Z" itemprop="datePublished">Aug 19 2013</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/2013/08/vpn-sjtu.html">上海交大校外代理初体验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近忙着熟悉导师的研究方向和OPNET网络仿真工具，做毕设翻译那会找导师要过几篇英文文献，认真翻译了 Enable Pervasive Healthcare through Continuous Remote Health Monitoring 一文，论文前半部分概述了远程医疗监控(RHM)的体系架构，后半部分介绍了ViiCare产品提供的解决方案。概述性的东西毕竟只是起个引导作用，而且短短几页的论文也不可能会交待较多的细节。如果要结合OPNET来分析网络性能什么的显然是不知从何下手，于是乎习惯性的Google了一番，找到了一篇博士论文，正准备下载的时候… 乖乖，现在已经不是校园网了哟，立马向西电的基友求助，短信刚发出去就想到了个令人激动的消息——隐约记得交大网络信息中心是提供校外访问的代理服务器的，那么？Google一下立马找到了<a href="http://www.lib.sjtu.edu.cn/list.do?articleType_id=45&amp;type=63" target="_blank">这个链接</a>，网页中提供了局域网和ADSL下的使用方法，都是针对IE的。说白了就是提供了代理服务器的地址和端口号，如果只是在浏览器中使用的话SwitchySharp/Foxyproxy插件新增个代理就好了，试了下速度很理想！</p>
-<h2 id="代理服务器">代理服务器</h2>
-<p>代理服务器名：inproxy.sjtu.edu.cn<br />端口号：8000 OR 80</p>
-<p>连通后会让输入jAccount帐号密码，这个新生已经可以申请了，perfect!</p>
-<h3 id="全局代理">全局代理</h3>
-<p>虽然大部分情况在浏览器中使用代理就足够了，但有时其他应用程序也许也需要代理访问，这个时候就稍微有点麻烦喽。 如果想要全局代理的话则需要模拟http认证，Windows下似乎有p-roxycap比较方便，Linux下暂时还没看到类似的软件，之前也没怎么需要用非浏览器应用中使用代理，这方面了解不太多。舍友yqt用Python写了个DXTL的全局代理，于是乎便借过来用了下，还不错，效果就是下边这个样子：<br /><img src="/images/inproxy-sjtu.png" alt="sjtu-inroxy" /><br />需要使用时只需在Terminal下运行<code>python sjtu-inproxy.py</code>即可，很方便。<br />
-        
-          <p class="article-more-link">
-            <a href="/posts/2013/08/vpn-sjtu.html#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2013/08/vpn-sjtu.html" data-id="wwml3o9pgh0ckyj6" class="article-share-link">Share</a>
-      
-        <a href="http://blog.billryan.me/posts/2013/08/vpn-sjtu.html#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SJTU/">SJTU</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -248,7 +271,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Reading_Notes/">Reading_Notes</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/考研/">考研</a><span class="category-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -257,7 +280,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/">ASCII</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EE/">EE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/">Kindle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MOOC/">MOOC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OPNET/">OPNET</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SJTU/">SJTU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excerpts/">excerpts</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fcitx/">fcitx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitcafe/">gitcafe</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">research</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习笔记/">学习笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/武汉/">武汉</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/西电/">西电</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/骑行/">骑行</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -266,7 +289,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
+      <a href="/tags/ASCII/" style="font-size: 10.00px;">ASCII</a><a href="/tags/EE/" style="font-size: 10.00px;">EE</a><a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a><a href="/tags/Kindle/" style="font-size: 10.00px;">Kindle</a><a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a><a href="/tags/MOOC/" style="font-size: 10.00px;">MOOC</a><a href="/tags/OPNET/" style="font-size: 20.00px;">OPNET</a><a href="/tags/Octopress/" style="font-size: 10.00px;">Octopress</a><a href="/tags/SJTU/" style="font-size: 13.33px;">SJTU</a><a href="/tags/excerpts/" style="font-size: 13.33px;">excerpts</a><a href="/tags/fcitx/" style="font-size: 10.00px;">fcitx</a><a href="/tags/gitcafe/" style="font-size: 10.00px;">gitcafe</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/life/" style="font-size: 10.00px;">life</a><a href="/tags/research/" style="font-size: 10.00px;">research</a><a href="/tags/tools/" style="font-size: 13.33px;">tools</a><a href="/tags/学习笔记/" style="font-size: 13.33px;">学习笔记</a><a href="/tags/武汉/" style="font-size: 10.00px;">武汉</a><a href="/tags/西电/" style="font-size: 13.33px;">西电</a><a href="/tags/骑行/" style="font-size: 10.00px;">骑行</a>
     </div>
   </div>
 
@@ -275,7 +298,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">December 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10">October 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08">August 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">May 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">April 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">February 2013</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01">January 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06">June 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">January 2012</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -285,6 +308,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/posts/2014/05/install-fcitx-under-english-locale.html">英文Locale下使用Fcitx中文输入法</a>
+          </li>
         
           <li>
             <a href="/posts/2014/05/multi-deployment-with-hexo.html">Hexo多Repo部署——使用Github和GitCafe同时托管博客</a>
@@ -300,10 +327,6 @@
         
           <li>
             <a href="/posts/2013/12/statistical-learning.html">resources of statistical learning - 统计学习资料小结</a>
-          </li>
-        
-          <li>
-            <a href="/posts/2013/12/test.html">毫米波和体域网结合调研</a>
           </li>
         
       </ul>

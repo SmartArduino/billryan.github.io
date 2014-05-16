@@ -3,28 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>819-outline | Bill Ryan&#39;s Cyberspace</title>
+  <title>英文Locale下使用Fcitx中文输入法 | Bill Ryan&#39;s Cyberspace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta content="article" property="og:type">
-<meta content="819-outline" property="og:title">
-<meta content="http://blog.billryan.me/posts/2013/04/819-outline.html" property="og:url">
-<meta property="og:image">
+<meta content="英文Locale下使用Fcitx中文输入法" property="og:title">
+<meta content="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html" property="og:url">
+<meta content="/images/fcitx-configure0.png" property="og:image">
 <meta content="Bill Ryan's Cyberspace" property="og:site_name">
-<meta content="专业课复习大纲
-这个官方没明确指定，可以看到的像：
-
-连续时间信号和离散时间信号
-连续时间系统和离散时间系统的时域分析
-连续时间信号的傅立叶分析
-连续时间系统的傅立叶分析
-拉普拉斯变换及连续时间系统的S域分析
-离散时间傅立叶变换及离散时间系统的傅立叶分析
-Z变换及离散时间系统的Z域分析
-离散傅立叶级数和离散傅立叶变换
-离散傅立叶变换的计算
-离散希尔伯特变换
-数字滤波器的流图表示
-数字滤波器的设计方" property="og:description">
+<meta content="最近的工作模式逐渐转换到「Raspberry PI」+「实验室ESX虚拟出的多操作系统」，多装了个系统免不了又要折腾些时日，平时主要使用Archlinux，服务器上自然是要虚拟出个Arch来用的，因为Arch确实好用么_, 作为一个地地道道的中国人，中文输入自然是免不了的，Linux下可用的中文输入法还真不多，精品的就更少了，Fcitx算是我最喜爱的一款中文输入法，短小精悍，扩展性也是极好的，开发" property="og:description">
 <meta content="summary" name="twitter:card">
   
     <link rel="alternative" href="/atom.xml" title="Bill Ryan&#39;s Cyberspace" type="application/atom+xml">
@@ -91,14 +77,14 @@ Z变换及离散时间系统的Z域分析
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-819-outline" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-install-fcitx-under-english-locale" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/posts/2013/04/819-outline.html" class="article-date">
-  <time datetime="2013-04-06T08:41:32.000Z" itemprop="datePublished">Apr 6 2013</time>
+    <a href="/posts/2014/05/install-fcitx-under-english-locale.html" class="article-date">
+  <time datetime="2014-05-16T09:24:43.000Z" itemprop="datePublished">May 16 2014</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/考研/">考研</a>
+    <a class="article-category-link" href="/categories/tools/">tools</a>
   </div>
 
   </div>
@@ -109,7 +95,7 @@ Z变换及离散时间系统的Z域分析
         
   
     <h1 class="article-title" itemprop="name">
-      819-outline
+      英文Locale下使用Fcitx中文输入法
     </h1>
   
 
@@ -117,53 +103,44 @@ Z变换及离散时间系统的Z域分析
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="专业课复习大纲">专业课复习大纲</h2>
-<p>这个官方没明确指定，可以看到的像：</p>
+        <p>最近的工作模式逐渐转换到「Raspberry PI」+「实验室ESX虚拟出的多操作系统」，多装了个系统免不了又要折腾些时日，平时主要使用Archlinux，服务器上自然是要虚拟出个Arch来用的，因为Arch确实好用么<sup>_</sup>, 作为一个地地道道的中国人，中文输入自然是免不了的，Linux下可用的中文输入法还真不多，精品的就更少了，<a href="https://fcitx-im.org/wiki/Fcitx" target="_blank">Fcitx</a>算是我最喜爱的一款中文输入法，短小精悍，扩展性也是极好的，开发也非常活跃。</p>
+<p>鉴于Arch强大的Wiki，在Arch下安装<a href="https://wiki.archlinux.org/index.php/fcitx" target="_blank">Fcitx</a>只需要<code>pacman -S fcitx-im</code>即可搞定大部分，其它诸如<code>fcitx-qt5</code>和大杀器<code>fcitx-cloudpinyin</code>亦可在<code>community</code>仓库中找到。装好之后可以在Terminal下试试<code>fcitx &amp;</code>看看效果，不出意外的话应该就可以使用了，比如在顶部或者底部的panel处可以看到fcitx的信息。考虑到自己对英文Locale的偏爱，Linux下我一般都用en_US啦，但是在英文(非中文Locale)下使用fcitx有个问题就是——虽然fcitx已经正常运行了，但是木有中文输入法可用哇 :( 仔细想想这也是合情合理的，你都把Locale设为英文了，fcitx干嘛给你默认添加中文输入法？由于自己之前在笔记本电脑上鼓捣英文Locale下调用中文输入法已有些年头了，只是隐约记得有个keyboard处可以调出中文输入法，具体的配置过程如下所示：</p>
 <ol style="list-style-type: decimal">
-<li><p>连续时间信号和离散时间信号</p></li>
-<li><p>连续时间系统和离散时间系统的时域分析</p></li>
-<li><p>连续时间信号的傅立叶分析</p></li>
-<li><p>连续时间系统的傅立叶分析</p></li>
-<li><p>拉普拉斯变换及连续时间系统的S域分析</p></li>
-<li><p>离散时间傅立叶变换及离散时间系统的傅立叶分析</p></li>
-<li><p>Z变换及离散时间系统的Z域分析</p></li>
-<li><p>离散傅立叶级数和离散傅立叶变换</p></li>
-<li><p>离散傅立叶变换的计算</p></li>
-<li><p>离散希尔伯特变换</p></li>
-<li><p>数字滤波器的流图表示</p></li>
-<li><p>数字滤波器的设计方法</p></li>
+<li>右键fcitx键盘图标调出Configure选项<br /></li>
+<li>在「Input Method」菜单下可以看到有硕大的「+」图标，猛戳之，如下图所示： <img src="/images/fcitx-configure0.png" alt="单击「+」按钮" /><br /></li>
+<li>取消「Only Show Current Language」选项，如下图所示： <img src="/images/fcitx-configure1.png" alt="取消Only Show Current Langage复选框" /><br /></li>
+<li>将右侧滚动条拉至最下方可见一摞「Chinese」输入法如Pinyin，Wubi，等等，如下图所示： <img src="/images/fcitx-configure2.png" alt="选中自己想用的输入法" /><br /></li>
+<li>close即可使用</li>
 </ol>
-<p>大家也可以看到，这说了等于没说，但是DSP中有些是可以明确不用深究的，比如量化，椭圆滤波器</p>
-<h2 id="复习建议">复习建议</h2>
-<p>先把信号部分复习好，再仔细钻研DSP。DSP部分比较难，花的时间可能会比你自己想象的要多，第一遍复习DSP时可以看完前边的内容后马上做后边的<strong>基础题</strong>，温故而知新嘛！真正弄懂之后你会发现后边的进度会出奇地快！而如果你急着看书而不做题的话，很可能导致第一遍几乎没啥收获，直到没法看进去后边比较难的内容而又重头开始复习。<strong>欲速则不达！</strong>复习数学和专业课时切忌走马观花浮于表面，否则到考场时会死的很难看的。</p>
+<p>fcitx开机自启动的问题，这个在fcitx和Arch的wiki上已有详细阐述，这里不再赘述，以我在ESX上的Arch为例，由于桌面环境为XFCE4，兼容XDG，因此只需如下两步即可搞定：</p>
+<ol style="list-style-type: decimal">
+<li><code>mkdir -p ~/.config/autostart</code></li>
+<li><code>cp /etc/xdg/autostart/fcitx-autostart.desktop ~/.config/autostart/</code></li>
+</ol>
+<p>Vim下也可正常使用，无需安装fcitx.vim插件。</p>
+<h3 id="reference">Reference</h3>
+<p><a href="https://fcitx-im.org/wiki/Keyboard/zh-cn" target="_blank">fcitx wiki中关于「keyboard」的解释</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.billryan.me/posts/2013/04/819-outline.html" data-id="7uzk4jniaqmz2bn3" class="article-share-link">Share</a>
+      <a data-url="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html" data-id="2yobnona4orkz6ne" class="article-share-link">Share</a>
       
-        <a href="http://blog.billryan.me/posts/2013/04/819-outline.html#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html#disqus_thread" class="article-comment-link">Comments</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fcitx/">fcitx</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/posts/2013/04/819-me.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          个人考研复习小结——踏实筑梦，水到渠成
-        
-      </div>
-    </a>
   
-  
-    <a href="/posts/2013/04/819-bibliography.html" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/posts/2014/05/multi-deployment-with-hexo.html" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">819专业课参考书目及资料</div>
+      <div class="article-nav-title">Hexo多Repo部署——使用Github和GitCafe同时托管博客</div>
     </a>
   
 </nav>
@@ -276,7 +253,7 @@ Z变换及离散时间系统的Z域分析
 <script>
   var disqus_shortname = 'billryan';
   
-  var disqus_url = 'http://blog.billryan.me/posts/2013/04/819-outline.html';
+  var disqus_url = 'http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html';
   
   (function(){
     var dsq = document.createElement('script');

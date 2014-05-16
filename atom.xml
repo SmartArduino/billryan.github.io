@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Make a backup of my Thought and Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.billryan.me/"/>
-  <updated>2014-05-16T08:47:12.230Z</updated>
+  <updated>2014-05-16T12:21:48.869Z</updated>
   <id>http://blog.billryan.me/</id>
   
   <author>
@@ -13,6 +13,38 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[英文Locale下使用Fcitx中文输入法]]></title>
+    <link href="http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html"/>
+    <id>http://blog.billryan.me/posts/2014/05/install-fcitx-under-english-locale.html</id>
+    <published>2014-05-16T09:24:43.000Z</published>
+    <updated>2014-05-16T12:21:35.000Z</updated>
+    <content type="html"><![CDATA[<p>最近的工作模式逐渐转换到「Raspberry PI」+「实验室ESX虚拟出的多操作系统」，多装了个系统免不了又要折腾些时日，平时主要使用Archlinux，服务器上自然是要虚拟出个Arch来用的，因为Arch确实好用么<sup>_</sup>, 作为一个地地道道的中国人，中文输入自然是免不了的，Linux下可用的中文输入法还真不多，精品的就更少了，<a href="https://fcitx-im.org/wiki/Fcitx" target="_blank">Fcitx</a>算是我最喜爱的一款中文输入法，短小精悍，扩展性也是极好的，开发也非常活跃。</p>
+<p>鉴于Arch强大的Wiki，在Arch下安装<a href="https://wiki.archlinux.org/index.php/fcitx" target="_blank">Fcitx</a>只需要<code>pacman -S fcitx-im</code>即可搞定大部分，其它诸如<code>fcitx-qt5</code>和大杀器<code>fcitx-cloudpinyin</code>亦可在<code>community</code>仓库中找到。装好之后可以在Terminal下试试<code>fcitx &amp;</code>看看效果，不出意外的话应该就可以使用了，比如在顶部或者底部的panel处可以看到fcitx的信息。考虑到自己对英文Locale的偏爱，Linux下我一般都用en_US啦，但是在英文(非中文Locale)下使用fcitx有个问题就是——虽然fcitx已经正常运行了，但是木有中文输入法可用哇 :( 仔细想想这也是合情合理的，你都把Locale设为英文了，fcitx干嘛给你默认添加中文输入法？由于自己之前在笔记本电脑上鼓捣英文Locale下调用中文输入法已有些年头了，只是隐约记得有个keyboard处可以调出中文输入法，具体的配置过程如下所示：</p>
+<ol style="list-style-type: decimal">
+<li>右键fcitx键盘图标调出Configure选项<br /></li>
+<li>在「Input Method」菜单下可以看到有硕大的「+」图标，猛戳之，如下图所示： <img src="/images/fcitx-configure0.png" alt="单击「+」按钮" /><br /></li>
+<li>取消「Only Show Current Language」选项，如下图所示： <img src="/images/fcitx-configure1.png" alt="取消Only Show Current Langage复选框" /><br /></li>
+<li>将右侧滚动条拉至最下方可见一摞「Chinese」输入法如Pinyin，Wubi，等等，如下图所示： <img src="/images/fcitx-configure2.png" alt="选中自己想用的输入法" /><br /></li>
+<li>close即可使用</li>
+</ol>
+<p>fcitx开机自启动的问题，这个在fcitx和Arch的wiki上已有详细阐述，这里不再赘述，以我在ESX上的Arch为例，由于桌面环境为XFCE4，兼容XDG，因此只需如下两步即可搞定：</p>
+<ol style="list-style-type: decimal">
+<li><code>mkdir -p ~/.config/autostart</code></li>
+<li><code>cp /etc/xdg/autostart/fcitx-autostart.desktop ~/.config/autostart/</code></li>
+</ol>
+<p>Vim下也可正常使用，无需安装fcitx.vim插件。</p>
+<h3 id="reference">Reference</h3>
+<p><a href="https://fcitx-im.org/wiki/Keyboard/zh-cn" target="_blank">fcitx wiki中关于「keyboard」的解释</a></p>
+]]></content>
+    
+    
+      <category term="fcitx" scheme="http://blog.billryan.me/tags/fcitx/"/>
+    
+      <category term="tools" scheme="http://blog.billryan.me/categories/tools/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Hexo多Repo部署——使用Github和GitCafe同时托管博客]]></title>
@@ -1418,24 +1450,6 @@ Win7下最方便的应该就是<a href="http://www.connectify.me" target="_blank
 ]]></content>
     <summary type="html"><![CDATA[<p>以夕阳西下为例</p>
 <p><img src="/images/hdrtest_no_long.jpg" alt="不开启HDR，快门时间1/134秒，几乎什么都看不清" /> <img src="/images/hdrtest_no_short.jpg" alt="不开启HDR，快门时间1/397秒，天边的云彩依稀可见" /> ]]></summary>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[add cc license to your blog with Hexo]]></title>
-    <link href="http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html"/>
-    <id>http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html</id>
-    <published>2013-05-04T06:46:53.000Z</published>
-    <updated>2014-05-01T13:44:32.000Z</updated>
-    <content type="html"><![CDATA[<p>Thank <span class="citation">[@tommy351]</span>(https://github.com/tommy351/hexo) for developing <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>-a fast, simple &amp; powerful blog framework. In <a href="http://zespia.tw/hexo/docs/writing.html" target="_blank">this article</a>, he described how to use with Scaffolds. We can add some permanent information in it, such as the following Creative Commons license.</p>
-<p>You can choose a license from creative commons’s <a href="http://creativecommons.org/choose/" target="_blank">site</a> and put it under your <code>scaffolds/*.md</code> files. As for me, I put it in <a href="/downloads/post.md.raw">scaffolds/post.md</a>.</p>
-<p>B.T.W. Putting a CC license in your personal blog is a good habit. :) But… The Copyright Notice seems too obvious.</p>
-<h2 id="版权声明copyright-notice">版权声明(Copyright Notice)</h2>
-<p>本作品由<a xmlns:cc="http://creativecommons.org/ns#" href="http://billryan.me" property="cc:attributionName" rel="cc:attributionURL" target="_blank">Bill Ryan</a>创作，采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>进行许可。</p>
-]]></content>
-    
-    
-      <category term="Hexo" scheme="http://blog.billryan.me/tags/Hexo/"/>
     
   </entry>
   
