@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.billryan.me/posts/2014/05/play-with-new-badminton-racket.html</loc>
+    <lastmod>2014-05-16T13:56:49.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.billryan.me/posts/2014/05/play-with-deepin-screenshot.html</loc>
     <lastmod>2014-05-16T12:47:22.000Z</lastmod>
   </url>
@@ -42,18 +47,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/01/Linux%E4%BD%BF%E7%94%A8%E4%B8%80%E5%91%A8%E5%B9%B4%E8%AE%B0.html</loc>
-    <lastmod>2013-01-21T09:41:00.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/04/819-faq.html</loc>
-    <lastmod>2013-04-06T08:46:13.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html</loc>
-    <lastmod>2013-06-11T15:15:43.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/12/statistical-learning.html</loc>
+    <lastmod>2013-12-13T13:56:43.000Z</lastmod>
   </url>
   
   <url>
@@ -62,13 +57,18 @@
   </url>
   
   <url>
+    <loc>http://blog.billryan.me/posts/2013/04/819-me.html</loc>
+    <lastmod>2013-04-06T08:44:00.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.billryan.me/posts/2012/01/dian-zi-zhi-zuo-zhi-chu-nu-zuo-xi-dian-dong-tai-xiao-hui.html</loc>
     <lastmod>2012-01-01T07:12:00.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/10/excerpts-of-how-to-read-a-paper.html</loc>
-    <lastmod>2013-10-10T13:48:40.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html</loc>
+    <lastmod>2013-05-04T06:46:53.000Z</lastmod>
   </url>
   
   <url>
@@ -77,23 +77,23 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/04/819-intro.html</loc>
-    <lastmod>2013-04-06T08:10:58.000Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://blog.billryan.me/posts/2013/02/hello-world.html</loc>
     <lastmod>2013-02-12T11:58:40.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/04/819-bibliography.html</loc>
-    <lastmod>2013-04-06T08:35:36.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/01/goldendictxia-san-da-you-zhi-ci-ku-shi-yong-xiao-ji.html</loc>
+    <lastmod>2013-01-31T15:07:00.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/01/goldendictxia-san-da-you-zhi-ci-ku-shi-yong-xiao-ji.html</loc>
-    <lastmod>2013-01-31T15:07:00.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/10/excerpts-of-how-to-read-a-paper.html</loc>
+    <lastmod>2013-10-10T13:48:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2012/01/ASCII%E7%A0%81%E4%B9%8B%E5%A4%A7%E5%B0%8F%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF.html</loc>
+    <lastmod>2012-01-11T03:45:00.000Z</lastmod>
   </url>
   
   <url>
@@ -112,11 +112,6 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/08/mooc%E4%B9%8Bcoursera%E5%88%9D%E4%BD%93%E9%AA%8C.html</loc>
-    <lastmod>2013-08-28T07:31:20.000Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://blog.billryan.me/posts/2013/09/manage-photos-with-exiftool-and-digikam.html</loc>
     <lastmod>2013-09-03T01:12:03.000Z</lastmod>
   </url>
@@ -127,8 +122,23 @@
   </url>
   
   <url>
+    <loc>http://blog.billryan.me/posts/2013/08/mooc%E4%B9%8Bcoursera%E5%88%9D%E4%BD%93%E9%AA%8C.html</loc>
+    <lastmod>2013-08-28T07:31:20.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.billryan.me/posts/2013/07/3g_modem_under_arch-linux_and_win7.html</loc>
     <lastmod>2013-07-13T15:50:20.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html</loc>
+    <lastmod>2013-10-21T00:22:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2013/01/Linux%E4%BD%BF%E7%94%A8%E4%B8%80%E5%91%A8%E5%B9%B4%E8%AE%B0.html</loc>
+    <lastmod>2013-01-21T09:41:00.000Z</lastmod>
   </url>
   
   <url>
@@ -137,18 +147,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2012/01/ASCII%E7%A0%81%E4%B9%8B%E5%A4%A7%E5%B0%8F%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF.html</loc>
-    <lastmod>2012-01-11T03:45:00.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2014/02/r8101-driver-work-with-linux-310.html</loc>
-    <lastmod>2014-02-09T05:52:08.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/04/819-outline.html</loc>
-    <lastmod>2013-04-06T08:41:32.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/06/cycling_xd_xgd.html</loc>
+    <lastmod>2013-06-11T15:15:43.000Z</lastmod>
   </url>
   
   <url>
@@ -157,13 +157,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/12/statistical-learning.html</loc>
-    <lastmod>2013-12-13T13:56:43.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/05/test-with-discount.html</loc>
-    <lastmod>2013-05-03T09:05:01.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2014/02/r8101-driver-work-with-linux-310.html</loc>
+    <lastmod>2014-02-09T05:52:08.000Z</lastmod>
   </url>
   
   <url>
@@ -177,8 +172,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/02/use-kmail-with-a-proxy-gei-kmailjia-shang-dai-li.html</loc>
-    <lastmod>2013-02-03T10:54:00.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/05/test-with-discount.html</loc>
+    <lastmod>2013-05-03T09:05:01.000Z</lastmod>
   </url>
   
   <url>
@@ -187,8 +182,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/01/xiang-pian-liu-zhi-lao-jia-shao-yang.html</loc>
-    <lastmod>2013-01-20T01:50:00.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/02/use-kmail-with-a-proxy-gei-kmailjia-shang-dai-li.html</loc>
+    <lastmod>2013-02-03T10:54:00.000Z</lastmod>
   </url>
   
   <url>
@@ -197,13 +192,8 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/04/819-me.html</loc>
-    <lastmod>2013-04-06T08:44:00.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/05/add-cc-license-to-your-blog-with-hexo.html</loc>
-    <lastmod>2013-05-04T06:46:53.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/01/xiang-pian-liu-zhi-lao-jia-shao-yang.html</loc>
+    <lastmod>2013-01-20T01:50:00.000Z</lastmod>
   </url>
   
   <url>
@@ -212,18 +202,23 @@
   </url>
   
   <url>
+    <loc>http://blog.billryan.me/posts/2013/04/819-intro.html</loc>
+    <lastmod>2013-04-06T08:10:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2013/04/819-outline.html</loc>
+    <lastmod>2013-04-06T08:41:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2013/04/819-bibliography.html</loc>
+    <lastmod>2013-04-06T08:35:36.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.billryan.me/posts/2013/01/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E5%B0%8F%E7%BB%93.html</loc>
     <lastmod>2013-01-19T13:12:00.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2012/01/%E6%AD%A6%E6%B1%89%E4%B8%83%E6%97%A5%E6%B8%B8.html</loc>
-    <lastmod>2012-01-24T07:28:00.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.billryan.me/posts/2013/01/%E7%BB%88%E7%82%B9-%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%B5%B7%E7%82%B9.html</loc>
-    <lastmod>2013-01-11T11:42:00.000Z</lastmod>
   </url>
   
   <url>
@@ -232,8 +227,18 @@
   </url>
   
   <url>
-    <loc>http://blog.billryan.me/posts/2013/10/opnet-notes-for-getting-started-guide.html</loc>
-    <lastmod>2013-10-21T00:22:28.000Z</lastmod>
+    <loc>http://blog.billryan.me/posts/2013/01/%E7%BB%88%E7%82%B9-%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%B5%B7%E7%82%B9.html</loc>
+    <lastmod>2013-01-11T11:42:00.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2012/01/%E6%AD%A6%E6%B1%89%E4%B8%83%E6%97%A5%E6%B8%B8.html</loc>
+    <lastmod>2012-01-24T07:28:00.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.billryan.me/posts/2013/04/819-faq.html</loc>
+    <lastmod>2013-04-06T08:46:13.000Z</lastmod>
   </url>
   
   <url>
