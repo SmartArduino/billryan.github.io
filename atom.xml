@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Make a backup of my Thought and Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.billryan.me/"/>
-  <updated>2014-05-16T12:21:48.869Z</updated>
+  <updated>2014-05-16T12:45:59.087Z</updated>
   <id>http://blog.billryan.me/</id>
   
   <author>
@@ -379,6 +379,20 @@ stylus:
       <category term="hexo" scheme="http://blog.billryan.me/tags/hexo/"/>
     
       <category term="tech" scheme="http://blog.billryan.me/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[致文嫂的生日祝福]]></title>
+    <link href="http://blog.billryan.me/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html"/>
+    <id>http://blog.billryan.me/posts/2014/03/happy-birthday-for-wenwen-girlfriend.html</id>
+    <published>2014-03-30T12:37:00.000Z</published>
+    <updated>2014-05-16T12:44:59.000Z</updated>
+    <content type="html"><![CDATA[<p>废话不多说，接图！ <img src="/images/IMG_20140330.jpg" alt="Happy birthday" /> 不知骚文从哪部电影上学来的，不能亲自去西安，只能以这种别致的方式送上祝福了，目测文嫂还是会很感动的吧。还记得那天早上在春风的吹拂下，空气里满是桃花的味道。</p>
+]]></content>
+    
+    
+      <category term="生活" scheme="http://blog.billryan.me/categories/%E7%94%9F%E6%B4%BB/"/>
     
   </entry>
   
@@ -1435,21 +1449,6 @@ Win7下最方便的应该就是<a href="http://www.connectify.me" target="_blank
 <p>偶然在313县道上看到的秦岭纪念碑，当然得来一张 <img src="/images/qinling_monument.jpg" alt="秦岭纪念碑" /> ]]></summary>
     
       <category term="骑行" scheme="http://blog.billryan.me/tags/%E9%AA%91%E8%A1%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[小米2 HDR小试]]></title>
-    <link href="http://blog.billryan.me/posts/2013/06/test-with-hdr.html"/>
-    <id>http://blog.billryan.me/posts/2013/06/test-with-hdr.html</id>
-    <published>2013-06-09T11:24:09.000Z</published>
-    <updated>2014-05-01T13:44:32.000Z</updated>
-    <content type="html"><![CDATA[<p>以夕阳西下为例</p>
-<p><img src="/images/hdrtest_no_long.jpg" alt="不开启HDR，快门时间1/134秒，几乎什么都看不清" /> <img src="/images/hdrtest_no_short.jpg" alt="不开启HDR，快门时间1/397秒，天边的云彩依稀可见" /> <a id="more"></a> <img src="/images/hdrtest_yes.jpg" alt="开启HDR，快门时间1/351秒，比前两张效果好多了！天边的云和近处的树啥的都能看清楚模样了" /></p>
-<p>下边再来一张威武霸气光芒万丈的夕阳，毫无疑问，必须开启HDR <img src="/images/hdr-sunset.jpg" alt="光芒万丈！！" /> 要原图？请移步<a href="https://www.dropbox.com/s/454z513buvojxcg/2013-06-09%2019.43.03.jpg" target="_blank">Dropbox分享</a>，可自由使用，使用时说明来源即可</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>以夕阳西下为例</p>
-<p><img src="/images/hdrtest_no_long.jpg" alt="不开启HDR，快门时间1/134秒，几乎什么都看不清" /> <img src="/images/hdrtest_no_short.jpg" alt="不开启HDR，快门时间1/397秒，天边的云彩依稀可见" /> ]]></summary>
     
   </entry>
   
