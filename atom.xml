@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Bill Ryan's Cyberspace]]></title>
-  <subtitle><![CDATA[Make a backup of my Thought and Life]]></subtitle>
+  <title><![CDATA[Less is More]]></title>
+  <subtitle><![CDATA[Simplicity is the Ultimate Sophistication.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.billryan.me/"/>
-  <updated>2014-05-16T14:25:02.946Z</updated>
+  <updated>2014-05-17T14:24:42.618Z</updated>
   <id>http://blog.billryan.me/</id>
   
   <author>
     <name><![CDATA[Bill Ryan]]></name>
-    
+    <email><![CDATA[me(at)billryan.me]]></email>
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
